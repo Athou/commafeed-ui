@@ -26,6 +26,7 @@ interface State {
 export type Actions =
   | { type: "tree.setRoot", root: Category }
   | { type: "entries.setEntries", entries: Entry[], label: string }
+  | { type: "entries.setRead", id: string, read: boolean }
   | { type: "settings.setReadingMode", readingMode: ReadingMode }
   | { type: "settings.setReadingOrder", readingOrder: ReadingOrder }
   | { type: "navigateToCategoryEntries", categoryId: string }
@@ -41,6 +42,11 @@ export const App: React.FC<RouteComponentProps> = props => {
         return { ...state, tree: { root: action.root } }
       case "entries.setEntries":
         return { ...state, entries: { ...state.entries, entries: action.entries, label: action.label } }
+      case "entries.setRead":
+        const newEntries = state.entries.entries ?
+          state.entries.entries.map(e => e.id === action.id ? Object.assign({}, e, { read: action.read }) : e) :
+          undefined
+        return { ...state, entries: { ...state.entries, entries: newEntries } }
       case "settings.setReadingMode":
         return { ...state, settings: { ...state.settings, readingMode: action.readingMode } }
       case "settings.setReadingOrder":
