@@ -26,7 +26,7 @@ export const FeedEntry: React.FC<Props> = props => {
         Clients.entry.mark(new MarkRequest({
             id: props.entry.id,
             read: !props.entry.read
-        })).then(() => dispatch({ type: "entries.setRead", id: props.entry.id, read: !props.entry.read }))
+        })).then(() => dispatch({ type: "entries.setRead", id: props.entry.id, feedId: +props.entry.feedId, read: !props.entry.read }))
     }
 
     return (

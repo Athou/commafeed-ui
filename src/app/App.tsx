@@ -1,7 +1,9 @@
+import lodash from 'lodash';
 import React, { Dispatch, Reducer, useEffect, useReducer } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { Clients } from '..';
 import { Category, Entry, ReadingMode, ReadingOrder } from '../commafeed-api';
+import { visitCategoryTree } from '../utils';
 import styles from './App.module.css';
 import { FeedEdit } from './content/FeedEdit';
 import { FeedEntries } from './content/FeedEntries';
@@ -36,7 +38,7 @@ interface State {
 export type Actions =
   | { type: "tree.setRoot", root: Category }
   | { type: "entries.setEntries", entries: Entry[], label: string }
-  | { type: "entries.setRead", id: string, read: boolean }
+  | { type: "entries.setRead", id: string, feedId: number, read: boolean }
   | { type: "settings.setReadingMode", readingMode: ReadingMode }
   | { type: "settings.setReadingOrder", readingOrder: ReadingOrder }
   | { type: "navigateToCategoryEntries", categoryId: string }
@@ -50,6 +52,16 @@ export const App: React.FC<RouteComponentProps> = props => {
     switch (action.type) {
       case "tree.setRoot":
         return { ...state, root: action.root }
+      case "entries.setRead":
+        if (!state.root)
+          return state
+
+        const root = lodash.cloneDeep(state.root)
+        visitCategoryTree(root, c => c.feeds.forEach(f => {
+          if (f.id === action.feedId)
+            f.unread = action.read ? f.unread - 1 : f.unread + 1
+        }))
+        return { ...state, root: root }
       default:
         return state
     }
