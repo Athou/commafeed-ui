@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Header } from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
 import { Clients } from '../..';
 import { AppContext } from '../App';
 import { FeedEntry } from './FeedEntry';
@@ -35,9 +35,9 @@ export const FeedEntries: React.FC<Props> = props => {
         return null
 
     return (
-        <div style={{ margin: 10 }}>
-            <Header as="h3" dividing>{state.entries.label}</Header>
+        <Container>
+            <Header as="h1" dividing>{state.entries.label}</Header>
             {state.entries.entries.map(e => <FeedEntry entry={e} key={e.id} />)}
-        </div>
+        </Container>
     )
 }

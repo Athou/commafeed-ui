@@ -7,6 +7,7 @@ import { visitCategoryTree } from '../utils';
 import styles from './App.module.css';
 import { FeedEdit } from './content/FeedEdit';
 import { FeedEntries } from './content/FeedEntries';
+import { Subscribe } from './content/Subscribe';
 import { Navbar } from './navbar/Navbar';
 import { Sidebar } from './sidebar/Sidebar';
 
@@ -41,8 +42,10 @@ export type Actions =
   | { type: "entries.setRead", id: string, feedId: number, read: boolean }
   | { type: "settings.setReadingMode", readingMode: ReadingMode }
   | { type: "settings.setReadingOrder", readingOrder: ReadingOrder }
-  | { type: "navigateToCategoryEntries", categoryId: string }
-  | { type: "navigateToFeedEntries", feedId: number }
+  | { type: "navigateToSubscribe" }
+  | { type: "navigateToRootCategory" }
+  | { type: "navigateToCategory", categoryId: string }
+  | { type: "navigateToFeed", feedId: number }
 
 export const AppContext = React.createContext({} as { state: State, dispatch: Dispatch<Actions> })
 
@@ -94,10 +97,14 @@ export const App: React.FC<RouteComponentProps> = props => {
 
   const redirectReducer: Reducer<RedirectState, Actions> = (state, action) => {
     switch (action.type) {
-      case "navigateToCategoryEntries":
+      case "navigateToRootCategory":
+        return { ...state, redirectTo: `${props.match.url}/category/all` }
+      case "navigateToCategory":
         return { ...state, redirectTo: `${props.match.url}/category/${action.categoryId}` }
-      case "navigateToFeedEntries":
+      case "navigateToFeed":
         return { ...state, redirectTo: `${props.match.url}/feed/${action.feedId}` }
+      case "navigateToSubscribe":
+        return { ...state, redirectTo: `${props.match.url}/subscribe` }
       default:
         return state
     }
@@ -148,6 +155,9 @@ export const App: React.FC<RouteComponentProps> = props => {
       </div>
       <div className={styles.content}>
         <Switch>
+          <Route path={`${props.match.url}/subscribe`}
+            render={() => <Subscribe />} />
+
           <Route path={`${props.match.url}/feed/:feedId/edit`}
             render={props => <FeedEdit feedId={props.match.params.feedId} />} />
 

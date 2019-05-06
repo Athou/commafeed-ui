@@ -17,20 +17,18 @@ export const Navbar: React.FC = () => {
     }
 
     return (
-        <Container fluid>
-            <div style={{ marginLeft: 10, marginRight: 10 }}>
-                <Button.Group icon>
-                    <Button>
-                        <Icon name="refresh" />
-                    </Button>
-                    <Button onClick={() => readingModeClicked()}   >
-                        {state.settings.readingMode}
-                    </Button>
-                    <Button onClick={() => readingOrderClicked()}   >
-                        {state.settings.readingOrder}
-                    </Button>
-                </Button.Group>
-            </div>
+        <Container>
+            <Button.Group icon>
+                <Button>
+                    <Icon name="refresh" />
+                </Button>
+                <Button onClick={() => readingModeClicked()}   >
+                    {state.settings.readingMode}
+                </Button>
+                <Button onClick={() => readingOrderClicked()}   >
+                    {state.settings.readingOrder}
+                </Button>
+            </Button.Group>
         </Container >
     )
 }

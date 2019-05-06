@@ -14,7 +14,7 @@ export const TreeNode: React.FC<Props> = props => {
             <img src={props.subscription.iconUrl} alt="favicon"
                 style={{ width: "16px", height: "16px", marginRight: "5px", position: "relative", top: "4px" }} />
             <span style={{ fontWeight: props.subscription.unread > 0 ? "bold" : "normal" }} className="pointer"
-                onClick={() => dispatch({ type: "navigateToFeedEntries", feedId: props.subscription.id })}>
+                onClick={() => dispatch({ type: "navigateToFeed", feedId: props.subscription.id })}>
                 {props.subscription.name}
             </span>
             <UnreadCount unreadCount={props.subscription.unread} />

@@ -26,7 +26,7 @@ export const TreeCategory: React.FC<Props> = props => {
         <div>
             <Icon name={props.icon ? props.icon : (expanded ? "chevron down" : "chevron right")}
                 onClick={() => toggleExpanded()} className="pointer" />
-            <span className="pointer" onClick={() => dispatch({ type: "navigateToCategoryEntries", categoryId: props.category.id })}>
+            <span className="pointer" onClick={() => dispatch({ type: "navigateToCategory", categoryId: props.category.id })}>
                 {props.category.name}
             </span>
             {
