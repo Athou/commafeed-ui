@@ -3,7 +3,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 250px;
+  width: 350px;
   overflow-x: hidden;
 
   background-color: lightGray;
@@ -13,7 +13,7 @@
   position: fixed;
   top: 0;
   height: 37px;
-  left: 250px;
+  left: 350px;
   right: 0;
   z-index: 10;
 
@@ -21,6 +21,6 @@
 }
 
 .content {
-  margin-left: 250px;
+  margin-left: 350px;
   margin-top: 80px;
 }
