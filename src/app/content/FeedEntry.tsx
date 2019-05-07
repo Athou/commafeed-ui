@@ -56,8 +56,10 @@ export const FeedEntry: React.FC<Props> = props => {
                                 {props.entry.title}
                             </span>
                         </Card.Header>
-                        <Card.Meta>
-                            from {props.entry.feedName} by {props.entry.author}, <Moment fromNow date={props.entry.date} />
+                        <Card.Meta>from {props.entry.feedName} by {props.entry.author}
+                            , <a href={props.entry.url} target="_blank" rel="noopener noreferrer">
+                                <Moment fromNow date={props.entry.date} />
+                            </a>
                         </Card.Meta>
                         {expanded &&
                             <Card.Description>
