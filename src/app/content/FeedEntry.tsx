@@ -30,6 +30,11 @@ export const FeedEntry: React.FC<Props> = props => {
         })).then(() => dispatch({ type: "entries.setRead", id: props.entry.id, feedId: +props.entry.feedId, read: !props.entry.read }))
     }
 
+    function handleDateClick() {
+        if (!props.entry.read)
+            toggleRead()
+    }
+
     // scroll to entry when expanded
     useEffect(() => {
         if (!ref.current)
@@ -57,7 +62,7 @@ export const FeedEntry: React.FC<Props> = props => {
                             </span>
                         </Card.Header>
                         <Card.Meta>from {props.entry.feedName} by {props.entry.author}
-                            , <a href={props.entry.url} target="_blank" rel="noopener noreferrer">
+                            , <a href={props.entry.url} target="_blank" rel="noopener noreferrer" onMouseUp={() => handleDateClick()}>
                                 <Moment fromNow date={props.entry.date} />
                             </a>
                         </Card.Meta>
