@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Button, Container, Divider, Dropdown, DropdownItemProps, Form, Header, Input } from 'semantic-ui-react';
+import { Button, Container, Divider, Dropdown, DropdownItemProps, Form, Header, Input, Message } from 'semantic-ui-react';
 import { Clients } from '../..';
 import { FeedInfo, FeedInfoRequest, SubscribeRequest } from '../../commafeed-api';
 import { flattenCategoryTree } from '../../utils';
@@ -9,24 +9,36 @@ export const Subscribe: React.FC = () => {
 
     const [feedUrl, setFeedUrl] = useState("")
     const [feedInfos, setFeedInfos] = useState<FeedInfo>()
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<string>()
 
     function handleSubmit() {
+        setLoading(true)
+        setError(undefined)
+        setFeedInfos(undefined)
         Clients.feed.fetch(new FeedInfoRequest({ url: feedUrl }))
             .then(infos => setFeedInfos(infos))
+            .catch(error => setError(error.response))
+            .finally(() => setLoading(false))
     }
 
     return (
         <div>
             <Container>
                 <Header as="h1" dividing>Subscribe</Header>
-                <Form onSubmit={() => handleSubmit()}>
+                <Form loading={loading} onSubmit={() => handleSubmit()}>
                     <Form.Field>
                         <label>Feed URL</label>
-                        <Input action={{ icon: "search", type: "submit" }} placeholder='Search...'
+                        <Input action={{ icon: "search", type: "submit" }} placeholder="Search..."
                             value={feedUrl} onChange={e => setFeedUrl(e.target.value)} />
                     </Form.Field>
                 </Form>
 
+                {error &&
+                    <Message negative>
+                        <Message.Header>Error while fetching feed</Message.Header>
+                        <pre>{error}</pre>
+                    </Message>}
                 {feedInfos && <>
                     <Divider />
                     <SubscribePanel infos={feedInfos} />
@@ -41,6 +53,7 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
     const [feedUrl, setFeedUrl] = useState(props.infos.url)
     const [feedName, setFeedName] = useState(props.infos.title)
     const [categoryId, setCategoryId] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const { state, dispatch } = useContext(AppContext)
 
@@ -55,6 +68,7 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
         }))
 
     function handleSubmit() {
+        setLoading(true)
         Clients.feed.subscribePost(new SubscribeRequest({
             url: feedUrl,
             title: feedName,
@@ -64,12 +78,12 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
             .then(root => {
                 dispatch({ type: "tree.setRoot", root: root })
                 dispatch({ type: "navigateToRootCategory" })
-            })
+            }).finally(() => setLoading(false))
     }
 
     return (
         <div>
-            <Form onSubmit={() => handleSubmit()}>
+            <Form loading={loading} onSubmit={() => handleSubmit()}>
                 <Form.Field>
                     <label>Feed URL</label>
                     <Input value={feedUrl} onChange={e => setFeedUrl(e.target.value)} />
