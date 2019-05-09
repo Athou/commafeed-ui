@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import Moment from 'react-moment';
 import { Card, Form } from 'semantic-ui-react';
-import { Clients } from '../..';
-import { Entry, MarkRequest } from '../../commafeed-api';
+import { Entry } from '../../commafeed-api';
 import { AppContext } from '../App';
 
 interface Props {
@@ -11,7 +10,7 @@ interface Props {
 
 export const FeedEntry: React.FC<Props> = props => {
 
-    const { dispatch } = useContext(AppContext)
+    const { controller } = useContext(AppContext)
     const [expanded, setExpanded] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
 
@@ -24,10 +23,7 @@ export const FeedEntry: React.FC<Props> = props => {
     }
 
     function toggleRead() {
-        Clients.entry.mark(new MarkRequest({
-            id: props.entry.id,
-            read: !props.entry.read
-        })).then(() => dispatch({ type: "entries.setRead", id: props.entry.id, feedId: +props.entry.feedId, read: !props.entry.read }))
+        controller.markEntryAsRead(props.entry.id, +props.entry.feedId, !props.entry.read)
     }
 
     function handleDateClick() {

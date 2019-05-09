@@ -1,143 +1,38 @@
-import lodash from 'lodash';
-import React, { Dispatch, Reducer, useEffect, useReducer } from 'react';
+import React, { Dispatch, useEffect, useMemo, useReducer } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { Clients } from '..';
-import { Category, Entry, ReadingMode, ReadingOrder } from '../commafeed-api';
-import { visitCategoryTree } from '../utils';
 import styles from './App.module.css';
+import { AppController } from './AppController';
+import { Actions, AppReducer, State } from './AppReducer';
 import { FeedEdit } from './content/FeedEdit';
 import { FeedEntries } from './content/FeedEntries';
 import { Subscribe } from './content/Subscribe';
 import { Navbar } from './navbar/Navbar';
 import { Sidebar } from './sidebar/Sidebar';
 
-interface TreeState {
-  root?: Category
-}
-
-interface EntriesState {
-  entries?: Entry[],
-  label?: string
-}
-
-interface SettingsState {
-  readingMode?: ReadingMode,
-  readingOrder?: ReadingOrder
-}
-
-interface RedirectState {
-  redirectTo?: string
-}
-
-interface State {
-  tree: TreeState,
-  entries: EntriesState,
-  settings: SettingsState,
-  redirect: RedirectState,
-}
-
-export type Actions =
-  | { type: "tree.setRoot", root: Category }
-  | { type: "entries.setEntries", entries: Entry[], label: string }
-  | { type: "entries.setRead", id: string, feedId: number, read: boolean }
-  | { type: "settings.setReadingMode", readingMode: ReadingMode }
-  | { type: "settings.setReadingOrder", readingOrder: ReadingOrder }
-  | { type: "navigateToSubscribe" }
-  | { type: "navigateToRootCategory" }
-  | { type: "navigateToCategory", categoryId: string }
-  | { type: "navigateToFeed", feedId: number }
-
-export const AppContext = React.createContext({} as { state: State, dispatch: Dispatch<Actions> })
+export const AppContext = React.createContext({} as { state: State, dispatch: Dispatch<Actions>, controller: AppController })
 
 export const App: React.FC<RouteComponentProps> = props => {
 
-  const treeReducer: Reducer<TreeState, Actions> = (state, action) => {
-    switch (action.type) {
-      case "tree.setRoot":
-        return { ...state, root: action.root }
-      case "entries.setRead":
-        if (!state.root)
-          return state
-
-        const root = lodash.cloneDeep(state.root)
-        visitCategoryTree(root, c => c.feeds.forEach(f => {
-          if (f.id === action.feedId)
-            f.unread = action.read ? f.unread - 1 : f.unread + 1
-        }))
-        return { ...state, root: root }
-      default:
-        return state
-    }
-  }
-
-  const entriesReducer: Reducer<EntriesState, Actions> = (state, action) => {
-    switch (action.type) {
-      case "entries.setEntries":
-        return { ...state, entries: action.entries, label: action.label }
-      case "entries.setRead":
-        const newEntries = state.entries ?
-          state.entries.map(e => e.id === action.id ? Object.assign({}, e, { read: action.read }) : e) :
-          undefined
-        return { ...state, entries: newEntries }
-      default:
-        return state
-    }
-  }
-
-  const settingsReducer: Reducer<SettingsState, Actions> = (state, action) => {
-    switch (action.type) {
-      case "settings.setReadingMode":
-        return { ...state, readingMode: action.readingMode }
-      case "settings.setReadingOrder":
-        return { ...state, readingOrder: action.readingOrder }
-      default:
-        return state
-    }
-  }
-
-  const redirectReducer: Reducer<RedirectState, Actions> = (state, action) => {
-    switch (action.type) {
-      case "navigateToRootCategory":
-        return { ...state, redirectTo: `${props.match.url}/category/all` }
-      case "navigateToCategory":
-        return { ...state, redirectTo: `${props.match.url}/category/${action.categoryId}` }
-      case "navigateToFeed":
-        return { ...state, redirectTo: `${props.match.url}/feed/${action.feedId}` }
-      case "navigateToSubscribe":
-        return { ...state, redirectTo: `${props.match.url}/subscribe` }
-      default:
-        return state
-    }
-  }
-
-  const reducer: Reducer<State, Actions> = (state, action) => {
-    return {
-      ...state,
-      tree: treeReducer(state.tree, action),
-      entries: entriesReducer(state.entries, action),
-      settings: settingsReducer(state.settings, action),
-      redirect: redirectReducer(state.redirect, action)
-    }
-  }
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, dispatch] = useReducer(AppReducer, {
     tree: {},
-    entries: {},
+    entries: { loading: true },
     settings: {},
     redirect: {}
   })
+  const controller = useMemo(() => new AppController(dispatch), [])
 
   // load initial data
   useEffect(() => {
-    Clients.category.get()
-      .then(root => dispatch({ type: "tree.setRoot", root }))
+    controller.reloadTree()
+    controller.reloadSettings()
+  }, [controller])
 
-    Clients.user.settingsGet()
-      .then(settings => {
-        dispatch({ type: "settings.setReadingMode", readingMode: settings.readingMode })
-        dispatch({ type: "settings.setReadingOrder", readingOrder: settings.readingOrder })
-      })
-  }, [])
+  useEffect(() => {
+    if (!state.entries.id || !state.entries.source || !state.settings.readingMode || !state.settings.readingOrder)
+      return
 
+    controller.reloadEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder)
+  }, [controller, state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder])
 
   // handle redirect
   useEffect(() => {
@@ -146,7 +41,7 @@ export const App: React.FC<RouteComponentProps> = props => {
   }, [state.redirect.redirectTo, props.history])
 
   return (
-    <AppContext.Provider value={{ state: state, dispatch: dispatch }}>
+    <AppContext.Provider value={{ state, dispatch, controller }}>
       <div className={styles.sidebar}>
         <Sidebar />
       </div>

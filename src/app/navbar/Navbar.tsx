@@ -4,7 +4,14 @@ import { ReadingMode, ReadingOrder } from '../../commafeed-api';
 import { AppContext } from '../App';
 
 export const Navbar: React.FC = () => {
-    const { state, dispatch } = useContext(AppContext)
+    const { state, dispatch, controller } = useContext(AppContext)
+
+    function refreshClicked() {
+        if (!state.entries.id || !state.entries.source || !state.settings.readingMode || !state.settings.readingOrder)
+            return
+
+        controller.reloadEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder)
+    }
 
     function readingModeClicked() {
         const mode: ReadingMode = state.settings.readingMode === ReadingMode.All ? ReadingMode.Unread : ReadingMode.All
@@ -19,7 +26,7 @@ export const Navbar: React.FC = () => {
     return (
         <Container>
             <Button.Group icon>
-                <Button>
+                <Button onClick={() => refreshClicked()}>
                     <Icon name="refresh" />
                 </Button>
                 <Button onClick={() => readingModeClicked()}   >

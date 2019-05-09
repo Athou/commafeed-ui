@@ -55,7 +55,7 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
     const [categoryId, setCategoryId] = useState(AppConstants.ALL_CATEGORY_ID)
     const [loading, setLoading] = useState(false)
 
-    const { state, dispatch } = useContext(AppContext)
+    const { state, dispatch, controller } = useContext(AppContext)
 
     if (!state.tree.root)
         return null
@@ -73,9 +73,8 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
             title: feedName,
             categoryId: categoryId
         }))
-            .then(() => Clients.category.get())
-            .then(root => {
-                dispatch({ type: "tree.setRoot", root })
+            .then(() => {
+                controller.reloadTree()
                 dispatch({ type: "navigateToRootCategory" })
             }).finally(() => setLoading(false))
     }
