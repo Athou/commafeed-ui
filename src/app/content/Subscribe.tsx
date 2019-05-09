@@ -4,6 +4,7 @@ import { Clients } from '../..';
 import { FeedInfo, FeedInfoRequest, SubscribeRequest } from '../../commafeed-api';
 import { flattenCategoryTree } from '../../utils';
 import { AppContext } from '../App';
+import { AppConstants } from '../AppConstants';
 
 export const Subscribe: React.FC = () => {
 
@@ -51,7 +52,7 @@ export const Subscribe: React.FC = () => {
 const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
 
     const [feedName, setFeedName] = useState(props.infos.title)
-    const [categoryId, setCategoryId] = useState("")
+    const [categoryId, setCategoryId] = useState(AppConstants.ALL_CATEGORY_ID)
     const [loading, setLoading] = useState(false)
 
     const { state, dispatch } = useContext(AppContext)
@@ -74,7 +75,7 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
         }))
             .then(() => Clients.category.get())
             .then(root => {
-                dispatch({ type: "tree.setRoot", root: root })
+                dispatch({ type: "tree.setRoot", root })
                 dispatch({ type: "navigateToRootCategory" })
             }).finally(() => setLoading(false))
     }
@@ -92,7 +93,7 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
                 </Form.Field>
                 <Form.Field>
                     <label>Category</label>
-                    <Dropdown selection defaultValue={categoryOptions[0].value} options={categoryOptions}
+                    <Dropdown selection defaultValue={categoryId} options={categoryOptions}
                         onChange={(e, data) => setCategoryId(data.value as string)} />
                 </Form.Field>
                 <Button primary type="submit">Subscribe</Button>

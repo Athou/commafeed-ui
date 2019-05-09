@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Category } from '../../commafeed-api';
 import { AppContext } from '../App';
+import { AppConstants } from '../AppConstants';
 import { TreeCategory } from './TreeCategory';
 import { TreeNode } from './TreeNode';
 
@@ -13,7 +14,7 @@ export const Tree: React.FC = props => {
     return (
         <div style={{ marginRight: 5, marginLeft: 5 }}>
             <TreeCategory icon={"inbox"} category={new Category({
-                id: "all",
+                id: AppConstants.ALL_CATEGORY_ID,
                 name: "All",
                 expanded: true,
                 position: 0,
