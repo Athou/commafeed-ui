@@ -62,9 +62,8 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
 
     const categoryOptions: DropdownItemProps[] = flattenCategoryTree(state.tree.root)
         .map(c => ({
-            key: c.id,
+            value: c.id,
             text: c.name,
-            value: c.id
         }))
 
     function handleSubmit() {
@@ -94,7 +93,8 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
                 </Form.Field>
                 <Form.Field>
                     <label>Category</label>
-                    <Dropdown selection options={categoryOptions} onChange={(e, data) => setCategoryId(data.value as string)} />
+                    <Dropdown selection defaultValue={categoryOptions[0].value} options={categoryOptions}
+                        onChange={(e, data) => setCategoryId(data.value as string)} />
                 </Form.Field>
                 <Button primary type="submit">Subscribe</Button>
                 <Button>Cancel</Button>
