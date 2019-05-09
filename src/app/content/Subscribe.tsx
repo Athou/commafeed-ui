@@ -50,7 +50,6 @@ export const Subscribe: React.FC = () => {
 
 const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
 
-    const [feedUrl, setFeedUrl] = useState(props.infos.url)
     const [feedName, setFeedName] = useState(props.infos.title)
     const [categoryId, setCategoryId] = useState("")
     const [loading, setLoading] = useState(false)
@@ -69,7 +68,7 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
     function handleSubmit() {
         setLoading(true)
         Clients.feed.subscribePost(new SubscribeRequest({
-            url: feedUrl,
+            url: props.infos.url,
             title: feedName,
             categoryId: categoryId
         }))
@@ -84,8 +83,8 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
         <div>
             <Form loading={loading} onSubmit={() => handleSubmit()}>
                 <Form.Field>
-                    <label>Feed URL</label>
-                    <Input value={feedUrl} onChange={e => setFeedUrl(e.target.value)} />
+                    <label>Actual feed URL</label>
+                    <Input value={props.infos.url} disabled />
                 </Form.Field>
                 <Form.Field>
                     <label>Feed name</label>
