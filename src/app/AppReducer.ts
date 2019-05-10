@@ -13,6 +13,7 @@ interface EntriesState {
     id?: string,
     source?: EntrySource,
     entries?: Entry[],
+    hasMore?: boolean,
     label?: string,
     loading: boolean
 }
@@ -37,7 +38,8 @@ export type Actions =
     | { type: "tree.setRoot", root: Category }
 
     | { type: "entries.setSource", id: string, source: EntrySource }
-    | { type: "entries.setEntries", entries: Entry[], label: string }
+    | { type: "entries.setEntries", entries: Entry[], hasMore: boolean, label: string }
+    | { type: "entries.addEntries", entries: Entry[], hasMore: boolean }
     | { type: "entries.setRead", id: string, feedId: number, read: boolean }
     | { type: "entries.setLoading", loading: boolean }
 
@@ -73,7 +75,9 @@ const entriesReducer: Reducer<EntriesState, Actions> = (state, action) => {
         case "entries.setSource":
             return { ...state, id: action.id, source: action.source }
         case "entries.setEntries":
-            return { ...state, entries: action.entries, label: action.label }
+            return { ...state, entries: action.entries, hasMore: action.hasMore, label: action.label }
+        case "entries.addEntries":
+            return { ...state, entries: state.entries && state.entries.concat(action.entries), hasMore: action.hasMore }
         case "entries.setRead":
             const newEntries = state.entries ?
                 state.entries.map(e => e.id === action.id ? Object.assign({}, e, { read: action.read }) : e) :

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import { Container, Header, Loader } from 'semantic-ui-react';
+import InfiniteScroll from 'react-infinite-scroller';
+import { Container, Header } from 'semantic-ui-react';
 import { AppContext } from '../App';
 import { EntrySource } from '../AppReducer';
 import { FeedEntry } from './FeedEntry';
@@ -11,7 +12,7 @@ interface Props {
 
 export const FeedEntries: React.FC<Props> = props => {
 
-    const { state, dispatch } = useContext(AppContext)
+    const { state, dispatch, controller } = useContext(AppContext)
 
     useEffect(() => {
         dispatch({ type: "entries.setSource", id: props.id, source: props.source })
@@ -20,16 +21,24 @@ export const FeedEntries: React.FC<Props> = props => {
     if (!state.entries.label || !state.entries.entries)
         return null
 
+    function loadMoreEntries(page: number) {
+        if (!state.entries.id || !state.entries.source || !state.settings.readingMode || !state.settings.readingOrder || !state.entries.entries)
+            return
+
+        if (state.entries.loading) {
+            return
+        }
+
+        controller.loadMoreEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder, state.entries.entries.length)
+    }
+
     return (
-        <>
-            {state.entries.loading &&
-                <Loader active>Loading</Loader>
-            }
-            {!state.entries.loading &&
-                <Container>
-                    <Header as="h1" dividing>{state.entries.label}</Header>
-                    {state.entries.entries.map(e => <FeedEntry entry={e} key={e.id} />)}
-                </Container>}
-        </>
+        <Container>
+            <Header as="h1" dividing>{state.entries.label}</Header>
+            <InfiniteScroll initialLoad={false} loadMore={page => loadMoreEntries(page)} hasMore={state.entries.hasMore}
+                loader={<div className="loader" key={0}>Loading ...</div>}>
+                {state.entries.entries.map(e => <FeedEntry entry={e} key={e.id} />)}
+            </InfiniteScroll>
+        </Container>
     )
 }
