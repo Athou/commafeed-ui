@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 import { Dispatch, Reducer, useCallback, useRef, useState } from "react";
 import { Clients } from '..';
-import { Category, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder } from "../commafeed-api";
+import { Category, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../commafeed-api";
 import { visitCategoryTree } from "../utils";
 
 export type EntrySource = "category" | "feed"
@@ -199,9 +199,10 @@ export const ActionCreator = {
         setReadingMode(readingMode: ReadingMode): Actions {
             return {
                 type: "thunk",
-                thunk: dispatch => {
+                thunk: (dispatch, getState) => {
                     dispatch({ type: "settings.setReadingMode", readingMode })
-                    dispatch(ActionCreator.entries.reload())
+                    Clients.user.settingsPost(new Settings(getState().settings))
+                        .then(() => dispatch(ActionCreator.entries.reload()))
                 }
             }
         },
@@ -209,9 +210,10 @@ export const ActionCreator = {
         setReadingOrder(readingOrder: ReadingOrder): Actions {
             return {
                 type: "thunk",
-                thunk: dispatch => {
+                thunk: (dispatch, getState) => {
                     dispatch({ type: "settings.setReadingOrder", readingOrder })
-                    dispatch(ActionCreator.entries.reload())
+                    Clients.user.settingsPost(new Settings(getState().settings))
+                        .then(() => dispatch(ActionCreator.entries.reload()))
                 }
             }
         },
