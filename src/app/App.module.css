@@ -12,15 +12,17 @@
 .navbar {
   position: fixed;
   top: 0;
-  height: 37px;
+  height: 38px;
   left: 350px;
   right: 0;
   z-index: 10;
 
-  background-color: darkGray;
+  background-color: lightGray;
 }
 
 .content {
   margin-left: 350px;
-  margin-top: 50px;
+  padding-top: 50px;
+
+  background-color: darkGray;
 }
