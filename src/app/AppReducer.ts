@@ -176,7 +176,9 @@ export const ActionCreator = {
                     if (!state.entries.id || !state.entries.source || !state.settings || !state.entries.entries)
                         return
 
-                    const offset = state.entries.entries.length
+                    const offset = state.settings.readingMode === ReadingMode.All
+                        ? state.entries.entries.length
+                        : state.entries.entries.filter(e => !e.read).length
                     const limit = ENTRIES_PAGE_SIZE
                     fetchEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder, offset, limit)
                         .then(entries => dispatch({ type: "entries.addEntries", entries: entries.entries, hasMore: entries.hasMore }))
