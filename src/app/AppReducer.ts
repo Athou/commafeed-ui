@@ -1,6 +1,7 @@
 import lodash from 'lodash';
-import { Reducer } from "react";
-import { Category, Entry, ReadingMode, ReadingOrder } from "../commafeed-api";
+import { Dispatch, Reducer, useCallback, useRef, useState } from "react";
+import { Clients } from '..';
+import { Category, Entry, MarkRequest, ReadingMode, ReadingOrder } from "../commafeed-api";
 import { visitCategoryTree } from "../utils";
 
 export type EntrySource = "category" | "feed"
@@ -50,6 +51,8 @@ export type Actions =
     | { type: "navigateToRootCategory" }
     | { type: "navigateToCategory", categoryId: string }
     | { type: "navigateToFeed", feedId: number }
+
+    | { type: "thunk", thunk: (dispatch: Dispatch<Actions>, getState: () => State) => void }
 
 const treeReducer: Reducer<TreeState, Actions> = (state, action) => {
     switch (action.type) {
@@ -124,4 +127,158 @@ export const AppReducer: Reducer<State, Actions> = (state, action) => {
         settings: settingsReducer(state.settings, action),
         redirect: redirectReducer(state.redirect, action)
     }
+}
+
+const ENTRIES_PAGE_SIZE = 50
+export const ActionCreator = {
+    tree: {
+        reload(): Actions {
+            return {
+                type: "thunk",
+                thunk: dispatch => {
+                    Clients.category.get().then(root => dispatch({ type: "tree.setRoot", root }))
+                }
+            }
+        },
+    },
+    entries: {
+        setSource(id: string, source: EntrySource): Actions {
+            return {
+                type: "thunk",
+                thunk: dispatch => {
+                    dispatch({ type: "entries.setSource", id, source })
+                    dispatch(ActionCreator.entries.reload())
+                }
+            }
+        },
+
+        reload(): Actions {
+            return {
+                type: "thunk",
+                thunk: (dispatch, getState) => {
+                    const state = getState()
+                    if (!state.entries.id || !state.entries.source || !state.settings.readingMode || !state.settings.readingOrder)
+                        return
+
+                    const offset = 0
+                    const limit = ENTRIES_PAGE_SIZE
+                    dispatch({ type: "entries.setLoading", loading: true })
+                    fetchEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder, offset, limit)
+                        .then(entries => dispatch({ type: "entries.setEntries", entries: entries.entries, hasMore: entries.hasMore, label: entries.name }))
+                        .finally(() => dispatch({ type: "entries.setLoading", loading: false }))
+                }
+            }
+        },
+
+        loadMore(): Actions {
+            return {
+                type: "thunk",
+                thunk: (dispatch, getState) => {
+                    const state = getState()
+                    if (!state.entries.id || !state.entries.source || !state.settings.readingMode || !state.settings.readingOrder || !state.entries.entries)
+                        return
+
+                    const offset = state.entries.entries.length
+                    const limit = ENTRIES_PAGE_SIZE
+                    fetchEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder, offset, limit)
+                        .then(entries => dispatch({ type: "entries.addEntries", entries: entries.entries, hasMore: entries.hasMore }))
+                }
+            }
+        },
+
+        markAsRead(id: string, feedId: number, read: boolean): Actions {
+            return {
+                type: "thunk",
+                thunk: dispatch => {
+                    Clients.entry.mark(new MarkRequest({ id, read }))
+                        .then(() => dispatch({ type: "entries.setRead", id, feedId, read }))
+                }
+            }
+        }
+    },
+
+    settings: {
+        setReadingMode(readingMode: ReadingMode): Actions {
+            return {
+                type: "thunk",
+                thunk: dispatch => {
+                    dispatch({ type: "settings.setReadingMode", readingMode })
+                    dispatch(ActionCreator.entries.reload())
+                }
+            }
+        },
+
+        setReadingOrder(readingOrder: ReadingOrder): Actions {
+            return {
+                type: "thunk",
+                thunk: dispatch => {
+                    dispatch({ type: "settings.setReadingOrder", readingOrder })
+                    dispatch(ActionCreator.entries.reload())
+                }
+            }
+        },
+
+        reload(): Actions {
+            return {
+                type: "thunk",
+                thunk: dispatch => {
+                    Clients.user.settingsGet()
+                        .then(settings => {
+                            dispatch(ActionCreator.settings.setReadingMode(settings.readingMode))
+                            dispatch(ActionCreator.settings.setReadingOrder(settings.readingOrder))
+                        })
+                }
+            }
+        },
+    },
+
+    redirect: {
+        navigateToSubscribe(): Actions {
+            return { type: "navigateToSubscribe" }
+        },
+
+        navigateToRootCategory(): Actions {
+            return { type: "navigateToRootCategory" }
+        },
+
+        navigateToCategory(categoryId: string): Actions {
+            return { type: "navigateToCategory", categoryId }
+        },
+
+        navigateToFeed(feedId: number): Actions {
+            return { type: "navigateToFeed", feedId }
+        },
+    }
+}
+
+function fetchEntries(id: string, source: EntrySource, readingMode: ReadingMode, readingOrder: ReadingOrder, offset: number, limit: number) {
+    switch (source) {
+        case "category":
+            return Clients.category.entries(id, readingMode, undefined, offset, limit, readingOrder)
+        case "feed":
+            return Clients.feed.entries(id, readingMode, undefined, offset, limit, readingOrder)
+        default: throw new Error()
+    }
+}
+
+// adapted from https://github.com/nathanbuchar/react-hook-thunk-reducer
+export const useThunkReducer: (reducer: Reducer<State, Actions>, initialArg: State) => [State, Dispatch<Actions>] = (reducer, initialArg) => {
+    const [hookState, setHookState] = useState(initialArg);
+
+    const state = useRef(hookState);
+    const getState = useCallback(() => state.current, []);
+    const setState = useCallback((newState) => {
+        state.current = newState;
+        setHookState(newState);
+    }, []);
+
+    const reduce = useCallback((action) => reducer(getState(), action), [reducer, getState]);
+    const dispatch: Dispatch<Actions> = useCallback((action: Actions) => {
+        if (action.type === 'thunk')
+            action.thunk(dispatch, getState)
+        else
+            setState(reduce(action))
+    }, [getState, setState, reduce]);
+
+    return [hookState, dispatch];
 }

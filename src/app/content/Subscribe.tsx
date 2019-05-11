@@ -5,6 +5,7 @@ import { FeedInfo, FeedInfoRequest, SubscribeRequest } from '../../commafeed-api
 import { flattenCategoryTree } from '../../utils';
 import { AppContext } from '../App';
 import { AppConstants } from '../AppConstants';
+import { ActionCreator } from '../AppReducer';
 
 export const Subscribe: React.FC = () => {
 
@@ -55,7 +56,7 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
     const [categoryId, setCategoryId] = useState(AppConstants.ALL_CATEGORY_ID)
     const [loading, setLoading] = useState(false)
 
-    const { state, dispatch, controller } = useContext(AppContext)
+    const { state, dispatch } = useContext(AppContext)
 
     if (!state.tree.root)
         return null
@@ -74,8 +75,8 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
             categoryId: categoryId
         }))
             .then(() => {
-                controller.reloadTree()
-                dispatch({ type: "navigateToRootCategory" })
+                dispatch(ActionCreator.tree.reload())
+                dispatch(ActionCreator.redirect.navigateToRootCategory())
             }).finally(() => setLoading(false))
     }
 

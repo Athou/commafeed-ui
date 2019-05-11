@@ -3,6 +3,7 @@ import Moment from 'react-moment';
 import { Card, Form } from 'semantic-ui-react';
 import { Entry } from '../../commafeed-api';
 import { AppContext } from '../App';
+import { ActionCreator } from '../AppReducer';
 
 interface Props {
     entry: Entry
@@ -10,7 +11,7 @@ interface Props {
 
 export const FeedEntry: React.FC<Props> = props => {
 
-    const { controller } = useContext(AppContext)
+    const { dispatch } = useContext(AppContext)
     const [expanded, setExpanded] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
 
@@ -23,7 +24,7 @@ export const FeedEntry: React.FC<Props> = props => {
     }
 
     function toggleRead() {
-        controller.markEntryAsRead(props.entry.id, +props.entry.feedId, !props.entry.read)
+        dispatch(ActionCreator.entries.markAsRead(props.entry.id, +props.entry.feedId, !props.entry.read))
     }
 
     function handleDateClick() {

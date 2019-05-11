@@ -4,6 +4,7 @@ import { Clients } from '../..';
 import { Category, CollapseRequest } from '../../commafeed-api';
 import { flattenCategoryTree } from '../../utils';
 import { AppContext } from '../App';
+import { ActionCreator } from '../AppReducer';
 import { TreeNode } from './TreeNode';
 import { UnreadCount } from './UnreadCount';
 
@@ -36,7 +37,7 @@ export const TreeCategory: React.FC<Props> = props => {
             <Icon name={props.icon ? props.icon : (expanded ? "chevron down" : "chevron right")}
                 onClick={() => toggleExpanded()} className="pointer" />
             <span className="pointer" style={{ fontWeight: (!expanded && unreadCount > 0) ? "bold" : "normal" }}
-                onClick={() => dispatch({ type: "navigateToCategory", categoryId: props.category.id })}>
+                onClick={() => dispatch(ActionCreator.redirect.navigateToCategory(props.category.id))}>
                 {props.category.name}
             </span>
             {!expanded && <UnreadCount unreadCount={unreadCount} />}

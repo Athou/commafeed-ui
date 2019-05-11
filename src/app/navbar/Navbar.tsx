@@ -2,25 +2,23 @@ import React, { useContext } from 'react';
 import { Button, Container, Icon } from 'semantic-ui-react';
 import { ReadingMode, ReadingOrder } from '../../commafeed-api';
 import { AppContext } from '../App';
+import { ActionCreator } from '../AppReducer';
 
 export const Navbar: React.FC = () => {
-    const { state, dispatch, controller } = useContext(AppContext)
+    const { state, dispatch } = useContext(AppContext)
 
     function refreshClicked() {
-        if (!state.entries.id || !state.entries.source || !state.settings.readingMode || !state.settings.readingOrder)
-            return
-
-        controller.reloadEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder)
+        dispatch(ActionCreator.entries.reload())
     }
 
     function readingModeClicked() {
         const mode: ReadingMode = state.settings.readingMode === ReadingMode.All ? ReadingMode.Unread : ReadingMode.All
-        dispatch({ type: "settings.setReadingMode", readingMode: mode })
+        dispatch(ActionCreator.settings.setReadingMode(mode))
     }
 
     function readingOrderClicked() {
         const order: ReadingOrder = state.settings.readingOrder === ReadingOrder.Desc ? ReadingOrder.Asc : ReadingOrder.Desc
-        dispatch({ type: "settings.setReadingOrder", readingOrder: order })
+        dispatch(ActionCreator.settings.setReadingOrder(order))
     }
 
     return (

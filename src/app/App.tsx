@@ -1,38 +1,29 @@
-import React, { Dispatch, useEffect, useMemo, useReducer } from 'react';
+import React, { Dispatch, useEffect } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import styles from './App.module.css';
-import { AppController } from './AppController';
-import { Actions, AppReducer, State } from './AppReducer';
+import { ActionCreator, Actions, AppReducer, State, useThunkReducer } from './AppReducer';
 import { FeedEdit } from './content/FeedEdit';
 import { FeedEntries } from './content/FeedEntries';
 import { Subscribe } from './content/Subscribe';
 import { Navbar } from './navbar/Navbar';
 import { Sidebar } from './sidebar/Sidebar';
 
-export const AppContext = React.createContext({} as { state: State, dispatch: Dispatch<Actions>, controller: AppController })
+export const AppContext = React.createContext({} as { state: State, dispatch: Dispatch<Actions> })
 
 export const App: React.FC<RouteComponentProps> = props => {
 
-  const [state, dispatch] = useReducer(AppReducer, {
+  const [state, dispatch] = useThunkReducer(AppReducer, {
     tree: {},
     entries: { loading: true },
     settings: {},
     redirect: {}
   })
-  const controller = useMemo(() => new AppController(dispatch), [])
 
   // load initial data
   useEffect(() => {
-    controller.reloadTree()
-    controller.reloadSettings()
-  }, [controller])
-
-  useEffect(() => {
-    if (!state.entries.id || !state.entries.source || !state.settings.readingMode || !state.settings.readingOrder)
-      return
-
-    controller.reloadEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder)
-  }, [controller, state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder])
+    dispatch(ActionCreator.tree.reload())
+    dispatch(ActionCreator.settings.reload())
+  }, [dispatch])
 
   // handle redirect
   useEffect(() => {
@@ -41,7 +32,7 @@ export const App: React.FC<RouteComponentProps> = props => {
   }, [state.redirect.redirectTo, props.history])
 
   return (
-    <AppContext.Provider value={{ state, dispatch, controller }}>
+    <AppContext.Provider value={{ state, dispatch }}>
       <div className={styles.sidebar}>
         <Sidebar />
       </div>
