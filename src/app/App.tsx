@@ -15,7 +15,7 @@ export const App: React.FC<RouteComponentProps> = props => {
   const [state, dispatch] = useThunkReducer(AppReducer, {
     tree: {},
     entries: { loading: true },
-    settings: {},
+    settings: undefined,
     redirect: {}
   })
 

@@ -12,14 +12,23 @@ export const Navbar: React.FC = () => {
     }
 
     function readingModeClicked() {
+        if (!state.settings)
+            return
+
         const mode: ReadingMode = state.settings.readingMode === ReadingMode.All ? ReadingMode.Unread : ReadingMode.All
         dispatch(ActionCreator.settings.setReadingMode(mode))
     }
 
     function readingOrderClicked() {
+        if (!state.settings)
+            return
+
         const order: ReadingOrder = state.settings.readingOrder === ReadingOrder.Desc ? ReadingOrder.Asc : ReadingOrder.Desc
         dispatch(ActionCreator.settings.setReadingOrder(order))
     }
+
+    if (!state.settings)
+        return null
 
     return (
         <Container>

@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 import { Dispatch, Reducer, useCallback, useRef, useState } from "react";
 import { Clients } from '..';
-import { Category, Entry, MarkRequest, ReadingMode, ReadingOrder } from "../commafeed-api";
+import { Category, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder } from "../commafeed-api";
 import { visitCategoryTree } from "../utils";
 
 export type EntrySource = "category" | "feed"
@@ -19,11 +19,6 @@ interface EntriesState {
     loading: boolean
 }
 
-interface SettingsState {
-    readingMode?: ReadingMode,
-    readingOrder?: ReadingOrder
-}
-
 interface RedirectState {
     redirectTo?: string
 }
@@ -31,7 +26,7 @@ interface RedirectState {
 export interface State {
     tree: TreeState,
     entries: EntriesState,
-    settings: SettingsState,
+    settings?: ISettings,
     redirect: RedirectState,
 }
 
@@ -44,6 +39,7 @@ export type Actions =
     | { type: "entries.setRead", id: string, feedId: number, read: boolean }
     | { type: "entries.setLoading", loading: boolean }
 
+    | { type: "settings.set", settings: ISettings }
     | { type: "settings.setReadingMode", readingMode: ReadingMode }
     | { type: "settings.setReadingOrder", readingOrder: ReadingOrder }
 
@@ -93,12 +89,14 @@ const entriesReducer: Reducer<EntriesState, Actions> = (state, action) => {
     }
 }
 
-const settingsReducer: Reducer<SettingsState, Actions> = (state, action) => {
+const settingsReducer: Reducer<ISettings | undefined, Actions> = (state, action) => {
     switch (action.type) {
+        case "settings.set":
+            return action.settings
         case "settings.setReadingMode":
-            return { ...state, readingMode: action.readingMode }
+            return state ? { ...state, readingMode: action.readingMode } : undefined
         case "settings.setReadingOrder":
-            return { ...state, readingOrder: action.readingOrder }
+            return state ? { ...state, readingOrder: action.readingOrder } : undefined
         default:
             return state
     }
@@ -157,7 +155,7 @@ export const ActionCreator = {
                 type: "thunk",
                 thunk: (dispatch, getState) => {
                     const state = getState()
-                    if (!state.entries.id || !state.entries.source || !state.settings.readingMode || !state.settings.readingOrder)
+                    if (!state.entries.id || !state.entries.source || !state.settings)
                         return
 
                     const offset = 0
@@ -175,7 +173,7 @@ export const ActionCreator = {
                 type: "thunk",
                 thunk: (dispatch, getState) => {
                     const state = getState()
-                    if (!state.entries.id || !state.entries.source || !state.settings.readingMode || !state.settings.readingOrder || !state.entries.entries)
+                    if (!state.entries.id || !state.entries.source || !state.settings || !state.entries.entries)
                         return
 
                     const offset = state.entries.entries.length
@@ -224,8 +222,8 @@ export const ActionCreator = {
                 thunk: dispatch => {
                     Clients.user.settingsGet()
                         .then(settings => {
-                            dispatch(ActionCreator.settings.setReadingMode(settings.readingMode))
-                            dispatch(ActionCreator.settings.setReadingOrder(settings.readingOrder))
+                            dispatch({ type: "settings.set", settings })
+                            dispatch(ActionCreator.entries.reload())
                         })
                 }
             }
