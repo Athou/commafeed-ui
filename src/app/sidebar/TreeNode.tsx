@@ -11,7 +11,7 @@ interface Props {
 export const TreeNode: React.FC<Props> = props => {
     const { dispatch } = useContext(AppContext)
     return (
-        <div>
+        <div style={{ paddingTop: "1px", paddingBottom: "1px" }}>
             <img src={props.subscription.iconUrl} alt="favicon"
                 style={{ width: "16px", height: "16px", marginRight: "5px", position: "relative", top: "4px" }} />
             <span style={{ fontWeight: props.subscription.unread > 0 ? "bold" : "normal" }} className="pointer"

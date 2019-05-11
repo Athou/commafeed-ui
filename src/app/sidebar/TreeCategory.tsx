@@ -33,7 +33,7 @@ export const TreeCategory: React.FC<Props> = props => {
     }
 
     return (
-        <div>
+        <div style={{ paddingTop: "1px", paddingBottom: "1px" }}>
             <Icon name={props.icon ? props.icon : (expanded ? "chevron down" : "chevron right")}
                 onClick={() => toggleExpanded()} className="pointer" />
             <span className="pointer" style={{ fontWeight: (!expanded && unreadCount > 0) ? "bold" : "normal" }}
