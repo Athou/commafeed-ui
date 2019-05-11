@@ -16,6 +16,7 @@ export const FeedEntries: React.FC<Props> = props => {
 
     useEffect(() => {
         dispatch(ActionCreator.entries.setSource(props.id, props.source))
+        window.scrollTo(0, 0)
     }, [dispatch, props.id, props.source])
 
     if (!state.entries.label || !state.entries.entries)
