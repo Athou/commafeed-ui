@@ -233,6 +233,48 @@ export const ActionCreator = {
             })
         },
 
+        selectNextEntry(): Actions {
+            return thunk((dispatch, getState) => {
+                const state = getState()
+                const entries = state.entries.entries
+                if (!entries) return
+
+                const currentEntry = entries.find(e => e.id === state.entries.selectedEntryId)
+                let nextEntryIndex = -1
+                if (!currentEntry) {
+                    if (entries.length > 0) nextEntryIndex = 0
+                } else {
+                    const currentEntryIndex = entries.indexOf(currentEntry)
+                    if (currentEntryIndex < entries.length - 1) nextEntryIndex = currentEntryIndex + 1
+                }
+
+                if (nextEntryIndex >= 0) {
+                    const nextEntry = entries[nextEntryIndex]
+                    dispatch(ActionCreator.entries.selectEntry(nextEntry, true))
+                }
+            })
+        },
+
+        selectPreviousEntry(): Actions {
+            return thunk((dispatch, getState) => {
+                const state = getState()
+                const entries = state.entries.entries
+                if (!entries) return
+
+                const currentEntry = entries.find(e => e.id === state.entries.selectedEntryId)
+                let previousEntryIndex = -1
+                if (currentEntry) {
+                    const currentEntryIndex = entries.indexOf(currentEntry)
+                    if (currentEntryIndex > 0) previousEntryIndex = currentEntryIndex - 1
+                }
+
+                if (previousEntryIndex >= 0) {
+                    const previousEntry = entries[previousEntryIndex]
+                    dispatch(ActionCreator.entries.selectEntry(previousEntry, true))
+                }
+            })
+        },
+
         markAsRead(id: string, feedId: number, read: boolean): Actions {
             return thunk(dispatch => {
                 Clients.entry.mark(new MarkRequest({ id, read })).then(() => dispatch({ type: "entries.setRead", id, feedId, read }))

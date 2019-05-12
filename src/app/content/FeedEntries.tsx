@@ -18,6 +18,19 @@ export const FeedEntries: React.FC<Props> = props => {
         window.scrollTo(0, 0)
     }, [dispatch, props.id, props.source])
 
+    useEffect(() => {
+        function keyPressed(e: KeyboardEvent) {
+            if (e.key === " ") {
+                e.preventDefault()
+                if (e.shiftKey) dispatch(ActionCreator.entries.selectPreviousEntry())
+                else dispatch(ActionCreator.entries.selectNextEntry())
+            }
+        }
+
+        window.addEventListener("keydown", keyPressed)
+        return () => window.removeEventListener("keydown", keyPressed)
+    }, [dispatch])
+
     if (!state.entries.label || !state.entries.entries) return null
 
     function loadMoreEntries(page: number) {
