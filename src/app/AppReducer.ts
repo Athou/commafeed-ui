@@ -158,20 +158,17 @@ export const ActionCreator = {
                 const category = flattenCategoryTree(state.tree.root).find(c => +c.id === categoryId)
                 if (!category) return
 
-                Clients.category
-                    .collapse(
-                        new CollapseRequest({
-                            id: categoryId,
-                            collapse: category.expanded
-                        })
-                    )
-                    .then(() =>
-                        dispatch({
-                            type: "tree.setCategoryExpanded",
-                            categoryId,
-                            expanded: !category.expanded
-                        })
-                    )
+                dispatch({
+                    type: "tree.setCategoryExpanded",
+                    categoryId,
+                    expanded: !category.expanded
+                })
+                Clients.category.collapse(
+                    new CollapseRequest({
+                        id: categoryId,
+                        collapse: category.expanded
+                    })
+                )
             })
         }
     },
@@ -277,7 +274,8 @@ export const ActionCreator = {
 
         markAsRead(id: string, feedId: number, read: boolean): Actions {
             return thunk(dispatch => {
-                Clients.entry.mark(new MarkRequest({ id, read })).then(() => dispatch({ type: "entries.setRead", id, feedId, read }))
+                dispatch({ type: "entries.setRead", id, feedId, read })
+                Clients.entry.mark(new MarkRequest({ id, read }))
             })
         }
     },
@@ -286,14 +284,16 @@ export const ActionCreator = {
         setReadingMode(readingMode: ReadingMode): Actions {
             return thunk((dispatch, getState) => {
                 dispatch({ type: "settings.setReadingMode", readingMode })
-                Clients.user.settingsPost(new Settings(getState().settings)).then(() => dispatch(ActionCreator.entries.reload()))
+                dispatch(ActionCreator.entries.reload())
+                Clients.user.settingsPost(new Settings(getState().settings))
             })
         },
 
         setReadingOrder(readingOrder: ReadingOrder): Actions {
             return thunk((dispatch, getState) => {
                 dispatch({ type: "settings.setReadingOrder", readingOrder })
-                Clients.user.settingsPost(new Settings(getState().settings)).then(() => dispatch(ActionCreator.entries.reload()))
+                dispatch(ActionCreator.entries.reload())
+                Clients.user.settingsPost(new Settings(getState().settings))
             })
         },
 
