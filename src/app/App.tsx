@@ -1,14 +1,15 @@
 import React, { Dispatch, useEffect } from "react"
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom"
+import { Thunk, useThunkReducer } from "../thunk-reducer"
 import styles from "./App.module.css"
-import { ActionCreator, Actions, AppReducer, State, useThunkReducer } from "./AppReducer"
+import { ActionCreator, Actions, AppReducer, State } from "./AppReducer"
 import { FeedEdit } from "./content/FeedEdit"
 import { FeedEntries } from "./content/FeedEntries"
 import { Subscribe } from "./content/Subscribe"
 import { Navbar } from "./navbar/Navbar"
 import { Sidebar } from "./sidebar/Sidebar"
 
-export const AppContext = React.createContext({} as { state: State; dispatch: Dispatch<Actions> })
+export const AppContext = React.createContext({} as { state: State; dispatch: Dispatch<Actions | Thunk<State, Actions>> })
 
 export const App: React.FC<RouteComponentProps> = props => {
     const [state, dispatch] = useThunkReducer(AppReducer, {

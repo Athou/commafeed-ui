@@ -1,7 +1,8 @@
 import lodash from "lodash"
-import { Dispatch, Reducer, useCallback, useRef, useState } from "react"
+import { Reducer } from "react"
 import { Clients } from ".."
 import { Category, CollapseRequest, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../commafeed-api"
+import { Thunk } from "../thunk-reducer"
 import { flattenCategoryTree, visitCategoryTree } from "../utils"
 
 export type EntrySource = "category" | "feed"
@@ -49,7 +50,6 @@ export type Actions =
     | { type: "navigateToRootCategory" }
     | { type: "navigateToCategory"; categoryId: string }
     | { type: "navigateToFeed"; feedId: number }
-    | { type: "thunk"; thunk: (dispatch: Dispatch<Actions>, getState: () => State) => void }
 
 const treeReducer: Reducer<TreeState, Actions> = (state, action) => {
     switch (action.type) {
@@ -145,13 +145,13 @@ export const AppReducer: Reducer<State, Actions> = (state, action) => {
 const ENTRIES_PAGE_SIZE = 50
 export const ActionCreator = {
     tree: {
-        reload(): Actions {
-            return thunk(dispatch => {
+        reload(): Thunk<State, Actions> {
+            return dispatch => {
                 Clients.category.get().then(root => dispatch({ type: "tree.setRoot", root }))
-            })
+            }
         },
-        toggleCategoryExpanded(categoryId: number): Actions {
-            return thunk((dispatch, getState) => {
+        toggleCategoryExpanded(categoryId: number): Thunk<State, Actions> {
+            return (dispatch, getState) => {
                 const state = getState()
                 if (!state.tree.root) return
 
@@ -169,19 +169,19 @@ export const ActionCreator = {
                         collapse: category.expanded
                     })
                 )
-            })
+            }
         }
     },
     entries: {
-        setSource(id: string, source: EntrySource): Actions {
-            return thunk(dispatch => {
+        setSource(id: string, source: EntrySource): Thunk<State, Actions> {
+            return dispatch => {
                 dispatch({ type: "entries.setSource", id, source })
                 dispatch(ActionCreator.entries.reload())
-            })
+            }
         },
 
-        reload(): Actions {
-            return thunk((dispatch, getState) => {
+        reload(): Thunk<State, Actions> {
+            return (dispatch, getState) => {
                 const state = getState()
                 if (!state.entries.id || !state.entries.source || !state.settings) return
 
@@ -198,11 +198,11 @@ export const ActionCreator = {
                         })
                     )
                     .finally(() => dispatch({ type: "entries.setLoading", loading: false }))
-            })
+            }
         },
 
-        loadMore(): Actions {
-            return thunk((dispatch, getState) => {
+        loadMore(): Thunk<State, Actions> {
+            return (dispatch, getState) => {
                 const state = getState()
                 if (!state.entries.id || !state.entries.source || !state.settings || !state.entries.entries) return
 
@@ -219,19 +219,19 @@ export const ActionCreator = {
                     offset,
                     limit
                 ).then(entries => dispatch({ type: "entries.addEntries", entries: entries.entries, hasMore: entries.hasMore }))
-            })
+            }
         },
 
-        selectEntry(entry: Entry, expanded: boolean): Actions {
-            return thunk(dispatch => {
+        selectEntry(entry: Entry, expanded: boolean): Thunk<State, Actions> {
+            return dispatch => {
                 dispatch({ type: "entries.setSelectedEntryId", id: entry.id })
                 dispatch({ type: "entries.setSelectedEntryExpanded", expanded })
                 if (!entry.read) dispatch(ActionCreator.entries.markAsRead(entry.id, +entry.feedId, true))
-            })
+            }
         },
 
-        selectNextEntry(): Actions {
-            return thunk((dispatch, getState) => {
+        selectNextEntry(): Thunk<State, Actions> {
+            return (dispatch, getState) => {
                 const state = getState()
                 const entries = state.entries.entries
                 if (!entries) return
@@ -249,11 +249,11 @@ export const ActionCreator = {
                     const nextEntry = entries[nextEntryIndex]
                     dispatch(ActionCreator.entries.selectEntry(nextEntry, true))
                 }
-            })
+            }
         },
 
-        selectPreviousEntry(): Actions {
-            return thunk((dispatch, getState) => {
+        selectPreviousEntry(): Thunk<State, Actions> {
+            return (dispatch, getState) => {
                 const state = getState()
                 const entries = state.entries.entries
                 if (!entries) return
@@ -269,41 +269,41 @@ export const ActionCreator = {
                     const previousEntry = entries[previousEntryIndex]
                     dispatch(ActionCreator.entries.selectEntry(previousEntry, true))
                 }
-            })
+            }
         },
 
-        markAsRead(id: string, feedId: number, read: boolean): Actions {
-            return thunk(dispatch => {
+        markAsRead(id: string, feedId: number, read: boolean): Thunk<State, Actions> {
+            return dispatch => {
                 dispatch({ type: "entries.setRead", id, feedId, read })
                 Clients.entry.mark(new MarkRequest({ id, read }))
-            })
+            }
         }
     },
 
     settings: {
-        setReadingMode(readingMode: ReadingMode): Actions {
-            return thunk((dispatch, getState) => {
+        setReadingMode(readingMode: ReadingMode): Thunk<State, Actions> {
+            return (dispatch, getState) => {
                 dispatch({ type: "settings.setReadingMode", readingMode })
                 dispatch(ActionCreator.entries.reload())
                 Clients.user.settingsPost(new Settings(getState().settings))
-            })
+            }
         },
 
-        setReadingOrder(readingOrder: ReadingOrder): Actions {
-            return thunk((dispatch, getState) => {
+        setReadingOrder(readingOrder: ReadingOrder): Thunk<State, Actions> {
+            return (dispatch, getState) => {
                 dispatch({ type: "settings.setReadingOrder", readingOrder })
                 dispatch(ActionCreator.entries.reload())
                 Clients.user.settingsPost(new Settings(getState().settings))
-            })
+            }
         },
 
-        reload(): Actions {
-            return thunk(dispatch => {
+        reload(): Thunk<State, Actions> {
+            return dispatch => {
                 Clients.user.settingsGet().then(settings => {
                     dispatch({ type: "settings.set", settings })
                     dispatch(ActionCreator.entries.reload())
                 })
-            })
+            }
         }
     },
 
@@ -342,31 +342,4 @@ function fetchEntries(
         default:
             throw new Error()
     }
-}
-
-function thunk(thunk: (dispatch: Dispatch<Actions>, getState: () => State) => void): Actions {
-    return { type: "thunk", thunk }
-}
-
-// adapted from https://github.com/nathanbuchar/react-hook-thunk-reducer
-export function useThunkReducer(reducer: Reducer<State, Actions>, initialArg: State): [State, Dispatch<Actions>] {
-    const [hookState, setHookState] = useState(initialArg)
-
-    const state = useRef(hookState)
-    const getState = useCallback(() => state.current, [])
-    const setState = useCallback(newState => {
-        state.current = newState
-        setHookState(newState)
-    }, [])
-
-    const reduce = useCallback(action => reducer(getState(), action), [reducer, getState])
-    const dispatch: Dispatch<Actions> = useCallback(
-        (action: Actions) => {
-            if (action.type === "thunk") action.thunk(dispatch, getState)
-            else setState(reduce(action))
-        },
-        [getState, setState, reduce]
-    )
-
-    return [hookState, dispatch]
 }
