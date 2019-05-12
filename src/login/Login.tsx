@@ -9,7 +9,7 @@ export const Login: React.FC<RouteComponentProps> = props => {
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         if (event)
             event.preventDefault()
 

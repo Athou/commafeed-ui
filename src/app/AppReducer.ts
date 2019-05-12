@@ -264,7 +264,7 @@ function fetchEntries(id: string, source: EntrySource, readingMode: ReadingMode,
 }
 
 // adapted from https://github.com/nathanbuchar/react-hook-thunk-reducer
-export const useThunkReducer: (reducer: Reducer<State, Actions>, initialArg: State) => [State, Dispatch<Actions>] = (reducer, initialArg) => {
+export function useThunkReducer(reducer: Reducer<State, Actions>, initialArg: State): [State, Dispatch<Actions>] {
     const [hookState, setHookState] = useState(initialArg);
 
     const state = useRef(hookState);
