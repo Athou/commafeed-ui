@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 import { Dispatch, Reducer, useCallback, useRef, useState } from "react";
 import { Clients } from '..';
-import { Category, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../commafeed-api";
-import { visitCategoryTree } from "../utils";
+import { Category, CollapseRequest, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../commafeed-api";
+import { flattenCategoryTree, visitCategoryTree } from "../utils";
 
 export type EntrySource = "category" | "feed"
 
@@ -32,6 +32,7 @@ export interface State {
 
 export type Actions =
     | { type: "tree.setRoot", root: Category }
+    | { type: "tree.setCategoryExpanded", categoryId: number, expanded: boolean }
 
     | { type: "entries.setSource", id: string, source: EntrySource }
     | { type: "entries.setEntries", entries: Entry[], hasMore: boolean, label: string }
@@ -54,7 +55,18 @@ const treeReducer: Reducer<TreeState, Actions> = (state, action) => {
     switch (action.type) {
         case "tree.setRoot":
             return { ...state, root: action.root }
-        case "entries.setRead":
+        case "tree.setCategoryExpanded": {
+            if (!state.root)
+                return state
+
+            const root = lodash.cloneDeep(state.root)
+            visitCategoryTree(root, c => {
+                if (+c.id === action.categoryId)
+                    c.expanded = action.expanded
+            })
+            return { ...state, root: root }
+        }
+        case "entries.setRead": {
             if (!state.root)
                 return state
 
@@ -64,6 +76,7 @@ const treeReducer: Reducer<TreeState, Actions> = (state, action) => {
                     f.unread = action.read ? f.unread - 1 : f.unread + 1
             }))
             return { ...state, root: root }
+        }
         default:
             return state
     }
@@ -135,6 +148,29 @@ export const ActionCreator = {
                 type: "thunk",
                 thunk: dispatch => {
                     Clients.category.get().then(root => dispatch({ type: "tree.setRoot", root }))
+                }
+            }
+        },
+        toggleCategoryExpanded(categoryId: number): Actions {
+            return {
+                type: "thunk",
+                thunk: (dispatch, getState) => {
+                    const state = getState()
+                    if (!state.tree.root)
+                        return
+
+                    const category = flattenCategoryTree(state.tree.root).find(c => +c.id === categoryId)
+                    if (!category)
+                        return
+
+                    Clients.category.collapse(new CollapseRequest({
+                        id: categoryId,
+                        collapse: category.expanded
+                    })).then(() => dispatch({
+                        type: "tree.setCategoryExpanded",
+                        categoryId,
+                        expanded: !category.expanded
+                    }))
                 }
             }
         },
