@@ -14,8 +14,8 @@ interface Props {
 
 export const TreeCategory: React.FC<Props> = props => {
 
-    const { dispatch } = useContext(AppContext)
-
+    const { state, dispatch } = useContext(AppContext)
+    const selected = state.entries.source === "category" && state.entries.id === props.category.id
 
     const unreadCount = useMemo(() => flattenCategoryTree(props.category)
         .flatMap(c => c.feeds)
@@ -31,7 +31,7 @@ export const TreeCategory: React.FC<Props> = props => {
         <div style={{ paddingTop: "1px", paddingBottom: "1px" }}>
             <Icon name={props.icon ? props.icon : (props.category.expanded ? "chevron down" : "chevron right")}
                 onClick={() => toggleExpanded()} className="pointer" />
-            <span className="pointer" style={{ fontWeight: (!props.category.expanded && unreadCount > 0) ? "bold" : "normal" }}
+            <span className="pointer" style={{ fontWeight: (!props.category.expanded && unreadCount > 0) ? "bold" : "normal", color: selected ? "red" : "inherit" }}
                 onClick={() => dispatch(ActionCreator.redirect.navigateToCategory(props.category.id))}>
                 {props.category.name}
             </span>

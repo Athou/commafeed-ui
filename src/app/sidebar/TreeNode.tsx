@@ -9,9 +9,11 @@ interface Props {
 }
 
 export const TreeNode: React.FC<Props> = props => {
-    const { dispatch } = useContext(AppContext)
+    const { state, dispatch } = useContext(AppContext)
+
+    const selected = state.entries.source === "feed" && state.entries.id === String(props.subscription.id)
     return (
-        <div style={{ paddingTop: "1px", paddingBottom: "1px" }}>
+        <div style={{ paddingTop: "1px", paddingBottom: "1px", color: selected ? "red" : "inherit" }}>
             <img src={props.subscription.iconUrl} alt="favicon"
                 style={{ width: "16px", height: "16px", marginRight: "5px", position: "relative", top: "4px" }} />
             <span style={{ fontWeight: props.subscription.unread > 0 ? "bold" : "normal" }} className="pointer"
