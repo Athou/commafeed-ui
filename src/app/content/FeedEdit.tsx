@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { Header, Form } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import { Form, Header } from "semantic-ui-react"
 
 interface Props {
     feedId: string
 }
 
 export const FeedEdit: React.FC<Props> = props => {
-
     const [loading, setLoading] = useState(true)
     const [name, setName] = useState("")
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        if (event)
-            event.preventDefault()
+        if (event) event.preventDefault()
 
         console.log(name)
     }
@@ -27,7 +25,9 @@ export const FeedEdit: React.FC<Props> = props => {
 
     return (
         <div>
-            <Header as="h3" dividing>Feed edit</Header>
+            <Header as="h3" dividing>
+                Feed edit
+            </Header>
             <Form loading={loading} onSubmit={handleSubmit}>
                 <Form.Input label="Name" value={name} onChange={e => setName(e.target.value)} />
             </Form>

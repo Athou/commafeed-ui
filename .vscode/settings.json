@@ -2,5 +2,9 @@
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
-    }
+    },
+    "prettier.jsxBracketSameLine": true,
+    "prettier.printWidth": 140,
+    "prettier.semi": false,
+    "prettier.tabWidth": 4
 }

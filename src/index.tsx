@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import 'semantic-ui-css/semantic.min.css';
-import { App } from './app/App';
-import { CategoryClient, EntryClient, FeedClient, ServerClient, UserClient } from './commafeed-api';
-import './index.css';
-import { Login } from './login/Login';
+import React from "react"
+import ReactDOM from "react-dom"
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
+import "semantic-ui-css/semantic.min.css"
+import { App } from "./app/App"
+import { CategoryClient, EntryClient, FeedClient, ServerClient, UserClient } from "./commafeed-api"
+import "./index.css"
+import { Login } from "./login/Login"
 
 const baseUrl = "/rest"
 const interceptingFetch = async (input: RequestInfo, init?: RequestInit) => {
@@ -24,7 +24,7 @@ export const Clients = {
     entry: new EntryClient(baseUrl, http),
     feed: new FeedClient(baseUrl, http),
     server: new ServerClient(baseUrl, http),
-    user: new UserClient(baseUrl, http),
+    user: new UserClient(baseUrl, http)
 }
 
 const Root: React.FC = () => {
@@ -41,4 +41,4 @@ const Root: React.FC = () => {
     )
 }
 
-ReactDOM.render(<Root />, document.getElementById('root'))
+ReactDOM.render(<Root />, document.getElementById("root"))

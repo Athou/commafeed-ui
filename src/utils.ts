@@ -1,4 +1,4 @@
-import { Category } from "./commafeed-api";
+import { Category } from "./commafeed-api"
 
 export function visitCategoryTree(category: Category, visitor: (category: Category) => void): void {
     visitor(category)

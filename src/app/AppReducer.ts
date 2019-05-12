@@ -1,8 +1,8 @@
-import lodash from 'lodash';
-import { Dispatch, Reducer, useCallback, useRef, useState } from "react";
-import { Clients } from '..';
-import { Category, CollapseRequest, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../commafeed-api";
-import { flattenCategoryTree, visitCategoryTree } from "../utils";
+import lodash from "lodash"
+import { Dispatch, Reducer, useCallback, useRef, useState } from "react"
+import { Clients } from ".."
+import { Category, CollapseRequest, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../commafeed-api"
+import { flattenCategoryTree, visitCategoryTree } from "../utils"
 
 export type EntrySource = "category" | "feed"
 
@@ -11,11 +11,11 @@ interface TreeState {
 }
 
 interface EntriesState {
-    id?: string,
-    source?: EntrySource,
-    entries?: Entry[],
-    hasMore?: boolean,
-    label?: string,
+    id?: string
+    source?: EntrySource
+    entries?: Entry[]
+    hasMore?: boolean
+    label?: string
     loading: boolean
 }
 
@@ -24,57 +24,51 @@ interface RedirectState {
 }
 
 export interface State {
-    tree: TreeState,
-    entries: EntriesState,
-    settings?: ISettings,
-    redirect: RedirectState,
+    tree: TreeState
+    entries: EntriesState
+    settings?: ISettings
+    redirect: RedirectState
 }
 
 export type Actions =
-    | { type: "tree.setRoot", root: Category }
-    | { type: "tree.setCategoryExpanded", categoryId: number, expanded: boolean }
-
-    | { type: "entries.setSource", id: string, source: EntrySource }
-    | { type: "entries.setEntries", entries: Entry[], hasMore: boolean, label: string }
-    | { type: "entries.addEntries", entries: Entry[], hasMore: boolean }
-    | { type: "entries.setRead", id: string, feedId: number, read: boolean }
-    | { type: "entries.setLoading", loading: boolean }
-
-    | { type: "settings.set", settings: ISettings }
-    | { type: "settings.setReadingMode", readingMode: ReadingMode }
-    | { type: "settings.setReadingOrder", readingOrder: ReadingOrder }
-
+    | { type: "tree.setRoot"; root: Category }
+    | { type: "tree.setCategoryExpanded"; categoryId: number; expanded: boolean }
+    | { type: "entries.setSource"; id: string; source: EntrySource }
+    | { type: "entries.setEntries"; entries: Entry[]; hasMore: boolean; label: string }
+    | { type: "entries.addEntries"; entries: Entry[]; hasMore: boolean }
+    | { type: "entries.setRead"; id: string; feedId: number; read: boolean }
+    | { type: "entries.setLoading"; loading: boolean }
+    | { type: "settings.set"; settings: ISettings }
+    | { type: "settings.setReadingMode"; readingMode: ReadingMode }
+    | { type: "settings.setReadingOrder"; readingOrder: ReadingOrder }
     | { type: "navigateToSubscribe" }
     | { type: "navigateToRootCategory" }
-    | { type: "navigateToCategory", categoryId: string }
-    | { type: "navigateToFeed", feedId: number }
-
-    | { type: "thunk", thunk: (dispatch: Dispatch<Actions>, getState: () => State) => void }
+    | { type: "navigateToCategory"; categoryId: string }
+    | { type: "navigateToFeed"; feedId: number }
+    | { type: "thunk"; thunk: (dispatch: Dispatch<Actions>, getState: () => State) => void }
 
 const treeReducer: Reducer<TreeState, Actions> = (state, action) => {
     switch (action.type) {
         case "tree.setRoot":
             return { ...state, root: action.root }
         case "tree.setCategoryExpanded": {
-            if (!state.root)
-                return state
+            if (!state.root) return state
 
             const root = lodash.cloneDeep(state.root)
             visitCategoryTree(root, c => {
-                if (+c.id === action.categoryId)
-                    c.expanded = action.expanded
+                if (+c.id === action.categoryId) c.expanded = action.expanded
             })
             return { ...state, root: root }
         }
         case "entries.setRead": {
-            if (!state.root)
-                return state
+            if (!state.root) return state
 
             const root = lodash.cloneDeep(state.root)
-            visitCategoryTree(root, c => c.feeds.forEach(f => {
-                if (f.id === action.feedId)
-                    f.unread = action.read ? f.unread - 1 : f.unread + 1
-            }))
+            visitCategoryTree(root, c =>
+                c.feeds.forEach(f => {
+                    if (f.id === action.feedId) f.unread = action.read ? f.unread - 1 : f.unread + 1
+                })
+            )
             return { ...state, root: root }
         }
         default:
@@ -91,9 +85,9 @@ const entriesReducer: Reducer<EntriesState, Actions> = (state, action) => {
         case "entries.addEntries":
             return { ...state, entries: state.entries && state.entries.concat(action.entries), hasMore: action.hasMore }
         case "entries.setRead":
-            const newEntries = state.entries ?
-                state.entries.map(e => e.id === action.id ? Object.assign({}, e, { read: action.read }) : e) :
-                undefined
+            const newEntries = state.entries
+                ? state.entries.map(e => (e.id === action.id ? Object.assign({}, e, { read: action.read }) : e))
+                : undefined
             return { ...state, entries: newEntries }
         case "entries.setLoading":
             return { ...state, loading: action.loading }
@@ -156,24 +150,28 @@ export const ActionCreator = {
                 type: "thunk",
                 thunk: (dispatch, getState) => {
                     const state = getState()
-                    if (!state.tree.root)
-                        return
+                    if (!state.tree.root) return
 
                     const category = flattenCategoryTree(state.tree.root).find(c => +c.id === categoryId)
-                    if (!category)
-                        return
+                    if (!category) return
 
-                    Clients.category.collapse(new CollapseRequest({
-                        id: categoryId,
-                        collapse: category.expanded
-                    })).then(() => dispatch({
-                        type: "tree.setCategoryExpanded",
-                        categoryId,
-                        expanded: !category.expanded
-                    }))
+                    Clients.category
+                        .collapse(
+                            new CollapseRequest({
+                                id: categoryId,
+                                collapse: category.expanded
+                            })
+                        )
+                        .then(() =>
+                            dispatch({
+                                type: "tree.setCategoryExpanded",
+                                categoryId,
+                                expanded: !category.expanded
+                            })
+                        )
                 }
             }
-        },
+        }
     },
     entries: {
         setSource(id: string, source: EntrySource): Actions {
@@ -191,14 +189,27 @@ export const ActionCreator = {
                 type: "thunk",
                 thunk: (dispatch, getState) => {
                     const state = getState()
-                    if (!state.entries.id || !state.entries.source || !state.settings)
-                        return
+                    if (!state.entries.id || !state.entries.source || !state.settings) return
 
                     const offset = 0
                     const limit = ENTRIES_PAGE_SIZE
                     dispatch({ type: "entries.setLoading", loading: true })
-                    fetchEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder, offset, limit)
-                        .then(entries => dispatch({ type: "entries.setEntries", entries: entries.entries, hasMore: entries.hasMore, label: entries.name }))
+                    fetchEntries(
+                        state.entries.id,
+                        state.entries.source,
+                        state.settings.readingMode,
+                        state.settings.readingOrder,
+                        offset,
+                        limit
+                    )
+                        .then(entries =>
+                            dispatch({
+                                type: "entries.setEntries",
+                                entries: entries.entries,
+                                hasMore: entries.hasMore,
+                                label: entries.name
+                            })
+                        )
                         .finally(() => dispatch({ type: "entries.setLoading", loading: false }))
                 }
             }
@@ -209,15 +220,21 @@ export const ActionCreator = {
                 type: "thunk",
                 thunk: (dispatch, getState) => {
                     const state = getState()
-                    if (!state.entries.id || !state.entries.source || !state.settings || !state.entries.entries)
-                        return
+                    if (!state.entries.id || !state.entries.source || !state.settings || !state.entries.entries) return
 
-                    const offset = state.settings.readingMode === ReadingMode.All
-                        ? state.entries.entries.length
-                        : state.entries.entries.filter(e => !e.read).length
+                    const offset =
+                        state.settings.readingMode === ReadingMode.All
+                            ? state.entries.entries.length
+                            : state.entries.entries.filter(e => !e.read).length
                     const limit = ENTRIES_PAGE_SIZE
-                    fetchEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder, offset, limit)
-                        .then(entries => dispatch({ type: "entries.addEntries", entries: entries.entries, hasMore: entries.hasMore }))
+                    fetchEntries(
+                        state.entries.id,
+                        state.entries.source,
+                        state.settings.readingMode,
+                        state.settings.readingOrder,
+                        offset,
+                        limit
+                    ).then(entries => dispatch({ type: "entries.addEntries", entries: entries.entries, hasMore: entries.hasMore }))
                 }
             }
         },
@@ -226,8 +243,7 @@ export const ActionCreator = {
             return {
                 type: "thunk",
                 thunk: dispatch => {
-                    Clients.entry.mark(new MarkRequest({ id, read }))
-                        .then(() => dispatch({ type: "entries.setRead", id, feedId, read }))
+                    Clients.entry.mark(new MarkRequest({ id, read })).then(() => dispatch({ type: "entries.setRead", id, feedId, read }))
                 }
             }
         }
@@ -239,8 +255,7 @@ export const ActionCreator = {
                 type: "thunk",
                 thunk: (dispatch, getState) => {
                     dispatch({ type: "settings.setReadingMode", readingMode })
-                    Clients.user.settingsPost(new Settings(getState().settings))
-                        .then(() => dispatch(ActionCreator.entries.reload()))
+                    Clients.user.settingsPost(new Settings(getState().settings)).then(() => dispatch(ActionCreator.entries.reload()))
                 }
             }
         },
@@ -250,8 +265,7 @@ export const ActionCreator = {
                 type: "thunk",
                 thunk: (dispatch, getState) => {
                     dispatch({ type: "settings.setReadingOrder", readingOrder })
-                    Clients.user.settingsPost(new Settings(getState().settings))
-                        .then(() => dispatch(ActionCreator.entries.reload()))
+                    Clients.user.settingsPost(new Settings(getState().settings)).then(() => dispatch(ActionCreator.entries.reload()))
                 }
             }
         },
@@ -260,14 +274,13 @@ export const ActionCreator = {
             return {
                 type: "thunk",
                 thunk: dispatch => {
-                    Clients.user.settingsGet()
-                        .then(settings => {
-                            dispatch({ type: "settings.set", settings })
-                            dispatch(ActionCreator.entries.reload())
-                        })
+                    Clients.user.settingsGet().then(settings => {
+                        dispatch({ type: "settings.set", settings })
+                        dispatch(ActionCreator.entries.reload())
+                    })
                 }
             }
-        },
+        }
     },
 
     redirect: {
@@ -285,38 +298,47 @@ export const ActionCreator = {
 
         navigateToFeed(feedId: number): Actions {
             return { type: "navigateToFeed", feedId }
-        },
+        }
     }
 }
 
-function fetchEntries(id: string, source: EntrySource, readingMode: ReadingMode, readingOrder: ReadingOrder, offset: number, limit: number) {
+function fetchEntries(
+    id: string,
+    source: EntrySource,
+    readingMode: ReadingMode,
+    readingOrder: ReadingOrder,
+    offset: number,
+    limit: number
+) {
     switch (source) {
         case "category":
             return Clients.category.entries(id, readingMode, undefined, offset, limit, readingOrder)
         case "feed":
             return Clients.feed.entries(id, readingMode, undefined, offset, limit, readingOrder)
-        default: throw new Error()
+        default:
+            throw new Error()
     }
 }
 
 // adapted from https://github.com/nathanbuchar/react-hook-thunk-reducer
 export function useThunkReducer(reducer: Reducer<State, Actions>, initialArg: State): [State, Dispatch<Actions>] {
-    const [hookState, setHookState] = useState(initialArg);
+    const [hookState, setHookState] = useState(initialArg)
 
-    const state = useRef(hookState);
-    const getState = useCallback(() => state.current, []);
-    const setState = useCallback((newState) => {
-        state.current = newState;
-        setHookState(newState);
-    }, []);
+    const state = useRef(hookState)
+    const getState = useCallback(() => state.current, [])
+    const setState = useCallback(newState => {
+        state.current = newState
+        setHookState(newState)
+    }, [])
 
-    const reduce = useCallback((action) => reducer(getState(), action), [reducer, getState]);
-    const dispatch: Dispatch<Actions> = useCallback((action: Actions) => {
-        if (action.type === 'thunk')
-            action.thunk(dispatch, getState)
-        else
-            setState(reduce(action))
-    }, [getState, setState, reduce]);
+    const reduce = useCallback(action => reducer(getState(), action), [reducer, getState])
+    const dispatch: Dispatch<Actions> = useCallback(
+        (action: Actions) => {
+            if (action.type === "thunk") action.thunk(dispatch, getState)
+            else setState(reduce(action))
+        },
+        [getState, setState, reduce]
+    )
 
-    return [hookState, dispatch];
+    return [hookState, dispatch]
 }
