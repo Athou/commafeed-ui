@@ -146,159 +146,122 @@ const ENTRIES_PAGE_SIZE = 50
 export const ActionCreator = {
     tree: {
         reload(): Actions {
-            return {
-                type: "thunk",
-                thunk: dispatch => {
-                    Clients.category.get().then(root => dispatch({ type: "tree.setRoot", root }))
-                }
-            }
+            return thunk(dispatch => {
+                Clients.category.get().then(root => dispatch({ type: "tree.setRoot", root }))
+            })
         },
         toggleCategoryExpanded(categoryId: number): Actions {
-            return {
-                type: "thunk",
-                thunk: (dispatch, getState) => {
-                    const state = getState()
-                    if (!state.tree.root) return
+            return thunk((dispatch, getState) => {
+                const state = getState()
+                if (!state.tree.root) return
 
-                    const category = flattenCategoryTree(state.tree.root).find(c => +c.id === categoryId)
-                    if (!category) return
+                const category = flattenCategoryTree(state.tree.root).find(c => +c.id === categoryId)
+                if (!category) return
 
-                    Clients.category
-                        .collapse(
-                            new CollapseRequest({
-                                id: categoryId,
-                                collapse: category.expanded
-                            })
-                        )
-                        .then(() =>
-                            dispatch({
-                                type: "tree.setCategoryExpanded",
-                                categoryId,
-                                expanded: !category.expanded
-                            })
-                        )
-                }
-            }
+                Clients.category
+                    .collapse(
+                        new CollapseRequest({
+                            id: categoryId,
+                            collapse: category.expanded
+                        })
+                    )
+                    .then(() =>
+                        dispatch({
+                            type: "tree.setCategoryExpanded",
+                            categoryId,
+                            expanded: !category.expanded
+                        })
+                    )
+            })
         }
     },
     entries: {
         setSource(id: string, source: EntrySource): Actions {
-            return {
-                type: "thunk",
-                thunk: dispatch => {
-                    dispatch({ type: "entries.setSource", id, source })
-                    dispatch(ActionCreator.entries.reload())
-                }
-            }
+            return thunk(dispatch => {
+                dispatch({ type: "entries.setSource", id, source })
+                dispatch(ActionCreator.entries.reload())
+            })
         },
 
         reload(): Actions {
-            return {
-                type: "thunk",
-                thunk: (dispatch, getState) => {
-                    const state = getState()
-                    if (!state.entries.id || !state.entries.source || !state.settings) return
+            return thunk((dispatch, getState) => {
+                const state = getState()
+                if (!state.entries.id || !state.entries.source || !state.settings) return
 
-                    const offset = 0
-                    const limit = ENTRIES_PAGE_SIZE
-                    dispatch({ type: "entries.setLoading", loading: true })
-                    fetchEntries(
-                        state.entries.id,
-                        state.entries.source,
-                        state.settings.readingMode,
-                        state.settings.readingOrder,
-                        offset,
-                        limit
+                const offset = 0
+                const limit = ENTRIES_PAGE_SIZE
+                dispatch({ type: "entries.setLoading", loading: true })
+                fetchEntries(state.entries.id, state.entries.source, state.settings.readingMode, state.settings.readingOrder, offset, limit)
+                    .then(entries =>
+                        dispatch({
+                            type: "entries.setEntries",
+                            entries: entries.entries,
+                            hasMore: entries.hasMore,
+                            label: entries.name
+                        })
                     )
-                        .then(entries =>
-                            dispatch({
-                                type: "entries.setEntries",
-                                entries: entries.entries,
-                                hasMore: entries.hasMore,
-                                label: entries.name
-                            })
-                        )
-                        .finally(() => dispatch({ type: "entries.setLoading", loading: false }))
-                }
-            }
+                    .finally(() => dispatch({ type: "entries.setLoading", loading: false }))
+            })
         },
 
         loadMore(): Actions {
-            return {
-                type: "thunk",
-                thunk: (dispatch, getState) => {
-                    const state = getState()
-                    if (!state.entries.id || !state.entries.source || !state.settings || !state.entries.entries) return
+            return thunk((dispatch, getState) => {
+                const state = getState()
+                if (!state.entries.id || !state.entries.source || !state.settings || !state.entries.entries) return
 
-                    const offset =
-                        state.settings.readingMode === ReadingMode.All
-                            ? state.entries.entries.length
-                            : state.entries.entries.filter(e => !e.read).length
-                    const limit = ENTRIES_PAGE_SIZE
-                    fetchEntries(
-                        state.entries.id,
-                        state.entries.source,
-                        state.settings.readingMode,
-                        state.settings.readingOrder,
-                        offset,
-                        limit
-                    ).then(entries => dispatch({ type: "entries.addEntries", entries: entries.entries, hasMore: entries.hasMore }))
-                }
-            }
+                const offset =
+                    state.settings.readingMode === ReadingMode.All
+                        ? state.entries.entries.length
+                        : state.entries.entries.filter(e => !e.read).length
+                const limit = ENTRIES_PAGE_SIZE
+                fetchEntries(
+                    state.entries.id,
+                    state.entries.source,
+                    state.settings.readingMode,
+                    state.settings.readingOrder,
+                    offset,
+                    limit
+                ).then(entries => dispatch({ type: "entries.addEntries", entries: entries.entries, hasMore: entries.hasMore }))
+            })
         },
 
         selectEntry(entry: Entry, expanded: boolean): Actions {
-            return {
-                type: "thunk",
-                thunk: dispatch => {
-                    dispatch({ type: "entries.setSelectedEntryId", id: entry.id })
-                    dispatch({ type: "entries.setSelectedEntryExpanded", expanded })
-                    if (!entry.read) dispatch(ActionCreator.entries.markAsRead(entry.id, +entry.feedId, true))
-                }
-            }
+            return thunk(dispatch => {
+                dispatch({ type: "entries.setSelectedEntryId", id: entry.id })
+                dispatch({ type: "entries.setSelectedEntryExpanded", expanded })
+                if (!entry.read) dispatch(ActionCreator.entries.markAsRead(entry.id, +entry.feedId, true))
+            })
         },
 
         markAsRead(id: string, feedId: number, read: boolean): Actions {
-            return {
-                type: "thunk",
-                thunk: dispatch => {
-                    Clients.entry.mark(new MarkRequest({ id, read })).then(() => dispatch({ type: "entries.setRead", id, feedId, read }))
-                }
-            }
+            return thunk(dispatch => {
+                Clients.entry.mark(new MarkRequest({ id, read })).then(() => dispatch({ type: "entries.setRead", id, feedId, read }))
+            })
         }
     },
 
     settings: {
         setReadingMode(readingMode: ReadingMode): Actions {
-            return {
-                type: "thunk",
-                thunk: (dispatch, getState) => {
-                    dispatch({ type: "settings.setReadingMode", readingMode })
-                    Clients.user.settingsPost(new Settings(getState().settings)).then(() => dispatch(ActionCreator.entries.reload()))
-                }
-            }
+            return thunk((dispatch, getState) => {
+                dispatch({ type: "settings.setReadingMode", readingMode })
+                Clients.user.settingsPost(new Settings(getState().settings)).then(() => dispatch(ActionCreator.entries.reload()))
+            })
         },
 
         setReadingOrder(readingOrder: ReadingOrder): Actions {
-            return {
-                type: "thunk",
-                thunk: (dispatch, getState) => {
-                    dispatch({ type: "settings.setReadingOrder", readingOrder })
-                    Clients.user.settingsPost(new Settings(getState().settings)).then(() => dispatch(ActionCreator.entries.reload()))
-                }
-            }
+            return thunk((dispatch, getState) => {
+                dispatch({ type: "settings.setReadingOrder", readingOrder })
+                Clients.user.settingsPost(new Settings(getState().settings)).then(() => dispatch(ActionCreator.entries.reload()))
+            })
         },
 
         reload(): Actions {
-            return {
-                type: "thunk",
-                thunk: dispatch => {
-                    Clients.user.settingsGet().then(settings => {
-                        dispatch({ type: "settings.set", settings })
-                        dispatch(ActionCreator.entries.reload())
-                    })
-                }
-            }
+            return thunk(dispatch => {
+                Clients.user.settingsGet().then(settings => {
+                    dispatch({ type: "settings.set", settings })
+                    dispatch(ActionCreator.entries.reload())
+                })
+            })
         }
     },
 
@@ -337,6 +300,10 @@ function fetchEntries(
         default:
             throw new Error()
     }
+}
+
+function thunk(thunk: (dispatch: Dispatch<Actions>, getState: () => State) => void): Actions {
+    return { type: "thunk", thunk }
 }
 
 // adapted from https://github.com/nathanbuchar/react-hook-thunk-reducer
