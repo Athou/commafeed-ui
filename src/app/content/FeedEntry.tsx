@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef } from "react"
 import Moment from "react-moment"
 import { Card, Form } from "semantic-ui-react"
 import { Entry } from "../../commafeed-api"
@@ -10,51 +10,48 @@ interface Props {
 }
 
 export const FeedEntry: React.FC<Props> = props => {
-    const { dispatch } = useContext(AppContext)
-    const [expanded, setExpanded] = useState(false)
+    const { state, dispatch } = useContext(AppContext)
     const ref = useRef<HTMLDivElement>(null)
 
-    function toggleExpanded() {
-        setExpanded(!expanded)
+    const selected = state.entries.selectedEntryId === props.entry.id
+    const expanded = selected && state.entries.selectedEntryExpanded
 
-        if (!expanded && !props.entry.read) {
-            toggleRead()
-        }
+    function entryHeaderClicked() {
+        dispatch(ActionCreator.entries.selectEntry(props.entry, !expanded))
     }
 
     function toggleRead() {
         dispatch(ActionCreator.entries.markAsRead(props.entry.id, +props.entry.feedId, !props.entry.read))
     }
 
-    function handleDateClick() {
+    function dateClicked() {
         if (!props.entry.read) toggleRead()
     }
 
     // scroll to entry when expanded
     useEffect(() => {
         if (!ref.current) return
-
-        if (!expanded) return
+        if (!selected || !expanded) return
 
         // TODO reusable constant somewhere
         window.scrollTo({
             top: ref.current.offsetTop - 37,
             behavior: "smooth"
         })
-    }, [expanded])
+    }, [selected, expanded])
 
     return (
         <div ref={ref}>
             <Card.Group>
                 <Card fluid>
                     <Card.Content>
-                        <Card.Header onClick={() => toggleExpanded()} className="pointer">
+                        <Card.Header onClick={() => entryHeaderClicked()} className="pointer">
                             <img src={props.entry.iconUrl} alt="feed icon" style={{ width: "24px", height: "24px", marginRight: "5px" }} />
                             <span style={{ fontWeight: props.entry.read ? "normal" : "bold" }}>{props.entry.title}</span>
                         </Card.Header>
                         <Card.Meta>
                             from {props.entry.feedName} by {props.entry.author},{" "}
-                            <a href={props.entry.url} target="_blank" rel="noopener noreferrer" onMouseUp={() => handleDateClick()}>
+                            <a href={props.entry.url} target="_blank" rel="noopener noreferrer" onMouseUp={() => dateClicked()}>
                                 <Moment fromNow date={props.entry.date} />
                             </a>
                         </Card.Meta>

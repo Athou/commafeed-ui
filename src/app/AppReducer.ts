@@ -14,6 +14,8 @@ interface EntriesState {
     id?: string
     source?: EntrySource
     entries?: Entry[]
+    selectedEntryId?: string
+    selectedEntryExpanded?: boolean
     hasMore?: boolean
     label?: string
     loading: boolean
@@ -36,6 +38,8 @@ export type Actions =
     | { type: "entries.setSource"; id: string; source: EntrySource }
     | { type: "entries.setEntries"; entries: Entry[]; hasMore: boolean; label: string }
     | { type: "entries.addEntries"; entries: Entry[]; hasMore: boolean }
+    | { type: "entries.setSelectedEntryId"; id: string }
+    | { type: "entries.setSelectedEntryExpanded"; expanded: boolean }
     | { type: "entries.setRead"; id: string; feedId: number; read: boolean }
     | { type: "entries.setLoading"; loading: boolean }
     | { type: "settings.set"; settings: ISettings }
@@ -84,6 +88,10 @@ const entriesReducer: Reducer<EntriesState, Actions> = (state, action) => {
             return { ...state, entries: action.entries, hasMore: action.hasMore, label: action.label }
         case "entries.addEntries":
             return { ...state, entries: state.entries && state.entries.concat(action.entries), hasMore: action.hasMore }
+        case "entries.setSelectedEntryId":
+            return { ...state, selectedEntryId: action.id }
+        case "entries.setSelectedEntryExpanded":
+            return { ...state, selectedEntryExpanded: action.expanded }
         case "entries.setRead":
             const newEntries = state.entries
                 ? state.entries.map(e => (e.id === action.id ? Object.assign({}, e, { read: action.read }) : e))
@@ -235,6 +243,17 @@ export const ActionCreator = {
                         offset,
                         limit
                     ).then(entries => dispatch({ type: "entries.addEntries", entries: entries.entries, hasMore: entries.hasMore }))
+                }
+            }
+        },
+
+        selectEntry(entry: Entry, expanded: boolean): Actions {
+            return {
+                type: "thunk",
+                thunk: dispatch => {
+                    dispatch({ type: "entries.setSelectedEntryId", id: entry.id })
+                    dispatch({ type: "entries.setSelectedEntryExpanded", expanded })
+                    if (!entry.read) dispatch(ActionCreator.entries.markAsRead(entry.id, +entry.feedId, true))
                 }
             }
         },
