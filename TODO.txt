@@ -1,0 +1,29 @@
+reading
+-------
+better looking
+constants for global margins
+typesafe routes (https://github.com/AveroLLC/typesafe-react-router ?)
+mark all as read
+sort alphabetically
+mobile support
+dark mode
+i18n
+Expanded view mode
+mark as read up to here
+stars
+tags
+Show feeds and categories with no unread entries 
+In expanded view, scrolling through entries mark them as read 
+sharing buttons
+custom css
+keyboard shortcuts
+favicon & manifest
+
+pages
+-----
+new category
+feed edit
+category edit
+profile
+settings
+admin
