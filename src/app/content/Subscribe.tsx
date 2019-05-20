@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react"
 import { Button, Container, Divider, Dropdown, DropdownItemProps, Form, Header, Input, Message } from "semantic-ui-react"
-import { Clients } from "../.."
+import { Clients } from "../../Clients"
 import { FeedInfo, FeedInfoRequest, SubscribeRequest } from "../../commafeed-api"
 import { flattenCategoryTree } from "../../utils"
 import { AppContext } from "../App"

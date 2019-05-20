@@ -1,6 +1,6 @@
 import lodash from "lodash"
 import { Reducer } from "react"
-import { Clients } from ".."
+import { Clients } from "../Clients"
 import { Category, CollapseRequest, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../commafeed-api"
 import { Routes } from "../Routes"
 import { Thunk } from "../thunk-reducer"
