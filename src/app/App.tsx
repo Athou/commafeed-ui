@@ -1,7 +1,9 @@
 import React, { Dispatch, useEffect } from "react"
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom"
+import { Routes } from "../Routes"
 import { Thunk, useThunkReducer } from "../thunk-reducer"
 import styles from "./App.module.css"
+import { AppConstants } from "./AppConstants"
 import { ActionCreator, Actions, AppReducer, State } from "./AppReducer"
 import { FeedEdit } from "./content/FeedEdit"
 import { FeedEntries } from "./content/FeedEntries"
@@ -40,24 +42,17 @@ export const App: React.FC<RouteComponentProps> = props => {
             </div>
             <div className={styles.content}>
                 <Switch>
-                    <Route path={`${props.match.url}/subscribe`} render={() => <Subscribe />} />
-
+                    <Route path={Routes.app.subscribe.template()} render={() => <Subscribe />} />
+                    <Route path={Routes.app.feedEdit.template()} render={props => <FeedEdit feedId={props.match.params.feedId} />} />
                     <Route
-                        path={`${props.match.url}/feed/:feedId/edit`}
-                        render={props => <FeedEdit feedId={props.match.params.feedId} />}
-                    />
-
-                    <Route
-                        path={`${props.match.url}/feed/:feedId`}
+                        path={Routes.app.feed.template()}
                         render={props => <FeedEntries source="feed" id={props.match.params.feedId} />}
                     />
-
                     <Route
-                        path={`${props.match.url}/category/:categoryId`}
+                        path={Routes.app.category.template()}
                         render={props => <FeedEntries source="category" id={props.match.params.categoryId} />}
                     />
-
-                    <Route render={() => <Redirect to={`${props.match.url}/category/all`} />} />
+                    <Route render={() => <Redirect to={Routes.app.category.create({ categoryId: AppConstants.ALL_CATEGORY_ID })} />} />
                 </Switch>
             </div>
         </AppContext.Provider>

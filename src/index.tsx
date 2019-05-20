@@ -6,6 +6,7 @@ import { App } from "./app/App"
 import { CategoryClient, EntryClient, FeedClient, ServerClient, UserClient } from "./commafeed-api"
 import "./index.css"
 import { Login } from "./login/Login"
+import { Routes } from "./Routes"
 
 const baseUrl = "/rest"
 const interceptingFetch = async (input: RequestInfo, init?: RequestInit) => {
@@ -32,9 +33,9 @@ const Root: React.FC = () => {
         <BrowserRouter>
             <div>
                 <Switch>
-                    <Route path="/app" component={App} />
-                    <Route path="/login" component={Login} />
-                    <Route render={() => <Redirect to="/app" />} />
+                    <Route path={Routes.app.root.template()} component={App} />
+                    <Route path={Routes.login.template()} component={Login} />
+                    <Route render={() => <Redirect to={Routes.app.root.create({})} />} />
                 </Switch>
             </div>
         </BrowserRouter>

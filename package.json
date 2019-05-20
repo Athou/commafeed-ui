@@ -21,6 +21,7 @@
     "react-scripts": "^3.0.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.86.0",
+    "typesafe-react-router": "^2.2.3",
     "typescript": "3.4.5"
   },
   "scripts": {

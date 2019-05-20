@@ -2,7 +2,6 @@ reading
 -------
 better looking
 constants for global margins
-typesafe routes (https://github.com/AveroLLC/typesafe-react-router ?)
 mark all as read
 sort alphabetically
 mobile support

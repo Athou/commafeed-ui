@@ -2,8 +2,10 @@ import lodash from "lodash"
 import { Reducer } from "react"
 import { Clients } from ".."
 import { Category, CollapseRequest, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../commafeed-api"
+import { Routes } from "../Routes"
 import { Thunk } from "../thunk-reducer"
 import { flattenCategoryTree, visitCategoryTree } from "../utils"
+import { AppConstants } from "./AppConstants"
 
 export type EntrySource = "category" | "feed"
 
@@ -120,13 +122,13 @@ const settingsReducer: Reducer<ISettings | undefined, Actions> = (state, action)
 const redirectReducer: Reducer<RedirectState, Actions> = (state, action) => {
     switch (action.type) {
         case "navigateToRootCategory":
-            return { ...state, redirectTo: `/app/category/all` }
+            return { ...state, redirectTo: Routes.app.category.create({ categoryId: AppConstants.ALL_CATEGORY_ID }) }
         case "navigateToCategory":
-            return { ...state, redirectTo: `/app/category/${action.categoryId}` }
+            return { ...state, redirectTo: Routes.app.category.create({ categoryId: action.categoryId }) }
         case "navigateToFeed":
-            return { ...state, redirectTo: `/app/feed/${action.feedId}` }
+            return { ...state, redirectTo: Routes.app.feed.create({ feedId: String(action.feedId) }) }
         case "navigateToSubscribe":
-            return { ...state, redirectTo: `/app/subscribe` }
+            return { ...state, redirectTo: Routes.app.subscribe.create({}) }
         default:
             return state
     }

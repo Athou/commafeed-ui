@@ -3,6 +3,7 @@ import { RouteComponentProps } from "react-router"
 import { Button, Form, Grid, Header, Image, Message, Segment } from "semantic-ui-react"
 import { Clients } from ".."
 import { LoginRequest } from "../commafeed-api"
+import { Routes } from "../Routes"
 
 export const Login: React.FC<RouteComponentProps> = props => {
     const [name, setName] = useState("")
@@ -18,7 +19,7 @@ export const Login: React.FC<RouteComponentProps> = props => {
                     password
                 })
             )
-            .then(() => props.history.push("/app"))
+            .then(() => props.history.push(Routes.app.root.create({})))
             .catch(error => console.log(error))
     }
 

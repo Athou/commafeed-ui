@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { Form, Header } from "semantic-ui-react"
+import { Routes } from "../../Routes"
 
 interface Props {
     feedId: string
@@ -31,7 +32,7 @@ export const FeedEdit: React.FC<Props> = props => {
             <Form loading={loading} onSubmit={handleSubmit}>
                 <Form.Input label="Name" value={name} onChange={e => setName(e.target.value)} />
             </Form>
-            <Link to="/app">Back to List</Link>
+            <Link to={Routes.app.root.create({})}>Back to List</Link>
         </div>
     )
 }
