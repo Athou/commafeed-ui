@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:8083/",
   "dependencies": {
+    "@types/classnames": "^2.2.7",
     "@types/jest": "24.0.11",
     "@types/lodash": "^4.14.123",
     "@types/node": "11.13.8",
@@ -11,6 +12,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-infinite-scroller": "^1.2.1",
     "@types/react-router-dom": "^4.3.2",
+    "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "react": "^16.8.6",

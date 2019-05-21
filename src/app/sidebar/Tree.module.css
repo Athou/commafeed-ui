@@ -1,0 +1,25 @@
+.category {
+    cursor: pointer;
+    color: #8e9297;
+}
+
+.node {
+    cursor: pointer;
+    color: #8e9297;
+}
+
+.category:hover {
+    background-color: #292b2f;
+}
+
+.node:hover {
+    background-color: #292b2f;
+}
+
+.selected {
+    background-color: #40444b;
+}
+
+.unread {
+    color: #ebfff0;
+}

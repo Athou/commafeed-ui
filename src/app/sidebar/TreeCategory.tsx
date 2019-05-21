@@ -1,9 +1,11 @@
+import classNames from "classnames"
 import React, { useContext, useMemo } from "react"
 import { Icon, SemanticICONS } from "semantic-ui-react"
 import { Category } from "../../commafeed-api"
 import { flattenCategoryTree } from "../../utils"
 import { AppContext } from "../App"
 import { ActionCreator } from "../AppReducer"
+import styles from "./Tree.module.css"
 import { TreeNode } from "./TreeNode"
 import { UnreadCount } from "./UnreadCount"
 
@@ -14,7 +16,6 @@ interface Props {
 
 export const TreeCategory: React.FC<Props> = props => {
     const { state, dispatch } = useContext(AppContext)
-    const selected = state.entries.source === "category" && state.entries.id === props.category.id
 
     const unreadCount = useMemo(
         () =>
@@ -24,24 +25,32 @@ export const TreeCategory: React.FC<Props> = props => {
                 .reduce((total, current) => total + current, 0),
         [props.category]
     )
+    const selected = state.entries.source === "category" && state.entries.id === props.category.id
+    const unread = !props.category.expanded && unreadCount > 0
 
     function toggleExpanded() {
         dispatch(ActionCreator.tree.toggleCategoryExpanded(+props.category.id))
     }
 
     return (
-        <div style={{ paddingTop: "1px", paddingBottom: "1px" }}>
-            <Icon
-                name={props.icon ? props.icon : props.category.expanded ? "chevron down" : "chevron right"}
-                onClick={() => toggleExpanded()}
-                className="pointer"
-            />
-            <span
-                className="pointer"
-                style={{ fontWeight: !props.category.expanded && unreadCount > 0 ? "bold" : "normal", color: selected ? "red" : "inherit" }}
+        <div
+            style={{
+                paddingTop: "1px",
+                paddingBottom: "1px"
+            }}>
+            <div
+                className={classNames({
+                    [styles.category]: true,
+                    [styles.unread]: unread,
+                    [styles.selected]: selected
+                })}
                 onClick={() => dispatch(ActionCreator.redirect.navigateToCategory(props.category.id))}>
+                <Icon
+                    name={props.icon ? props.icon : props.category.expanded ? "chevron down" : "chevron right"}
+                    onClick={() => toggleExpanded()}
+                />
                 {props.category.name}
-            </span>
+            </div>
             {!props.category.expanded && <UnreadCount unreadCount={unreadCount} />}
             {props.category.expanded && (props.category.children.length > 0 || props.category.feeds.length > 0) && (
                 <div style={{ marginLeft: "20px" }}>

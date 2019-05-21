@@ -6,7 +6,7 @@
     width: 350px;
     overflow-x: hidden;
 
-    background-color: lightGray;
+    background-color: #2f3136;
 }
 
 .navbar {
@@ -17,12 +17,10 @@
     right: 0;
     z-index: 10;
 
-    background-color: lightGray;
+    background-color: #2f3136;
 }
 
 .content {
     margin-left: 350px;
     padding-top: 50px;
-
-    background-color: darkGray;
 }
