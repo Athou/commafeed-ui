@@ -40,6 +40,7 @@ export const TreeCategory: React.FC<Props> = props => {
                 paddingBottom: "1px"
             }}
         >
+            {!props.category.expanded && <UnreadCount unreadCount={unreadCount} />}
             <div
                 className={classNames({
                     [styles.category]: true,
@@ -53,7 +54,6 @@ export const TreeCategory: React.FC<Props> = props => {
                 </span>
                 {props.category.name}
             </div>
-            {!props.category.expanded && <UnreadCount unreadCount={unreadCount} />}
             {props.category.expanded && (props.category.children.length > 0 || props.category.feeds.length > 0) && (
                 <div style={{ marginLeft: "20px" }}>
                     {props.category.children.map(c => (
