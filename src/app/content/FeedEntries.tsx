@@ -53,7 +53,8 @@ export const FeedEntries: React.FC<Props> = props => {
                             <div className="loader" key={0}>
                                 Loading ...
                             </div>
-                        }>
+                        }
+                    >
                         {state.entries.entries.map(e => (
                             <FeedEntry entry={e} key={e.id} />
                         ))}

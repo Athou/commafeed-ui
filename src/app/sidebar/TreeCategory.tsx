@@ -37,7 +37,8 @@ export const TreeCategory: React.FC<Props> = props => {
             style={{
                 paddingTop: "1px",
                 paddingBottom: "1px"
-            }}>
+            }}
+        >
             <div
                 className={classNames({
                     [styles.category]: true,

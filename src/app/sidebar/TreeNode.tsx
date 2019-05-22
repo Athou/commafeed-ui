@@ -27,7 +27,8 @@ export const TreeNode: React.FC<Props> = props => {
                 [styles.unread]: unread,
                 [styles.selected]: selected
             })}
-            onClick={() => dispatch(ActionCreator.redirect.navigateToFeed(props.subscription.id))}>
+            onClick={() => dispatch(ActionCreator.redirect.navigateToFeed(props.subscription.id))}
+        >
             <img
                 src={props.subscription.iconUrl}
                 alt="favicon"
