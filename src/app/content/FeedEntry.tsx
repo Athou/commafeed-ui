@@ -49,7 +49,7 @@ export const FeedEntry: React.FC<Props> = props => {
                 <span
                     className={classNames({
                         [styles.title]: true,
-                        [styles.titleUnread]: props.entry.read
+                        [styles.titleUnread]: !props.entry.read
                     })}
                 >
                     {props.entry.title}
