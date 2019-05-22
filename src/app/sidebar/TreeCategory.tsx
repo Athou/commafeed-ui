@@ -28,7 +28,8 @@ export const TreeCategory: React.FC<Props> = props => {
     const selected = state.entries.source === "category" && state.entries.id === props.category.id
     const unread = !props.category.expanded && unreadCount > 0
 
-    function toggleExpanded() {
+    function toggleExpanded(e: React.MouseEvent) {
+        e.stopPropagation()
         dispatch(ActionCreator.tree.toggleCategoryExpanded(+props.category.id))
     }
 
@@ -45,11 +46,11 @@ export const TreeCategory: React.FC<Props> = props => {
                     [styles.unread]: unread,
                     [styles.selected]: selected
                 })}
-                onClick={() => dispatch(ActionCreator.redirect.navigateToCategory(props.category.id))}>
-                <Icon
-                    name={props.icon ? props.icon : props.category.expanded ? "chevron down" : "chevron right"}
-                    onClick={() => toggleExpanded()}
-                />
+                onClick={() => dispatch(ActionCreator.redirect.navigateToCategory(props.category.id))}
+            >
+                <span onClick={e => toggleExpanded(e)}>
+                    <Icon name={props.icon ? props.icon : props.category.expanded ? "chevron down" : "chevron right"} />
+                </span>
                 {props.category.name}
             </div>
             {!props.category.expanded && <UnreadCount unreadCount={unreadCount} />}
