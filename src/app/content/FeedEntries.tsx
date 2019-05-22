@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroller"
-import { Container, Header, Loader } from "semantic-ui-react"
+import { Container, Divider, Loader } from "semantic-ui-react"
 import { AppContext } from "../App"
 import { ActionCreator, EntrySource } from "../AppReducer"
+import styles from "./FeedEntries.module.css"
 import { FeedEntry } from "./FeedEntry"
 
 interface Props {
@@ -42,9 +43,8 @@ export const FeedEntries: React.FC<Props> = props => {
             {state.entries.loading && <Loader active>Loading</Loader>}
             {!state.entries.loading && (
                 <Container>
-                    <Header as="h1" dividing>
-                        {state.entries.label}
-                    </Header>
+                    <h1 className={styles.header}>{state.entries.label}</h1>
+                    <Divider />
                     <InfiniteScroll
                         initialLoad={false}
                         loadMore={page => loadMoreEntries(page)}

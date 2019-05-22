@@ -1,9 +1,11 @@
+import classNames from "classnames"
 import React, { useContext, useEffect, useRef } from "react"
 import Moment from "react-moment"
-import { Card, Form } from "semantic-ui-react"
+import { Checkbox, Divider } from "semantic-ui-react"
 import { Entry } from "../../commafeed-api"
 import { AppContext } from "../App"
 import { ActionCreator } from "../AppReducer"
+import styles from "./FeedEntry.module.css"
 
 interface Props {
     entry: Entry
@@ -41,36 +43,38 @@ export const FeedEntry: React.FC<Props> = props => {
     }, [selected, expanded])
 
     return (
-        <div ref={ref}>
-            <Card.Group>
-                <Card fluid>
-                    <Card.Content>
-                        <Card.Header onClick={() => entryHeaderClicked()} className="pointer">
-                            <img src={props.entry.iconUrl} alt="feed icon" style={{ width: "24px", height: "24px", marginRight: "5px" }} />
-                            <span style={{ fontWeight: props.entry.read ? "normal" : "bold" }}>{props.entry.title}</span>
-                        </Card.Header>
-                        <Card.Meta>
-                            from {props.entry.feedName} by {props.entry.author},{" "}
-                            <a href={props.entry.url} target="_blank" rel="noopener noreferrer" onMouseUp={() => dateClicked()}>
-                                <Moment fromNow date={props.entry.date} />
-                            </a>
-                        </Card.Meta>
-                        {expanded && (
-                            <Card.Description>
-                                <div>
-                                    <div dangerouslySetInnerHTML={{ __html: props.entry.content }} />
-                                    <Enclosure enclosureType={props.entry.enclosureType} enclosureUrl={props.entry.enclosureUrl} />
-                                </div>
-                            </Card.Description>
-                        )}
-                    </Card.Content>
-                    {expanded && (
-                        <Card.Content>
-                            <Form.Checkbox label="Keep unread" onClick={() => toggleRead()} />
-                        </Card.Content>
-                    )}
-                </Card>
-            </Card.Group>
+        <div ref={ref} className={styles.entry}>
+            <div className={styles.header} onClick={() => entryHeaderClicked()}>
+                <img src={props.entry.iconUrl} alt="feed icon" className={styles.icon} />
+                <span
+                    className={classNames({
+                        [styles.title]: true,
+                        [styles.titleUnread]: props.entry.read
+                    })}
+                >
+                    {props.entry.title}
+                </span>
+            </div>
+            <div className={styles.meta}>
+                from {props.entry.feedName} by {props.entry.author},{" "}
+                <a href={props.entry.url} target="_blank" rel="noopener noreferrer" onMouseUp={() => dateClicked()}>
+                    <Moment fromNow date={props.entry.date} />
+                </a>
+            </div>
+            {expanded && (
+                <>
+                    <div className={styles.content}>
+                        <div>
+                            <div dangerouslySetInnerHTML={{ __html: props.entry.content }} />
+                            <Enclosure enclosureType={props.entry.enclosureType} enclosureUrl={props.entry.enclosureUrl} />
+                        </div>
+                    </div>
+                    <Divider />
+                    <div className={styles.footer}>
+                        <Checkbox label="Keep unread" onClick={() => toggleRead()} />
+                    </div>
+                </>
+            )}
         </div>
     )
 }
