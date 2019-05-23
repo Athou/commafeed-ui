@@ -1,8 +1,9 @@
 import React, { useContext } from "react"
-import { Button, Container, Icon } from "semantic-ui-react"
+import { Button, Icon } from "semantic-ui-react"
 import { ReadingMode, ReadingOrder } from "../../commafeed-api"
 import { AppContext } from "../App"
 import { ActionCreator } from "../AppReducer"
+import styles from "./Navbar.module.css"
 
 export const Navbar: React.FC = () => {
     const { state, dispatch } = useContext(AppContext)
@@ -28,7 +29,7 @@ export const Navbar: React.FC = () => {
     if (!state.settings) return null
 
     return (
-        <Container>
+        <div className={styles.navbar}>
             <Button.Group icon>
                 <Button onClick={() => refreshClicked()}>
                     <Icon name="refresh" />
@@ -36,6 +37,6 @@ export const Navbar: React.FC = () => {
                 <Button onClick={() => readingModeClicked()}>{state.settings.readingMode}</Button>
                 <Button onClick={() => readingOrderClicked()}>{state.settings.readingOrder}</Button>
             </Button.Group>
-        </Container>
+        </div>
     )
 }

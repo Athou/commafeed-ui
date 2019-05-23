@@ -6,6 +6,7 @@ import { App } from "./app/App"
 import "./index.css"
 import { Login } from "./login/Login"
 import { Routes } from "./Routes"
+import "./variables.css"
 
 const Root: React.FC = () => {
     return (
