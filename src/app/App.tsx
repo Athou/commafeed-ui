@@ -1,8 +1,8 @@
+import { makeStyles } from "@material-ui/core/styles"
 import React, { Dispatch, useEffect } from "react"
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom"
 import { Routes } from "../Routes"
 import { Thunk, useThunkReducer } from "../thunk-reducer"
-import styles from "./App.module.css"
 import { AppConstants } from "./AppConstants"
 import { ActionCreator, Actions, AppReducer, State } from "./AppReducer"
 import { FeedEdit } from "./content/FeedEdit"
@@ -10,6 +10,31 @@ import { FeedEntries } from "./content/FeedEntries"
 import { Subscribe } from "./content/Subscribe"
 import { Navbar } from "./navbar/Navbar"
 import { Sidebar } from "./sidebar/Sidebar"
+
+const useStyles = makeStyles(theme => ({
+    sidebar: {
+        position: "fixed",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        width: AppConstants.SIDEBAR_WIDTH,
+        overflowX: "hidden",
+        backgroundColor: theme.palette.background.paper
+    },
+    navbar: {
+        position: "fixed",
+        top: 0,
+        height: AppConstants.NAVBAR_HEIGHT,
+        left: AppConstants.SIDEBAR_WIDTH,
+        right: 0,
+        zIndex: 10,
+        backgroundColor: theme.palette.background.paper
+    },
+    content: {
+        marginLeft: AppConstants.SIDEBAR_WIDTH,
+        paddingTop: AppConstants.NAVBAR_HEIGHT
+    }
+}))
 
 export const AppContext = React.createContext({} as { state: State; dispatch: Dispatch<Actions | Thunk<State, Actions>> })
 
@@ -20,6 +45,8 @@ export const App: React.FC<RouteComponentProps> = props => {
         settings: undefined,
         redirect: {}
     })
+
+    const classes = useStyles()
 
     // load initial data
     useEffect(() => {
@@ -34,13 +61,13 @@ export const App: React.FC<RouteComponentProps> = props => {
 
     return (
         <AppContext.Provider value={{ state, dispatch }}>
-            <div className={styles.sidebar}>
+            <div className={classes.sidebar}>
                 <Sidebar />
             </div>
-            <div className={styles.navbar}>
+            <div className={classes.navbar}>
                 <Navbar />
             </div>
-            <div className={styles.content}>
+            <div className={classes.content}>
                 <Switch>
                     <Route path={Routes.app.subscribe.template()} render={() => <Subscribe />} />
                     <Route path={Routes.app.feedEdit.template()} render={props => <FeedEdit feedId={props.match.params.feedId} />} />

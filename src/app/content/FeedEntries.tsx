@@ -1,17 +1,14 @@
+import { CircularProgress, Container } from "@material-ui/core"
 import React, { useContext, useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroller"
-import { Loader } from "semantic-ui-react"
 import { AppContext } from "../App"
 import { ActionCreator, EntrySource } from "../AppReducer"
-import styles from "./FeedEntries.module.css"
 import { FeedEntry } from "./FeedEntry"
 
-interface Props {
+export const FeedEntries: React.FC<{
     id: string
     source: EntrySource
-}
-
-export const FeedEntries: React.FC<Props> = props => {
+}> = props => {
     const { state, dispatch } = useContext(AppContext)
 
     useEffect(() => {
@@ -39,26 +36,24 @@ export const FeedEntries: React.FC<Props> = props => {
     }
 
     return (
-        <>
-            {state.entries.loading && <Loader active>Loading</Loader>}
+        <Container>
+            {state.entries.loading && <CircularProgress />}
             {!state.entries.loading && (
-                <div className={styles.content}>
-                    <InfiniteScroll
-                        initialLoad={false}
-                        loadMore={page => loadMoreEntries(page)}
-                        hasMore={state.entries.hasMore}
-                        loader={
-                            <div className="loader" key={0}>
-                                Loading ...
-                            </div>
-                        }
-                    >
-                        {state.entries.entries.map(e => (
-                            <FeedEntry entry={e} key={e.id} />
-                        ))}
-                    </InfiniteScroll>
-                </div>
+                <InfiniteScroll
+                    initialLoad={false}
+                    loadMore={page => loadMoreEntries(page)}
+                    hasMore={state.entries.hasMore}
+                    loader={
+                        <div className="loader" key={0}>
+                            Loading ...
+                        </div>
+                    }
+                >
+                    {state.entries.entries.map(e => (
+                        <FeedEntry entry={e} key={e.id} />
+                    ))}
+                </InfiniteScroll>
             )}
-        </>
+        </Container>
     )
 }

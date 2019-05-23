@@ -1,6 +1,6 @@
+import { Button, Container, TextField } from "@material-ui/core"
 import React, { useState } from "react"
 import { RouteComponentProps } from "react-router"
-import { Button, Form, Grid, Header, Image, Message, Segment } from "semantic-ui-react"
 import { Clients } from "../api/Clients"
 import { LoginRequest } from "../api/commafeed-api"
 import { Routes } from "../Routes"
@@ -24,50 +24,12 @@ export const Login: React.FC<RouteComponentProps> = props => {
     }
 
     return (
-        <div className="login-form">
-            <style>
-                {`
-            body > div,
-            body > div > div,
-            body > div > div > div.login-form {
-                height: 100%;
-            }
-        `}
-            </style>
-            <Grid textAlign="center" style={{ height: "100%" }} verticalAlign="middle">
-                <Grid.Column style={{ maxWidth: 450 }}>
-                    <Header as="h2" color="teal" textAlign="center">
-                        <Image src="/logo.png" /> Log-in to your account
-                    </Header>
-                    <Form size="large" onSubmit={handleSubmit}>
-                        <Segment stacked>
-                            <Form.Input
-                                fluid
-                                icon="user"
-                                iconPosition="left"
-                                placeholder="E-mail address"
-                                value={name}
-                                onChange={e => setName(e.target.value)}
-                            />
-                            <Form.Input
-                                fluid
-                                icon="lock"
-                                iconPosition="left"
-                                placeholder="Password"
-                                type="password"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
-                            />
-                            <Button color="teal" fluid size="large">
-                                Login
-                            </Button>
-                        </Segment>
-                    </Form>
-                    <Message>
-                        <a href="google.com">Register</a>
-                    </Message>
-                </Grid.Column>
-            </Grid>
-        </div>
+        <Container>
+            <form onSubmit={e => handleSubmit(e)}>
+                <TextField onChange={e => setName(e.target.value)} />
+                <TextField type="password" onChange={e => setPassword(e.target.value)} />
+                <Button type="submit">Login</Button>
+            </form>
+        </Container>
     )
 }

@@ -1,5 +1,5 @@
+import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Typography } from "@material-ui/core"
 import React, { useContext, useState } from "react"
-import { Button, Container, Divider, Dropdown, DropdownItemProps, Form, Header, Input, Message } from "semantic-ui-react"
 import { Clients } from "../../api/Clients"
 import { FeedInfo, FeedInfoRequest, SubscribeRequest } from "../../api/commafeed-api"
 import { flattenCategoryTree } from "../../api/utils"
@@ -13,7 +13,9 @@ export const Subscribe: React.FC = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string>()
 
-    function handleSubmit() {
+    function handleSubmit(e: React.FormEvent) {
+        e.preventDefault()
+
         setLoading(true)
         setError(undefined)
         setFeedInfos(undefined)
@@ -25,37 +27,39 @@ export const Subscribe: React.FC = () => {
     }
 
     return (
-        <div>
-            <Container>
-                <Header as="h1" dividing>
-                    Subscribe
-                </Header>
-                <Form loading={loading} onSubmit={() => handleSubmit()}>
-                    <Form.Field>
-                        <label>Feed URL</label>
-                        <Input
-                            action={{ icon: "search", type: "submit" }}
-                            placeholder="Search..."
-                            value={feedUrl}
-                            onChange={e => setFeedUrl(e.target.value)}
-                        />
-                    </Form.Field>
-                </Form>
+        <Container>
+            <Paper>
+                <Box p={2} m={2}>
+                    <Typography variant="h4">Subscribe</Typography>
+                    <form onSubmit={e => handleSubmit(e)}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField fullWidth label="Feed URL" required value={feedUrl} onChange={e => setFeedUrl(e.target.value)} />
+                            </Grid>
+                            <Grid item>
+                                <Button type="submit" color="primary" variant="contained" disabled={loading}>
+                                    Fetch
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </form>
 
-                {error && (
-                    <Message negative>
-                        <Message.Header>Error while fetching feed</Message.Header>
-                        <pre>{error}</pre>
-                    </Message>
-                )}
-                {feedInfos && (
-                    <>
-                        <Divider />
-                        <SubscribePanel infos={feedInfos} />
-                    </>
-                )}
-            </Container>
-        </div>
+                    {error && (
+                        <>
+                            Error while fetching feed
+                            <pre>{error}</pre>
+                        </>
+                    )}
+                    {feedInfos && (
+                        <>
+                            <Box mt={2}>
+                                <SubscribePanel infos={feedInfos} />
+                            </Box>
+                        </>
+                    )}
+                </Box>
+            </Paper>
+        </Container>
     )
 }
 
@@ -68,12 +72,9 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
 
     if (!state.tree.root) return null
 
-    const categoryOptions: DropdownItemProps[] = flattenCategoryTree(state.tree.root).map(c => ({
-        value: c.id,
-        text: c.name
-    }))
+    function handleSubmit(e: React.FormEvent) {
+        e.preventDefault()
 
-    function handleSubmit() {
         setLoading(true)
         Clients.feed
             .subscribePost(
@@ -92,29 +93,40 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
 
     return (
         <div>
-            <Form loading={loading} onSubmit={() => handleSubmit()}>
-                <Form.Field>
-                    <label>Actual feed URL</label>
-                    <Input value={props.infos.url} disabled />
-                </Form.Field>
-                <Form.Field>
-                    <label>Feed name</label>
-                    <Input value={feedName} onChange={e => setFeedName(e.target.value)} />
-                </Form.Field>
-                <Form.Field>
-                    <label>Category</label>
-                    <Dropdown
-                        selection
-                        defaultValue={categoryId}
-                        options={categoryOptions}
-                        onChange={(e, data) => setCategoryId(data.value as string)}
-                    />
-                </Form.Field>
-                <Button primary type="submit">
-                    Subscribe
-                </Button>
-                <Button>Cancel</Button>
-            </Form>
+            <form onSubmit={e => handleSubmit(e)}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField fullWidth disabled label="Actual feed URL" value={props.infos.url} />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField fullWidth required label="Feed name" value={feedName} onChange={e => setFeedName(e.target.value)} />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth>
+                            <InputLabel>Category</InputLabel>
+                            <Select value={categoryId} onChange={e => setCategoryId(e.target.value as string)}>
+                                {flattenCategoryTree(state.tree.root).map(c => (
+                                    <MenuItem value={c.id}>{c.name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box display="flex">
+                            <Box mr={1}>
+                                <Button type="submit" color="primary" variant="contained" disabled={loading}>
+                                    Subscribe
+                                </Button>
+                            </Box>
+                            <Box>
+                                <Button variant="contained" disabled={loading}>
+                                    Cancel
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Grid>
+                </Grid>
+            </form>
         </div>
     )
 }

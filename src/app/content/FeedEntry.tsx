@@ -1,18 +1,36 @@
-import classNames from "classnames"
+import { Box, Checkbox, Divider, FormControlLabel, Link, makeStyles, Paper, Typography } from "@material-ui/core"
 import React, { useContext, useEffect, useRef } from "react"
 import Moment from "react-moment"
-import { Checkbox, Divider } from "semantic-ui-react"
 import { Entry } from "../../api/commafeed-api"
 import { AppContext } from "../App"
+import { AppConstants } from "../AppConstants"
 import { ActionCreator } from "../AppReducer"
-import styles from "./FeedEntry.module.css"
 
-interface Props {
-    entry: Entry
-}
+const useStyles = makeStyles({
+    header: {
+        display: "flex",
+        alignItems: "center",
+        cursor: "pointer"
+    },
+    icon: {
+        width: "24px",
+        height: "24px",
+        marginRight: "0.5em"
+    },
+    content: {
+        marginTop: "0.5em"
+    },
+    enclosure: {
+        paddingTop: "10px"
+    },
+    enclosureImage: {
+        maxWidth: "50%"
+    }
+})
 
-export const FeedEntry: React.FC<Props> = props => {
+export const FeedEntry: React.FC<{ entry: Entry }> = props => {
     const { state, dispatch } = useContext(AppContext)
+    const classes = useStyles()
     const ref = useRef<HTMLDivElement>(null)
 
     const selected = state.entries.selectedEntryId === props.entry.id
@@ -35,61 +53,69 @@ export const FeedEntry: React.FC<Props> = props => {
         if (!ref.current) return
         if (!selected || !expanded) return
 
-        // TODO reusable constant somewhere
         window.scrollTo({
-            top: ref.current.offsetTop - 37,
+            top: ref.current.offsetTop - AppConstants.NAVBAR_HEIGHT - 3,
             behavior: "smooth"
         })
     }, [selected, expanded])
 
     return (
-        <div ref={ref} className={styles.entry}>
-            <div className={styles.header} onClick={() => entryHeaderClicked()}>
-                <img src={props.entry.iconUrl} alt="feed icon" className={styles.icon} />
-                <span
-                    className={classNames({
-                        [styles.title]: true,
-                        [styles.titleUnread]: !props.entry.read
-                    })}
-                >
-                    {props.entry.title}
-                </span>
-            </div>
-            <div className={styles.meta}>
-                from {props.entry.feedName} by {props.entry.author},{" "}
-                <a href={props.entry.url} target="_blank" rel="noopener noreferrer" onMouseUp={() => dateClicked()}>
-                    <Moment fromNow date={props.entry.date} />
-                </a>
-            </div>
-            {expanded && (
-                <>
-                    <div className={styles.content}>
-                        <div>
-                            <div dangerouslySetInnerHTML={{ __html: props.entry.content }} />
+        <div ref={ref}>
+            <Paper>
+                <Box m={1} p={1}>
+                    <Typography
+                        variant="h6"
+                        color={props.entry.read ? "textSecondary" : "textPrimary"}
+                        className={classes.header}
+                        onClick={() => entryHeaderClicked()}
+                    >
+                        <img src={props.entry.iconUrl} alt="feed icon" className={classes.icon} />
+                        {props.entry.title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                        from {props.entry.feedName} by {props.entry.author},{" "}
+                        <Link
+                            href={props.entry.url}
+                            color="inherit"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onMouseUp={() => dateClicked()}
+                        >
+                            <Moment fromNow date={props.entry.date} />
+                        </Link>
+                    </Typography>
+                    {expanded && (
+                        <>
+                            <Typography
+                                variant="body1"
+                                color="textPrimary"
+                                className={classes.content}
+                                dangerouslySetInnerHTML={{ __html: props.entry.content }}
+                            />
                             <Enclosure enclosureType={props.entry.enclosureType} enclosureUrl={props.entry.enclosureUrl} />
-                        </div>
-                    </div>
-                    <Divider />
-                    <div className={styles.footer}>
-                        <Checkbox label="Keep unread" onClick={() => toggleRead()} />
-                    </div>
-                </>
-            )}
+                            <Divider light />
+                            <Typography variant="body2" color="textSecondary">
+                                <FormControlLabel control={<Checkbox onChange={() => toggleRead()} />} label="Keep unread" />
+                            </Typography>
+                        </>
+                    )}
+                </Box>
+            </Paper>
         </div>
     )
 }
 
-interface EnclosureProps {
+const Enclosure: React.FC<{
     enclosureType?: string
     enclosureUrl?: string
-}
+}> = props => {
+    const classes = useStyles()
 
-const Enclosure: React.FC<EnclosureProps> = props => {
     const hasVideo = props.enclosureType && props.enclosureType.indexOf("video") === 0
     const hasAudio = props.enclosureType && props.enclosureType.indexOf("audio") === 0
     const hasImage = props.enclosureType && props.enclosureType.indexOf("image") === 0
     return (
-        <div style={{ paddingTop: "10px" }}>
+        <div className={classes.enclosure}>
             {hasVideo && (
                 <video controls>
                     <source src={props.enclosureUrl} type={props.enclosureType} />
@@ -100,7 +126,7 @@ const Enclosure: React.FC<EnclosureProps> = props => {
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </audio>
             )}
-            {hasImage && <img src={props.enclosureUrl} alt="enclosure" style={{ maxWidth: "50%" }} />}
+            {hasImage && <img src={props.enclosureUrl} alt="enclosure" className={classes.enclosureImage} />}
         </div>
     )
 }

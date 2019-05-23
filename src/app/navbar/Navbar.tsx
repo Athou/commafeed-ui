@@ -1,9 +1,9 @@
+import { Box, Button, Container, Typography } from "@material-ui/core"
+import { Refresh } from "@material-ui/icons"
 import React, { useContext } from "react"
-import { Button, Grid, GridColumn, Icon } from "semantic-ui-react"
 import { ReadingMode, ReadingOrder } from "../../api/commafeed-api"
 import { AppContext } from "../App"
 import { ActionCreator } from "../AppReducer"
-import styles from "./Navbar.module.css"
 
 export const Navbar: React.FC = () => {
     const { state, dispatch } = useContext(AppContext)
@@ -29,21 +29,21 @@ export const Navbar: React.FC = () => {
     if (!state.settings) return null
 
     return (
-        <div className={styles.navbar}>
-            <Grid>
-                <GridColumn width={10} verticalAlign="middle">
-                    <h2 className={styles.label}>{state.entries.label}</h2>
-                </GridColumn>
-                <GridColumn width={6} textAlign="right">
-                    <Button.Group icon>
-                        <Button onClick={() => refreshClicked()}>
-                            <Icon name="refresh" />
-                        </Button>
-                        <Button onClick={() => readingModeClicked()}>{state.settings.readingMode}</Button>
-                        <Button onClick={() => readingOrderClicked()}>{state.settings.readingOrder}</Button>
-                    </Button.Group>
-                </GridColumn>
-            </Grid>
-        </div>
+        <Container>
+            <Box display="flex" alignItems="center">
+                <Box flexGrow={1}>
+                    <Typography variant="h5" color="textPrimary">
+                        {state.entries.label}
+                    </Typography>
+                </Box>
+                <Box>
+                    <Button onClick={() => refreshClicked()}>
+                        <Refresh />
+                    </Button>
+                    <Button onClick={() => readingModeClicked()}>{state.settings.readingMode}</Button>
+                    <Button onClick={() => readingOrderClicked()}>{state.settings.readingOrder}</Button>
+                </Box>
+            </Box>
+        </Container>
     )
 }
