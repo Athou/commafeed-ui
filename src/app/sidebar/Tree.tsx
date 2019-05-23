@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { Category } from "../../commafeed-api"
+import { Category } from "../../api/commafeed-api"
 import { AppContext } from "../App"
 import { AppConstants } from "../AppConstants"
 import styles from "./Tree.module.css"

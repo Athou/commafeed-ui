@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { RouteComponentProps } from "react-router"
 import { Button, Form, Grid, Header, Image, Message, Segment } from "semantic-ui-react"
-import { Clients } from "../Clients"
-import { LoginRequest } from "../commafeed-api"
+import { Clients } from "../api/Clients"
+import { LoginRequest } from "../api/commafeed-api"
 import { Routes } from "../Routes"
 
 export const Login: React.FC<RouteComponentProps> = props => {

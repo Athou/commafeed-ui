@@ -1,10 +1,10 @@
 import lodash from "lodash"
 import { Reducer } from "react"
-import { Clients } from "../Clients"
-import { Category, CollapseRequest, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../commafeed-api"
+import { Clients } from "../api/Clients"
+import { Category, CollapseRequest, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../api/commafeed-api"
+import { flattenCategoryTree, visitCategoryTree } from "../api/utils"
 import { Routes } from "../Routes"
 import { Thunk } from "../thunk-reducer"
-import { flattenCategoryTree, visitCategoryTree } from "../utils"
 import { AppConstants } from "./AppConstants"
 
 export type EntrySource = "category" | "feed"

@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { Button, Icon } from "semantic-ui-react"
-import { ReadingMode, ReadingOrder } from "../../commafeed-api"
+import { ReadingMode, ReadingOrder } from "../../api/commafeed-api"
 import { AppContext } from "../App"
 import { ActionCreator } from "../AppReducer"
 import styles from "./Navbar.module.css"

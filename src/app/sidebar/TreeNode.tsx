@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import React, { useContext } from "react"
-import { Subscription } from "../../commafeed-api"
+import { Subscription } from "../../api/commafeed-api"
 import { AppContext } from "../App"
 import { ActionCreator } from "../AppReducer"
 import styles from "./Tree.module.css"
