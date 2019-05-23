@@ -100,7 +100,7 @@ const Enclosure: React.FC<EnclosureProps> = props => {
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </audio>
             )}
-            {hasImage && <img src={props.enclosureUrl} alt="enclosure" style={{ maxWidth: "100%" }} />}
+            {hasImage && <img src={props.enclosureUrl} alt="enclosure" style={{ maxWidth: "50%" }} />}
         </div>
     )
 }
