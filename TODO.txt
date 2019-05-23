@@ -26,3 +26,9 @@ category edit
 profile
 settings
 admin
+
+
+semantic => 
+    https://github.com/couds/react-bulma-components + https://github.com/couds/react-bulma-components + font awesome
+    or
+    https://alligator.io/react/material-ui/

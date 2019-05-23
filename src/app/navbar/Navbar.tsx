@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { Button, Icon } from "semantic-ui-react"
+import { Button, Grid, GridColumn, Icon } from "semantic-ui-react"
 import { ReadingMode, ReadingOrder } from "../../api/commafeed-api"
 import { AppContext } from "../App"
 import { ActionCreator } from "../AppReducer"
@@ -30,13 +30,20 @@ export const Navbar: React.FC = () => {
 
     return (
         <div className={styles.navbar}>
-            <Button.Group icon>
-                <Button onClick={() => refreshClicked()}>
-                    <Icon name="refresh" />
-                </Button>
-                <Button onClick={() => readingModeClicked()}>{state.settings.readingMode}</Button>
-                <Button onClick={() => readingOrderClicked()}>{state.settings.readingOrder}</Button>
-            </Button.Group>
+            <Grid>
+                <GridColumn width={10} verticalAlign="middle">
+                    <h2 className={styles.label}>{state.entries.label}</h2>
+                </GridColumn>
+                <GridColumn width={6} textAlign="right">
+                    <Button.Group icon>
+                        <Button onClick={() => refreshClicked()}>
+                            <Icon name="refresh" />
+                        </Button>
+                        <Button onClick={() => readingModeClicked()}>{state.settings.readingMode}</Button>
+                        <Button onClick={() => readingOrderClicked()}>{state.settings.readingOrder}</Button>
+                    </Button.Group>
+                </GridColumn>
+            </Grid>
         </div>
     )
 }
