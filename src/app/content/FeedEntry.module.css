@@ -16,12 +16,12 @@
 }
 
 .title {
-    color: #fff;
+    color: var(--read-color);
     font-size: 1.2em;
 }
 
 .titleUnread {
-    font-weight: bold;
+    color: var(--unread-color);
 }
 
 .icon {
