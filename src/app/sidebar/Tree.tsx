@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import { Category } from "../../commafeed-api"
 import { AppContext } from "../App"
 import { AppConstants } from "../AppConstants"
+import styles from "./Tree.module.css"
 import { TreeCategory } from "./TreeCategory"
 import { TreeNode } from "./TreeNode"
 
@@ -10,7 +11,7 @@ export const Tree: React.FC = props => {
     if (!state.tree.root) return null
 
     return (
-        <div style={{ marginRight: 5, marginLeft: 5 }}>
+        <div className={styles.tree}>
             <TreeCategory
                 icon={"inbox"}
                 category={

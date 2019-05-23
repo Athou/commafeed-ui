@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
-import "semantic-ui-css/semantic.min.css"
+import "semantic-ui-forest-themes/semantic.darkly.min.css"
 import { App } from "./app/App"
 import "./index.css"
 import { Login } from "./login/Login"

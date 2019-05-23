@@ -1,3 +1,9 @@
+.tree {
+    margin-top: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
 .category {
     cursor: pointer;
     color: #8e9297;
