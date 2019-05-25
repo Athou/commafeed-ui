@@ -1,7 +1,7 @@
 import { Box, Grid, makeStyles, Typography } from "@material-ui/core"
 import { ChevronRight, ExpandMore } from "@material-ui/icons"
 import classNames from "classnames"
-import React, { useContext, useMemo } from "react"
+import React, { ReactNode, useContext, useMemo } from "react"
 import { Category } from "../../api/commafeed-api"
 import { flattenCategoryTree } from "../../api/utils"
 import { AppContext } from "../App"
@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 export const TreeCategory: React.FC<{
     category: Category
-    icon?: any
+    icon?: ReactNode
 }> = props => {
     const { state, dispatch } = useContext(AppContext)
 
