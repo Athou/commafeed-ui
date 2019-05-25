@@ -88,7 +88,6 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
                 dispatch(ActionCreator.tree.reload())
                 dispatch(ActionCreator.redirect.navigateToRootCategory())
             })
-            .finally(() => setLoading(false))
     }
 
     return (
@@ -106,7 +105,9 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
                             <InputLabel>Category</InputLabel>
                             <Select value={categoryId} onChange={e => setCategoryId(e.target.value as string)}>
                                 {flattenCategoryTree(state.tree.root).map(c => (
-                                    <MenuItem value={c.id}>{c.name}</MenuItem>
+                                    <MenuItem value={c.id} key={c.id}>
+                                        {c.name}
+                                    </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
