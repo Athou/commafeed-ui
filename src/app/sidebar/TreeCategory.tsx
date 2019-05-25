@@ -1,4 +1,4 @@
-import { Box, Grid, makeStyles, Typography } from "@material-ui/core"
+import { Box, createStyles, Grid, makeStyles, Typography } from "@material-ui/core"
 import { ChevronRight, ExpandMore } from "@material-ui/icons"
 import classNames from "classnames"
 import React, { ReactNode, useContext, useMemo } from "react"
@@ -9,32 +9,36 @@ import { ActionCreator } from "../AppReducer"
 import { TreeNode } from "./TreeNode"
 import { UnreadCount } from "./UnreadCount"
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        cursor: "pointer",
-        paddingTop: "1px",
-        paddingBottom: "1px"
-    },
-    category: {
-        "&:hover": {
-            backgroundColor: theme.palette.action.hover
-        }
-    },
-    active: {
-        backgroundColor: theme.palette.action.selected
-    },
-    icon: {
-        height: "1.5em"
-    },
-    children: {
-        marginLeft: "20px"
-    }
-}))
+const useStyles = (props: Props) =>
+    makeStyles(theme =>
+        createStyles({
+            root: {
+                cursor: "pointer",
+                paddingTop: "1px",
+                paddingBottom: "1px"
+            },
+            category: {
+                paddingLeft: props.level * 20,
+                "&:hover": {
+                    backgroundColor: theme.palette.action.hover
+                }
+            },
+            active: {
+                backgroundColor: theme.palette.action.selected
+            },
+            icon: {
+                height: "1.5em"
+            }
+        })
+    )
 
-export const TreeCategory: React.FC<{
+interface Props {
     category: Category
     icon?: ReactNode
-}> = props => {
+    level: number
+}
+
+export const TreeCategory: React.FC<Props> = props => {
     const { state, dispatch } = useContext(AppContext)
 
     const unreadCount = useMemo(
@@ -45,7 +49,7 @@ export const TreeCategory: React.FC<{
                 .reduce((total, current) => total + current, 0),
         [props.category]
     )
-    const classes = useStyles()
+    const classes = useStyles(props)()
     const selected = state.entries.source === "category" && state.entries.id === props.category.id
     const unread = !props.category.expanded && unreadCount > 0
 
@@ -80,14 +84,14 @@ export const TreeCategory: React.FC<{
                 <Grid container direction="row" alignItems="center" />
             </Typography>
             {props.category.expanded && (props.category.children.length > 0 || props.category.feeds.length > 0) && (
-                <div className={classes.children}>
+                <>
                     {props.category.children.map(c => (
-                        <TreeCategory category={c} key={c.id} />
+                        <TreeCategory category={c} level={props.level + 1} key={c.id} />
                     ))}
                     {props.category.feeds.map(f => (
-                        <TreeNode subscription={f} key={f.id} />
+                        <TreeNode subscription={f} level={props.level + 1} key={f.id} />
                     ))}
-                </div>
+                </>
             )}
         </div>
     )

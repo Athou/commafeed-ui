@@ -34,12 +34,13 @@ export const Tree: React.FC = props => {
                         feeds: []
                     })
                 }
+                level={0}
             />
             {state.tree.root.children.map(c => (
-                <TreeCategory category={c} key={c.id} />
+                <TreeCategory category={c} level={0} key={c.id} />
             ))}
             {state.tree.root.feeds.map(f => (
-                <TreeNode subscription={f} key={f.id} />
+                <TreeNode subscription={f} level={0} key={f.id} />
             ))}
         </div>
     )

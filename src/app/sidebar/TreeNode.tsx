@@ -6,33 +6,40 @@ import { AppContext } from "../App"
 import { ActionCreator } from "../AppReducer"
 import { UnreadCount } from "./UnreadCount"
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        cursor: "pointer",
-        paddingTop: "1px",
-        paddingBottom: "1px",
-        "&:hover": {
-            backgroundColor: theme.palette.action.hover
+const useStyles = (props: Props) =>
+    makeStyles(theme => ({
+        root: {
+            cursor: "pointer",
+            paddingTop: "1px",
+            paddingBottom: "1px",
+            paddingLeft: props.level * 20,
+            "&:hover": {
+                backgroundColor: theme.palette.action.hover
+            }
+        },
+        active: {
+            backgroundColor: theme.palette.action.selected
+        },
+        name: {
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis"
+        },
+        icon: {
+            width: "1.5rem",
+            height: "1.5rem",
+            marginRight: "0.5rem"
         }
-    },
-    active: {
-        backgroundColor: theme.palette.action.selected
-    },
-    name: {
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis"
-    },
-    icon: {
-        width: "1.5rem",
-        height: "1.5rem",
-        marginRight: "0.5rem"
-    }
-}))
+    }))
 
-export const TreeNode: React.FC<{ subscription: Subscription }> = props => {
+interface Props {
+    subscription: Subscription
+    level: number
+}
+
+export const TreeNode: React.FC<Props> = props => {
     const { state, dispatch } = useContext(AppContext)
-    const classes = useStyles()
+    const classes = useStyles(props)()
 
     const selected = state.entries.source === "feed" && state.entries.id === String(props.subscription.id)
     const unread = props.subscription.unread

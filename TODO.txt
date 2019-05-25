@@ -17,6 +17,7 @@ sharing buttons
 custom css
 keyboard shortcuts
 favicon & manifest
+feed fetching errors
 
 pages
 -----
