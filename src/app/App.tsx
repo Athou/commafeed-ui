@@ -1,3 +1,4 @@
+import { Drawer } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import React, { Dispatch, useEffect } from "react"
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom"
@@ -13,12 +14,7 @@ import { Sidebar } from "./sidebar/Sidebar"
 
 const useStyles = makeStyles(theme => ({
     sidebar: {
-        position: "fixed",
-        top: 0,
-        bottom: 0,
-        left: 0,
         width: AppConstants.SIDEBAR_WIDTH,
-        overflowX: "hidden",
         backgroundColor: theme.palette.background.paper
     },
     navbar: {
@@ -61,9 +57,11 @@ export const App: React.FC<RouteComponentProps> = props => {
 
     return (
         <AppContext.Provider value={{ state, dispatch }}>
-            <div className={classes.sidebar}>
-                <Sidebar />
-            </div>
+            <Drawer variant="permanent" open>
+                <div className={classes.sidebar}>
+                    <Sidebar />
+                </div>
+            </Drawer>
             <div className={classes.navbar}>
                 <Navbar />
             </div>
