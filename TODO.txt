@@ -1,11 +1,8 @@
 reading
 -------
-better looking
-constants for global margins
 mark all as read
 sort alphabetically
-mobile support
-dark mode
+mobile support: https://material-ui.com/components/drawers/#responsive-drawer
 i18n
 Expanded view mode
 mark as read up to here
@@ -14,19 +11,22 @@ tags
 Show feeds and categories with no unread entries 
 In expanded view, scrolling through entries mark them as read 
 sharing buttons
-custom css
 keyboard shortcuts
 favicon & manifest
 feed fetching errors
+rtl support: https://material-ui.com/guides/right-to-left/
 
 pages
 -----
 new category
+opml import
 feed edit
 category edit
 profile
 settings
 admin
+logout
+toggle dark mode
 
 
 semantic => 
