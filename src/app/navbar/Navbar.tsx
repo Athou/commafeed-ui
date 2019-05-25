@@ -1,12 +1,19 @@
-import { Box, Button, Container, Typography } from "@material-ui/core"
+import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from "@material-ui/core"
 import { Refresh } from "@material-ui/icons"
 import React, { useContext } from "react"
 import { ReadingMode, ReadingOrder } from "../../api/commafeed-api"
 import { AppContext } from "../App"
 import { ActionCreator } from "../AppReducer"
 
+const useStyles = makeStyles({
+    title: {
+        flexGrow: 1
+    }
+})
+
 export const Navbar: React.FC = () => {
     const { state, dispatch } = useContext(AppContext)
+    const classes = useStyles()
 
     function refreshClicked() {
         dispatch(ActionCreator.entries.reload())
@@ -29,21 +36,23 @@ export const Navbar: React.FC = () => {
     if (!state.settings) return null
 
     return (
-        <Container>
-            <Box display="flex" alignItems="center">
-                <Box flexGrow={1}>
-                    <Typography variant="h5" color="textPrimary">
-                        {state.entries.label}
-                    </Typography>
-                </Box>
-                <Box>
-                    <Button onClick={() => refreshClicked()}>
+        <AppBar position="static">
+            <Toolbar>
+                <Typography variant="h5" className={classes.title}>
+                    {state.entries.label}
+                </Typography>
+                <div>
+                    <IconButton color="inherit" onClick={() => refreshClicked()}>
                         <Refresh />
+                    </IconButton>
+                    <Button color="inherit" onClick={() => readingModeClicked()}>
+                        {state.settings.readingMode}
                     </Button>
-                    <Button onClick={() => readingModeClicked()}>{state.settings.readingMode}</Button>
-                    <Button onClick={() => readingOrderClicked()}>{state.settings.readingOrder}</Button>
-                </Box>
-            </Box>
-        </Container>
+                    <Button color="inherit" onClick={() => readingOrderClicked()}>
+                        {state.settings.readingOrder}
+                    </Button>
+                </div>
+            </Toolbar>
+        </AppBar>
     )
 }
