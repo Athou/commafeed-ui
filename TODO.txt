@@ -28,7 +28,6 @@ profile
 settings
 admin
 logout
-toggle dark mode
 
 
 semantic => 

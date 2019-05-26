@@ -14,8 +14,7 @@ import { Sidebar } from "./sidebar/Sidebar"
 
 const useStyles = makeStyles(theme => ({
     sidebar: {
-        width: AppConstants.SIDEBAR_WIDTH,
-        backgroundColor: theme.palette.background.paper
+        width: AppConstants.SIDEBAR_WIDTH
     },
     content: {
         marginLeft: AppConstants.SIDEBAR_WIDTH,
