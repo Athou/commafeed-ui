@@ -1,11 +1,11 @@
-import { AppBar, Button, FormControlLabel, IconButton, makeStyles, Switch, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from "@material-ui/core"
 import { Add, Refresh } from "@material-ui/icons"
 import React, { useContext } from "react"
-import { GlobalContext } from "../.."
 import { ReadingMode, ReadingOrder } from "../../api/commafeed-api"
 import { AppContext } from "../App"
 import { AppConstants } from "../AppConstants"
 import { ActionCreator } from "../AppReducer"
+import { ProfileButton } from "./ProfileButton"
 
 const useStyles = makeStyles({
     title: {
@@ -16,7 +16,6 @@ const useStyles = makeStyles({
 
 export const Navbar: React.FC = () => {
     const { state, dispatch } = useContext(AppContext)
-    const { darkMode, setDarkMode } = useContext(GlobalContext)
     const classes = useStyles()
 
     function refreshClicked() {
@@ -58,11 +57,7 @@ export const Navbar: React.FC = () => {
                     <Button color="inherit" onClick={() => readingOrderClicked()}>
                         {state.settings.readingOrder}
                     </Button>
-                    <FormControlLabel
-                        control={<Switch checked={darkMode} onChange={(_, checked) => setDarkMode(checked)} />}
-                        label="Dark Mode"
-                        color="inherit"
-                    />
+                    <ProfileButton color="inherit" />
                 </div>
             </Toolbar>
         </AppBar>
