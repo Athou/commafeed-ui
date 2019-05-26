@@ -1,13 +1,15 @@
 import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from "@material-ui/core"
-import { Refresh } from "@material-ui/icons"
+import { Add, Refresh } from "@material-ui/icons"
 import React, { useContext } from "react"
 import { ReadingMode, ReadingOrder } from "../../api/commafeed-api"
 import { AppContext } from "../App"
+import { AppConstants } from "../AppConstants"
 import { ActionCreator } from "../AppReducer"
 
 const useStyles = makeStyles({
     title: {
-        flexGrow: 1
+        flexGrow: 1,
+        paddingLeft: AppConstants.SIDEBAR_WIDTH
     }
 })
 
@@ -36,12 +38,15 @@ export const Navbar: React.FC = () => {
     if (!state.settings) return null
 
     return (
-        <AppBar position="static">
-            <Toolbar>
+        <AppBar position="fixed">
+            <Toolbar variant="dense">
                 <Typography variant="h5" className={classes.title}>
                     {state.entries.label}
                 </Typography>
                 <div>
+                    <IconButton color="inherit" onClick={() => dispatch(ActionCreator.redirect.navigateToSubscribe())}>
+                        <Add />
+                    </IconButton>
                     <IconButton color="inherit" onClick={() => refreshClicked()}>
                         <Refresh />
                     </IconButton>

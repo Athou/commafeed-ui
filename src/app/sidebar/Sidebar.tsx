@@ -1,20 +1,21 @@
-import { Button } from "@material-ui/core"
-import { RssFeed } from "@material-ui/icons"
-import React, { useContext } from "react"
-import { AppContext } from "../App"
-import { ActionCreator } from "../AppReducer"
+import { makeStyles, Divider } from "@material-ui/core"
+import React from "react"
+import { AppConstants } from "../AppConstants"
 import { Tree } from "./Tree"
 
+const useStyles = makeStyles({
+    root: {
+        paddingTop: AppConstants.NAVBAR_HEIGHT
+    }
+})
+
 export const Sidebar: React.FC = () => {
-    const { dispatch } = useContext(AppContext)
+    const classes = useStyles()
 
     return (
-        <>
-            <Button variant="outlined" onClick={() => dispatch(ActionCreator.redirect.navigateToSubscribe())}>
-                <RssFeed />
-                Subscribe
-            </Button>
+        <div className={classes.root}>
+            <Divider />
             <Tree />
-        </>
+        </div>
     )
 }

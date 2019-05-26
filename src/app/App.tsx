@@ -17,15 +17,6 @@ const useStyles = makeStyles(theme => ({
         width: AppConstants.SIDEBAR_WIDTH,
         backgroundColor: theme.palette.background.paper
     },
-    navbar: {
-        position: "fixed",
-        top: 0,
-        height: AppConstants.NAVBAR_HEIGHT,
-        left: AppConstants.SIDEBAR_WIDTH,
-        right: 0,
-        zIndex: 10,
-        backgroundColor: theme.palette.background.paper
-    },
     content: {
         marginLeft: AppConstants.SIDEBAR_WIDTH,
         paddingTop: AppConstants.NAVBAR_HEIGHT
@@ -62,9 +53,7 @@ export const App: React.FC<RouteComponentProps> = props => {
                     <Sidebar />
                 </div>
             </Drawer>
-            <div className={classes.navbar}>
-                <Navbar />
-            </div>
+            <Navbar />
             <div className={classes.content}>
                 <Switch>
                     <Route path={Routes.app.subscribe.template()} render={() => <Subscribe />} />

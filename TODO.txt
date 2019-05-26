@@ -1,11 +1,12 @@
 reading
 -------
+unread count and text color for "All"
 mark all as read
+mark as read up to here
 sort alphabetically
 mobile support: https://material-ui.com/components/drawers/#responsive-drawer
 i18n
 Expanded view mode
-mark as read up to here
 stars
 tags
 Show feeds and categories with no unread entries 
@@ -15,6 +16,7 @@ keyboard shortcuts
 favicon & manifest
 feed fetching errors
 rtl support: https://material-ui.com/guides/right-to-left/
+tests
 
 pages
 -----
