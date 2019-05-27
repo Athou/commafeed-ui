@@ -1,5 +1,6 @@
 reading
 -------
+color of anchor links in entries content
 unread count and text color for "All"
 mark all as read
 mark as read up to here
@@ -28,9 +29,3 @@ profile
 settings
 admin
 logout
-
-
-semantic => 
-    https://github.com/couds/react-bulma-components + https://github.com/couds/react-bulma-components + font awesome
-    or
-    https://alligator.io/react/material-ui/
