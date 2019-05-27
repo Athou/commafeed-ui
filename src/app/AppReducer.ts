@@ -5,7 +5,6 @@ import { Category, CollapseRequest, Entry, ISettings, MarkRequest, ReadingMode, 
 import { flattenCategoryTree, visitCategoryTree } from "../api/utils"
 import { Routes } from "../Routes"
 import { Thunk } from "../thunk-reducer"
-import { AppConstants } from "./AppConstants"
 
 export type EntrySource = "category" | "feed"
 
@@ -122,7 +121,7 @@ const settingsReducer: Reducer<ISettings | undefined, Actions> = (state, action)
 const redirectReducer: Reducer<RedirectState, Actions> = (state, action) => {
     switch (action.type) {
         case "navigateToRootCategory":
-            return { ...state, redirectTo: Routes.app.category.create({ categoryId: AppConstants.ALL_CATEGORY_ID }) }
+            return { ...state, redirectTo: Routes.app.root.create({}) }
         case "navigateToCategory":
             return { ...state, redirectTo: Routes.app.category.create({ categoryId: action.categoryId }) }
         case "navigateToFeed":

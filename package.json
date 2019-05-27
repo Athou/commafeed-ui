@@ -31,7 +31,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!typesafe-react-router)/\"",
         "eject": "react-scripts eject",
         "generate-api-client": "nswag run /runtime:WinX86"
     },
