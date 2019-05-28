@@ -1,8 +1,9 @@
+import deepFreeze from "deep-freeze"
 import { Category, Entry, ISettings, ReadingMode, ReadingOrder, Subscription } from "../api/commafeed-api"
 import { Routes } from "../Routes"
 import { AppReducer, EntrySource, State } from "./AppReducer"
 
-const initialState: State = {
+const initialState: State = deepFreeze({
     tree: {
         root: new Category({
             id: "all",
@@ -79,7 +80,7 @@ const initialState: State = {
     },
     settings: {},
     redirect: {}
-} as State
+}) as State
 const reducer = AppReducer
 
 describe("Tree reducer", () => {
