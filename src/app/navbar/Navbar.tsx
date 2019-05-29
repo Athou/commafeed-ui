@@ -1,5 +1,5 @@
 import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from "@material-ui/core"
-import { Add, Refresh } from "@material-ui/icons"
+import { Add, DoneAll, Refresh } from "@material-ui/icons"
 import React, { useContext } from "react"
 import { ReadingMode, ReadingOrder } from "../../api/commafeed-api"
 import { AppContext } from "../App"
@@ -20,6 +20,11 @@ export const Navbar: React.FC = () => {
 
     function refreshClicked() {
         dispatch(ActionCreator.entries.reload())
+    }
+
+    function markAllClicked() {
+        if (!state.entries.id || !state.entries.source) return
+        dispatch(ActionCreator.entries.markAllAsRead(state.entries.id, state.entries.source, new Date().getTime()))
     }
 
     function readingModeClicked() {
@@ -50,6 +55,9 @@ export const Navbar: React.FC = () => {
                     </IconButton>
                     <IconButton color="inherit" onClick={() => refreshClicked()}>
                         <Refresh />
+                    </IconButton>
+                    <IconButton color="inherit" onClick={() => markAllClicked()}>
+                        <DoneAll />
                     </IconButton>
                     <Button color="inherit" onClick={() => readingModeClicked()}>
                         {state.settings.readingMode}

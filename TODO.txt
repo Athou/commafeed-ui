@@ -2,7 +2,8 @@ reading
 -------
 color of anchor links in entries content
 unread count and text color for "All"
-mark all as read
+reload tree periodically
+mark all as read: support for timestamp and new entries since last load
 mark as read up to here
 sort alphabetically
 mobile support: https://material-ui.com/components/drawers/#responsive-drawer
