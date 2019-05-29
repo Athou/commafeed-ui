@@ -1,4 +1,4 @@
-import { CircularProgress, Container } from "@material-ui/core"
+import { Container } from "@material-ui/core"
 import React, { useContext, useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroller"
 import { AppContext } from "../App"
@@ -37,23 +37,20 @@ export const FeedEntries: React.FC<{
 
     return (
         <Container>
-            {state.entries.loading && <CircularProgress />}
-            {!state.entries.loading && (
-                <InfiniteScroll
-                    initialLoad={false}
-                    loadMore={page => loadMoreEntries(page)}
-                    hasMore={state.entries.hasMore}
-                    loader={
-                        <div className="loader" key={0}>
-                            Loading ...
-                        </div>
-                    }
-                >
-                    {state.entries.entries.map(e => (
-                        <FeedEntry entry={e} key={e.id} />
-                    ))}
-                </InfiniteScroll>
-            )}
+            <InfiniteScroll
+                initialLoad={false}
+                loadMore={page => loadMoreEntries(page)}
+                hasMore={state.entries.hasMore}
+                loader={
+                    <div className="loader" key={0}>
+                        Loading ...
+                    </div>
+                }
+            >
+                {state.entries.entries.map(e => (
+                    <FeedEntry entry={e} key={e.id} />
+                ))}
+            </InfiniteScroll>
         </Container>
     )
 }

@@ -1,4 +1,4 @@
-import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from "@material-ui/core"
+import { AppBar, Button, IconButton, LinearProgress, makeStyles, Toolbar, Typography } from "@material-ui/core"
 import { Add, DoneAll, Refresh } from "@material-ui/icons"
 import React, { useContext } from "react"
 import { ReadingMode, ReadingOrder } from "../../api/commafeed-api"
@@ -68,6 +68,7 @@ export const Navbar: React.FC = () => {
                     <ProfileButton color="inherit" />
                 </div>
             </Toolbar>
+            {state.entries.loading && <LinearProgress />}
         </AppBar>
     )
 }

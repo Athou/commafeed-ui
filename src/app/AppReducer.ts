@@ -282,6 +282,7 @@ export const ActionCreator = {
 
         markAllAsRead(id: string, source: EntrySource, olderThan: number): Thunk<State, Actions> {
             return dispatch => {
+                dispatch({ type: "entries.setLoading", loading: true })
                 const service = source === "category" ? Clients.category : Clients.feed
                 service.mark(new MarkRequest({ id, olderThan, read: true })).then(() => {
                     dispatch(ActionCreator.tree.reload())
