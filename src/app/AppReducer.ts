@@ -88,7 +88,9 @@ const entriesReducer: Reducer<EntriesState, Actions> = (state, action) => {
         case "entries.setEntries":
             return { ...state, entries: action.entries, hasMore: action.hasMore, label: action.label }
         case "entries.addEntries":
-            return { ...state, entries: state.entries && state.entries.concat(action.entries), hasMore: action.hasMore }
+            // remove already existing entries
+            const entriesToAdd = action.entries.filter(e => !lodash.some(state.entries, { id: e.id }))
+            return { ...state, entries: state.entries && state.entries.concat(entriesToAdd), hasMore: action.hasMore }
         case "entries.setSelectedEntryId":
             return { ...state, selectedEntryId: action.id }
         case "entries.setSelectedEntryExpanded":

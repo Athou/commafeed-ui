@@ -126,7 +126,17 @@ describe("Entries reducer", () => {
         expect(state.entries.label).toBe(label)
     })
     it("add entries", () => {
-        const entries: Entry[] = initialState.entries.entries!
+        const entries: Entry[] = [{ id: "29003" } as Entry]
+        const hasMore = true
+
+        expect(initialState.entries.entries!.length).toBe(1)
+        expect(initialState.entries.hasMore).not.toBe(hasMore)
+        const state = reducer(initialState, { type: "entries.addEntries", entries, hasMore })
+        expect(state.entries.entries!.length).toBe(2)
+        expect(state.entries.hasMore).toBe(hasMore)
+    })
+    it("does not add already existing entries", () => {
+        const entries: Entry[] = [{ id: "29002" } as Entry, { id: "29003" } as Entry]
         const hasMore = true
 
         expect(initialState.entries.entries!.length).toBe(1)
