@@ -36,7 +36,6 @@ export const App: React.FC<RouteComponentProps> = props => {
 
     // load initial data
     useEffect(() => {
-        dispatch(ActionCreator.tree.reload())
         dispatch(ActionCreator.settings.reload())
     }, [dispatch])
 

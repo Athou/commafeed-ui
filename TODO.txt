@@ -2,7 +2,6 @@ reading
 -------
 color of anchor links in entries content
 unread count and text color for "All"
-reload tree periodically
 mark all as read: support for timestamp and new entries since last load
 mark as read up to here
 sort alphabetically
