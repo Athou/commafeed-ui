@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Typography } from "@material-ui/core"
+import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Tab, Tabs, TextField } from "@material-ui/core"
 import React, { useContext, useState } from "react"
 import { Clients } from "../../api/Clients"
 import { FeedInfo, FeedInfoRequest, SubscribeRequest } from "../../api/commafeed-api"
@@ -8,6 +8,27 @@ import { AppConstants } from "../AppConstants"
 import { ActionCreator } from "../AppReducer"
 
 export const Subscribe: React.FC = () => {
+    const [selectedTab, setSelectedTab] = useState(0)
+
+    return (
+        <Container>
+            <Paper>
+                <Box p={2} m={2}>
+                    <Tabs value={selectedTab} onChange={(e, i) => setSelectedTab(i)}>
+                        <Tab label="Subscribe" />
+                        <Tab label="Import OPML" />
+                    </Tabs>
+                    <Box pt={2}>
+                        {selectedTab === 0 && <SubscribeFetchPanel />}
+                        {selectedTab === 1 && <ImportPanel />}
+                    </Box>
+                </Box>
+            </Paper>
+        </Container>
+    )
+}
+
+export const SubscribeFetchPanel: React.FC = () => {
     const [feedUrl, setFeedUrl] = useState("")
     const [feedInfos, setFeedInfos] = useState<FeedInfo>()
     const [loading, setLoading] = useState(false)
@@ -27,39 +48,34 @@ export const Subscribe: React.FC = () => {
     }
 
     return (
-        <Container>
-            <Paper>
-                <Box p={2} m={2}>
-                    <Typography variant="h4">Subscribe</Typography>
-                    <form onSubmit={e => handleSubmit(e)}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField fullWidth label="Feed URL" required value={feedUrl} onChange={e => setFeedUrl(e.target.value)} />
-                            </Grid>
-                            <Grid item>
-                                <Button type="submit" color="primary" variant="contained" disabled={loading}>
-                                    Fetch
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </form>
+        <>
+            <form onSubmit={e => handleSubmit(e)}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField fullWidth label="Feed URL" required value={feedUrl} onChange={e => setFeedUrl(e.target.value)} />
+                    </Grid>
+                    <Grid item>
+                        <Button type="submit" color="primary" variant="contained" disabled={loading}>
+                            Fetch
+                        </Button>
+                    </Grid>
+                </Grid>
+            </form>
 
-                    {error && (
-                        <>
-                            Error while fetching feed
-                            <pre>{error}</pre>
-                        </>
-                    )}
-                    {feedInfos && (
-                        <>
-                            <Box mt={2}>
-                                <SubscribePanel infos={feedInfos} />
-                            </Box>
-                        </>
-                    )}
-                </Box>
-            </Paper>
-        </Container>
+            {error && (
+                <>
+                    Error while fetching feed
+                    <pre>{error}</pre>
+                </>
+            )}
+            {feedInfos && (
+                <>
+                    <Box mt={2}>
+                        <SubscribePanel infos={feedInfos} />
+                    </Box>
+                </>
+            )}
+        </>
     )
 }
 
@@ -129,5 +145,26 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
                 </Grid>
             </form>
         </div>
+    )
+}
+
+const ImportPanel: React.FC = props => {
+    const [loading, setLoading] = useState(false)
+
+    return (
+        <>
+            <form action="/rest/feed/import" method="post" encType="multipart/form-data" onSubmit={() => setLoading(true)}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <input type="file" name="file" required />
+                    </Grid>
+                    <Grid item>
+                        <Button type="submit" color="primary" variant="contained" disabled={loading}>
+                            Import
+                        </Button>
+                    </Grid>
+                </Grid>
+            </form>
+        </>
     )
 }

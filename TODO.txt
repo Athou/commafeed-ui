@@ -22,7 +22,6 @@ tests
 pages
 -----
 new category
-opml import
 feed edit
 category edit
 profile
