@@ -31,7 +31,7 @@
         "typescript": "3.4.5"
     },
     "scripts": {
-        "start": "cross-env PORT=8082 TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling react-scripts start",
+        "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!typesafe-react-router)/\"",
         "eject": "react-scripts eject",
@@ -53,7 +53,6 @@
         ]
     },
     "devDependencies": {
-        "cross-env": "^5.2.0",
         "nswag": "12.2.4"
     }
 }
