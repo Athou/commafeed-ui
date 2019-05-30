@@ -229,7 +229,7 @@ export const ActionCreator = {
             return dispatch => {
                 dispatch({ type: "entries.setSelectedEntryId", id: entry.id })
                 dispatch({ type: "entries.setSelectedEntryExpanded", expanded })
-                if (!entry.read) dispatch(ActionCreator.entries.markAsRead(entry.id, +entry.feedId, true))
+                if (!entry.read && expanded) dispatch(ActionCreator.entries.markAsRead(entry.id, +entry.feedId, true))
             }
         },
 
