@@ -1,6 +1,5 @@
 reading
 -------
-unread count and text color for "All"
 unread count in page title
 unread count in favicon: https://github.com/tommoor/tinycon
 mark all as read: support for timestamp and new entries since last load

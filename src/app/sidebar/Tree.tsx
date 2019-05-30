@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core"
 import { Inbox } from "@material-ui/icons"
 import React, { useContext, useEffect } from "react"
-import { Category } from "../../api/commafeed-api"
 import { AppContext } from "../App"
 import { AppConstants } from "../AppConstants"
 import { ActionCreator } from "../AppReducer"
@@ -32,20 +31,7 @@ export const Tree: React.FC = props => {
 
     return (
         <div className={classes.root}>
-            <TreeCategory
-                icon={<Inbox />}
-                category={
-                    new Category({
-                        id: AppConstants.ALL_CATEGORY_ID,
-                        name: "All",
-                        expanded: true,
-                        position: 0,
-                        children: [],
-                        feeds: []
-                    })
-                }
-                level={0}
-            />
+            <TreeCategory icon={<Inbox />} stayCollapsed category={state.tree.root} level={0} />
             {state.tree.root.children.map(c => (
                 <TreeCategory category={c} level={0} key={c.id} />
             ))}

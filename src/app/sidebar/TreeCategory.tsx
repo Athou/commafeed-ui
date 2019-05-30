@@ -36,6 +36,7 @@ interface Props {
     category: Category
     icon?: ReactNode
     level: number
+    stayCollapsed?: boolean
 }
 
 export const TreeCategory: React.FC<Props> = props => {
@@ -51,9 +52,12 @@ export const TreeCategory: React.FC<Props> = props => {
     )
     const classes = useStyles(props)()
     const selected = state.entries.source === "category" && state.entries.id === props.category.id
-    const unread = !props.category.expanded && unreadCount > 0
+    const expanded = props.category.expanded && !props.stayCollapsed
+    const unread = !expanded && unreadCount > 0
 
     function toggleExpanded(e: React.MouseEvent) {
+        if (props.stayCollapsed) return
+
         e.stopPropagation()
         dispatch(ActionCreator.tree.toggleCategoryExpanded(+props.category.id))
     }
@@ -72,10 +76,10 @@ export const TreeCategory: React.FC<Props> = props => {
             >
                 <Box display="flex" alignItems="center">
                     <Box className={classes.icon} onClick={e => toggleExpanded(e)}>
-                        {props.icon ? props.icon : props.category.expanded ? <ExpandMore /> : <ChevronRight />}
+                        {props.icon ? props.icon : expanded ? <ExpandMore /> : <ChevronRight />}
                     </Box>
                     <Box flexGrow={1}>{props.category.name}</Box>
-                    {!props.category.expanded && (
+                    {!expanded && (
                         <Box>
                             <UnreadCount unreadCount={unreadCount} />
                         </Box>
@@ -83,7 +87,7 @@ export const TreeCategory: React.FC<Props> = props => {
                 </Box>
                 <Grid container direction="row" alignItems="center" />
             </Typography>
-            {props.category.expanded && (props.category.children.length > 0 || props.category.feeds.length > 0) && (
+            {expanded && (props.category.children.length > 0 || props.category.feeds.length > 0) && (
                 <>
                     {props.category.children.map(c => (
                         <TreeCategory category={c} level={props.level + 1} key={c.id} />
