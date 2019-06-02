@@ -1,8 +1,8 @@
 import { Drawer } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import React, { Dispatch, useEffect, useMemo } from "react"
+import React, { Dispatch, useEffect } from "react"
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom"
-import useTitle from "react-use/lib/useTitle"
+import Tinycon from "tinycon"
 import { categoryUnreadCount } from "../api/utils"
 import { Routes } from "../Routes"
 import { Thunk, useThunkReducer } from "../thunk-reducer"
@@ -41,10 +41,11 @@ export const App: React.FC<RouteComponentProps> = props => {
         dispatch(ActionCreator.settings.reload())
     }, [dispatch])
 
-    // handle page title
-    const unreadCount = useMemo(() => categoryUnreadCount(state.tree.root), [state.tree.root])
-    const appName = "CommaFeed"
-    useTitle(unreadCount > 0 ? `${unreadCount} - ${appName}` : appName)
+    // handle favicon unread count
+    useEffect(() => {
+        const unreadCount = categoryUnreadCount(state.tree.root)
+        Tinycon.setBubble(unreadCount)
+    }, [state.tree.root])
 
     // handle redirect
     useEffect(() => {

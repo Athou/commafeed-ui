@@ -1,6 +1,5 @@
 reading
 -------
-unread count in favicon: https://github.com/tommoor/tinycon
 mark all as read: support for timestamp and new entries since last load
 mark as read up to here
 sort alphabetically

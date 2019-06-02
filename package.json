@@ -15,6 +15,7 @@
         "@types/react-dom": "16.8.4",
         "@types/react-infinite-scroller": "^1.2.1",
         "@types/react-router-dom": "^4.3.2",
+        "@types/tinycon": "^0.6.1",
         "classnames": "^2.2.6",
         "deep-freeze": "0.0.1",
         "lodash": "^4.17.11",
@@ -26,6 +27,7 @@
         "react-router-dom": "^5.0.0",
         "react-scripts": "^3.0.1",
         "react-use": "^9.1.2",
+        "tinycon": "^0.6.8",
         "typeface-roboto": "0.0.54",
         "typesafe-react-router": "^2.2.3",
         "typescript": "3.4.5"
