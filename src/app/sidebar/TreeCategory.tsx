@@ -3,7 +3,7 @@ import { ChevronRight, ExpandMore } from "@material-ui/icons"
 import classNames from "classnames"
 import React, { ReactNode, useContext, useMemo } from "react"
 import { Category } from "../../api/commafeed-api"
-import { flattenCategoryTree } from "../../api/utils"
+import { categoryUnreadCount } from "../../api/utils"
 import { AppContext } from "../App"
 import { ActionCreator } from "../AppReducer"
 import { TreeNode } from "./TreeNode"
@@ -42,14 +42,7 @@ interface Props {
 export const TreeCategory: React.FC<Props> = props => {
     const { state, dispatch } = useContext(AppContext)
 
-    const unreadCount = useMemo(
-        () =>
-            flattenCategoryTree(props.category)
-                .flatMap(c => c.feeds)
-                .map(f => f.unread)
-                .reduce((total, current) => total + current, 0),
-        [props.category]
-    )
+    const unreadCount = useMemo(() => categoryUnreadCount(props.category), [props.category])
     const classes = useStyles(props)()
     const selected = state.entries.source === "category" && state.entries.id === props.category.id
     const expanded = props.category.expanded && !props.stayCollapsed

@@ -1,6 +1,5 @@
 reading
 -------
-unread count in page title
 unread count in favicon: https://github.com/tommoor/tinycon
 mark all as read: support for timestamp and new entries since last load
 mark as read up to here
@@ -18,6 +17,7 @@ favicon & manifest
 feed fetching errors
 rtl support: https://material-ui.com/guides/right-to-left/
 tests
+tooltips on buttons
 
 pages
 -----

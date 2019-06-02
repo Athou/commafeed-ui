@@ -10,3 +10,12 @@ export function flattenCategoryTree(category: Category): Category[] {
     visitCategoryTree(category, c => categories.push(c))
     return categories
 }
+
+export function categoryUnreadCount(category?: Category): number {
+    if (!category) return 0
+
+    return flattenCategoryTree(category)
+        .flatMap(c => c.feeds)
+        .map(f => f.unread)
+        .reduce((total, current) => total + current, 0)
+}
