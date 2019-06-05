@@ -1,10 +1,8 @@
 import { Box, Checkbox, createStyles, Divider, FormControlLabel, Link, makeStyles, Paper, Typography } from "@material-ui/core"
-import React, { useContext, useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 import Moment from "react-moment"
 import { Entry } from "../../api/commafeed-api"
-import { AppContext } from "../App"
 import { AppConstants } from "../AppConstants"
-import { ActionCreator } from "../AppReducer"
 
 const useStyles = makeStyles(theme =>
     createStyles({
@@ -33,36 +31,26 @@ const useStyles = makeStyles(theme =>
     })
 )
 
-export const FeedEntry: React.FC<{ entry: Entry }> = props => {
-    const { state, dispatch } = useContext(AppContext)
+export const FeedEntry: React.FC<{
+    entry: Entry
+    expanded: boolean
+    onHeaderClick: (entry: Entry) => void
+    onExternalLinkClick: (entry: Entry) => void
+    onReadStatusCheckboxClick: (entry: Entry) => void
+}> = React.memo(props => {
     const classes = useStyles()
     const ref = useRef<HTMLDivElement>(null)
-
-    const selected = state.entries.selectedEntryId === props.entry.id
-    const expanded = selected && state.entries.selectedEntryExpanded
-
-    function entryHeaderClicked() {
-        dispatch(ActionCreator.entries.selectEntry(props.entry, !expanded))
-    }
-
-    function toggleRead() {
-        dispatch(ActionCreator.entries.markAsRead(props.entry.id, +props.entry.feedId, !props.entry.read))
-    }
-
-    function dateClicked() {
-        if (!props.entry.read) toggleRead()
-    }
 
     // scroll to entry when expanded
     useEffect(() => {
         if (!ref.current) return
-        if (!selected || !expanded) return
+        if (!props.expanded) return
 
         window.scrollTo({
             top: ref.current.offsetTop - AppConstants.NAVBAR_HEIGHT - 3,
             behavior: "smooth"
         })
-    }, [selected, expanded])
+    }, [props.expanded])
 
     return (
         <div ref={ref}>
@@ -72,7 +60,7 @@ export const FeedEntry: React.FC<{ entry: Entry }> = props => {
                         variant="h6"
                         color={props.entry.read ? "textSecondary" : "textPrimary"}
                         className={classes.header}
-                        onClick={() => entryHeaderClicked()}
+                        onClick={() => props.onHeaderClick(props.entry)}
                     >
                         <img src={props.entry.iconUrl} alt="feed icon" className={classes.icon} />
                         {props.entry.title}
@@ -84,12 +72,12 @@ export const FeedEntry: React.FC<{ entry: Entry }> = props => {
                             color="inherit"
                             target="_blank"
                             rel="noopener noreferrer"
-                            onMouseUp={() => dateClicked()}
+                            onMouseUp={() => props.onExternalLinkClick(props.entry)}
                         >
                             <Moment fromNow date={props.entry.date} />
                         </Link>
                     </Typography>
-                    {expanded && (
+                    {props.expanded && (
                         <>
                             <Typography
                                 variant="body1"
@@ -100,7 +88,10 @@ export const FeedEntry: React.FC<{ entry: Entry }> = props => {
                             <Enclosure enclosureType={props.entry.enclosureType} enclosureUrl={props.entry.enclosureUrl} />
                             <Divider light />
                             <Typography variant="body2" color="textSecondary">
-                                <FormControlLabel control={<Checkbox onChange={() => toggleRead()} />} label="Keep unread" />
+                                <FormControlLabel
+                                    control={<Checkbox onChange={() => props.onReadStatusCheckboxClick(props.entry)} />}
+                                    label="Keep unread"
+                                />
                             </Typography>
                         </>
                     )}
@@ -108,7 +99,7 @@ export const FeedEntry: React.FC<{ entry: Entry }> = props => {
             </Paper>
         </div>
     )
-}
+})
 
 const Enclosure: React.FC<{
     enclosureType?: string

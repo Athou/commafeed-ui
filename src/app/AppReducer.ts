@@ -225,11 +225,13 @@ export const ActionCreator = {
             }
         },
 
-        selectEntry(entry: Entry, expanded: boolean): Thunk<State, Actions> {
-            return dispatch => {
+        selectEntry(entry: Entry): Thunk<State, Actions> {
+            return (dispatch, getState) => {
+                const state = getState()
+                const wasExpanded = entry.id === state.entries.selectedEntryId ? state.entries.selectedEntryExpanded : false
                 dispatch({ type: "entries.setSelectedEntryId", id: entry.id })
-                dispatch({ type: "entries.setSelectedEntryExpanded", expanded })
-                if (!entry.read && expanded) dispatch(ActionCreator.entries.markAsRead(entry.id, +entry.feedId, true))
+                dispatch({ type: "entries.setSelectedEntryExpanded", expanded: !wasExpanded })
+                if (!entry.read && !wasExpanded) dispatch(ActionCreator.entries.markAsRead(entry.id, +entry.feedId, true))
             }
         },
 
@@ -250,7 +252,7 @@ export const ActionCreator = {
 
                 if (nextEntryIndex >= 0) {
                     const nextEntry = entries[nextEntryIndex]
-                    dispatch(ActionCreator.entries.selectEntry(nextEntry, true))
+                    dispatch(ActionCreator.entries.selectEntry(nextEntry))
                 }
             }
         },
@@ -270,7 +272,7 @@ export const ActionCreator = {
 
                 if (previousEntryIndex >= 0) {
                     const previousEntry = entries[previousEntryIndex]
-                    dispatch(ActionCreator.entries.selectEntry(previousEntry, true))
+                    dispatch(ActionCreator.entries.selectEntry(previousEntry))
                 }
             }
         },

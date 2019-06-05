@@ -1,9 +1,6 @@
 import { Box, makeStyles, Typography } from "@material-ui/core"
 import classNames from "classnames"
-import React, { useContext } from "react"
-import { Subscription } from "../../api/commafeed-api"
-import { AppContext } from "../App"
-import { ActionCreator } from "../AppReducer"
+import React, { ReactNode } from "react"
 import { UnreadCount } from "./UnreadCount"
 
 const useStyles = (props: Props) =>
@@ -33,38 +30,41 @@ const useStyles = (props: Props) =>
     }))
 
 interface Props {
-    subscription: Subscription
+    id: string
+    name: string
+    icon: ReactNode | string
+    unread: number
+    selected: boolean
+    expanded?: boolean
     level: number
+    onClick: (id: string) => void
+    onIconClick?: (e: React.MouseEvent, id: string) => void
 }
-
-export const TreeNode: React.FC<Props> = props => {
-    const { state, dispatch } = useContext(AppContext)
+export const TreeNode: React.FC<Props> = React.memo(props => {
     const classes = useStyles(props)()
-
-    const selected = state.entries.source === "feed" && state.entries.id === String(props.subscription.id)
-    const unread = props.subscription.unread
-
     return (
         <div
             className={classNames({
                 [classes.root]: true,
-                [classes.active]: selected
+                [classes.active]: props.selected
             })}
-            onClick={() => dispatch(ActionCreator.redirect.navigateToFeed(props.subscription.id))}
+            onClick={() => props.onClick(props.id)}
         >
-            <Typography variant="body1" color={unread ? "textPrimary" : "textSecondary"} component="span">
+            <Typography variant="body1" color={props.unread ? "textPrimary" : "textSecondary"} component="span">
                 <Box display="flex" alignItems="center">
-                    <Box className={classes.icon}>
-                        <img src={props.subscription.iconUrl} alt="favicon" className={classes.icon} />
+                    <Box className={classes.icon} onClick={e => props.onIconClick && props.onIconClick(e, props.id)}>
+                        {typeof props.icon === "string" ? <img src={props.icon} alt="favicon" className={classes.icon} /> : props.icon}
                     </Box>
                     <Box flexGrow={1} className={classes.name}>
-                        {props.subscription.name}
+                        {props.name}
                     </Box>
-                    <Box>
-                        <UnreadCount unreadCount={props.subscription.unread} />
-                    </Box>
+                    {!props.expanded && (
+                        <Box>
+                            <UnreadCount unreadCount={props.unread} />
+                        </Box>
+                    )}
                 </Box>
             </Typography>
         </div>
     )
-}
+})
