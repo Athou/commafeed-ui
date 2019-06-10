@@ -18,7 +18,7 @@ export class Clients {
     server: ServerClient
     user: UserClient
 
-    constructor(history: History, baseUrl: string = "/rest") {
+    constructor(history: History, baseUrl: string = "rest") {
         const http = { fetch: interceptingFetch(history) }
         this.category = new CategoryClient(baseUrl, http)
         this.entry = new EntryClient(baseUrl, http)

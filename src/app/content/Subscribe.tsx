@@ -153,7 +153,7 @@ const ImportPanel: React.FC = props => {
 
     return (
         <>
-            <form action="/rest/feed/import" method="post" encType="multipart/form-data" onSubmit={() => setLoading(true)}>
+            <form action="rest/feed/import" method="post" encType="multipart/form-data" onSubmit={() => setLoading(true)}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <input type="file" name="file" required />
