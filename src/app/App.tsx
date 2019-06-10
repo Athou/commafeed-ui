@@ -16,7 +16,11 @@ import { Sidebar } from "./sidebar/Sidebar"
 
 const useStyles = makeStyles(theme => ({
     sidebar: {
-        width: AppConstants.SIDEBAR_WIDTH
+        width: AppConstants.SIDEBAR_WIDTH,
+        overflow: "hidden",
+        "&:hover": {
+            overflow: "auto"
+        }
     },
     content: {
         marginLeft: AppConstants.SIDEBAR_WIDTH,
