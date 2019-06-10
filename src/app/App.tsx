@@ -17,6 +17,7 @@ import { Sidebar } from "./sidebar/Sidebar"
 const useStyles = makeStyles(theme => ({
     sidebar: {
         width: AppConstants.SIDEBAR_WIDTH,
+        height: "100%",
         overflow: "hidden",
         "&:hover": {
             overflow: "auto"
