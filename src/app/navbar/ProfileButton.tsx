@@ -1,4 +1,4 @@
-import { Divider, ListItemIcon, ListItemText, Switch, PropTypes } from "@material-ui/core"
+import { Divider, ListItemIcon, ListItemText, PropTypes, Switch } from "@material-ui/core"
 import Button from "@material-ui/core/Button"
 import Menu from "@material-ui/core/Menu"
 import MenuItem from "@material-ui/core/MenuItem"
@@ -16,6 +16,10 @@ export const ProfileButton: React.FC<{ color?: PropTypes.Color }> = props => {
 
     function handleClose() {
         setAnchorEl(undefined)
+    }
+
+    function logout() {
+        window.location.href = "logout"
     }
 
     return (
@@ -39,7 +43,7 @@ export const ProfileButton: React.FC<{ color?: PropTypes.Color }> = props => {
                     <Switch checked={darkMode} />
                 </MenuItem>
                 <Divider />
-                <MenuItem>
+                <MenuItem onClick={logout}>
                     <ListItemIcon>
                         <PowerSettingsNew />
                     </ListItemIcon>

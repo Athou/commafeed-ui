@@ -1,6 +1,6 @@
 import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Tab, Tabs, TextField } from "@material-ui/core"
 import React, { useContext, useState } from "react"
-import { Clients } from "../../api/Clients"
+import { clients } from "../.."
 import { FeedInfo, FeedInfoRequest, SubscribeRequest } from "../../api/commafeed-api"
 import { flattenCategoryTree } from "../../api/utils"
 import { AppContext } from "../App"
@@ -40,7 +40,7 @@ export const SubscribeFetchPanel: React.FC = () => {
         setLoading(true)
         setError(undefined)
         setFeedInfos(undefined)
-        Clients.feed
+        clients.feed
             .fetch(new FeedInfoRequest({ url: feedUrl }))
             .then(infos => setFeedInfos(infos))
             .catch(error => setError(error.response))
@@ -92,7 +92,7 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
         e.preventDefault()
 
         setLoading(true)
-        Clients.feed
+        clients.feed
             .subscribePost(
                 new SubscribeRequest({
                     url: props.infos.url,

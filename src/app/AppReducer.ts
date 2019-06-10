@@ -1,6 +1,6 @@
 import lodash from "lodash"
 import { Reducer } from "react"
-import { Clients } from "../api/Clients"
+import { clients } from ".."
 import { Category, CollapseRequest, Entry, ISettings, MarkRequest, ReadingMode, ReadingOrder, Settings } from "../api/commafeed-api"
 import { flattenCategoryTree, visitCategoryTree } from "../api/utils"
 import { Routes } from "../Routes"
@@ -150,7 +150,7 @@ export const ActionCreator = {
     tree: {
         reload(): Thunk<State, Actions> {
             return dispatch => {
-                Clients.category.get().then(root => dispatch({ type: "tree.setRoot", root }))
+                clients.category.get().then(root => dispatch({ type: "tree.setRoot", root }))
             }
         },
         toggleCategoryExpanded(categoryId: number): Thunk<State, Actions> {
@@ -166,7 +166,7 @@ export const ActionCreator = {
                     categoryId,
                     expanded: !category.expanded
                 })
-                Clients.category.collapse(
+                clients.category.collapse(
                     new CollapseRequest({
                         id: categoryId,
                         collapse: category.expanded
@@ -280,14 +280,14 @@ export const ActionCreator = {
         markAsRead(id: string, feedId: number, read: boolean): Thunk<State, Actions> {
             return dispatch => {
                 dispatch({ type: "entries.setRead", id, feedId, read })
-                Clients.entry.mark(new MarkRequest({ id, read }))
+                clients.entry.mark(new MarkRequest({ id, read }))
             }
         },
 
         markAllAsRead(id: string, source: EntrySource, olderThan: number): Thunk<State, Actions> {
             return dispatch => {
                 dispatch({ type: "entries.setLoading", loading: true })
-                const service = source === "category" ? Clients.category : Clients.feed
+                const service = source === "category" ? clients.category : clients.feed
                 service.mark(new MarkRequest({ id, olderThan, read: true })).then(() => {
                     dispatch(ActionCreator.tree.reload())
                     dispatch(ActionCreator.entries.reload())
@@ -301,7 +301,7 @@ export const ActionCreator = {
             return (dispatch, getState) => {
                 dispatch({ type: "settings.setReadingMode", readingMode })
                 dispatch(ActionCreator.entries.reload())
-                Clients.user.settingsPost(new Settings(getState().settings))
+                clients.user.settingsPost(new Settings(getState().settings))
             }
         },
 
@@ -309,13 +309,13 @@ export const ActionCreator = {
             return (dispatch, getState) => {
                 dispatch({ type: "settings.setReadingOrder", readingOrder })
                 dispatch(ActionCreator.entries.reload())
-                Clients.user.settingsPost(new Settings(getState().settings))
+                clients.user.settingsPost(new Settings(getState().settings))
             }
         },
 
         reload(): Thunk<State, Actions> {
             return dispatch => {
-                Clients.user.settingsGet().then(settings => {
+                clients.user.settingsGet().then(settings => {
                     dispatch({ type: "settings.set", settings })
                     dispatch(ActionCreator.entries.reload())
                 })
@@ -352,9 +352,9 @@ function fetchEntries(
 ) {
     switch (source) {
         case "category":
-            return Clients.category.entries(id, readingMode, undefined, offset, limit, readingOrder)
+            return clients.category.entries(id, readingMode, undefined, offset, limit, readingOrder)
         case "feed":
-            return Clients.feed.entries(id, readingMode, undefined, offset, limit, readingOrder)
+            return clients.feed.entries(id, readingMode, undefined, offset, limit, readingOrder)
         default:
             throw new Error()
     }

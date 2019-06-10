@@ -1,7 +1,7 @@
 import { Button, Container, TextField } from "@material-ui/core"
 import React, { useState } from "react"
 import { RouteComponentProps } from "react-router"
-import { Clients } from "../api/Clients"
+import { clients } from ".."
 import { LoginRequest } from "../api/commafeed-api"
 import { Routes } from "../Routes"
 
@@ -12,7 +12,7 @@ export const Login: React.FC<RouteComponentProps> = props => {
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         if (event) event.preventDefault()
 
-        Clients.user
+        clients.user
             .login(
                 new LoginRequest({
                     name,
