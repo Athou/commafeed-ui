@@ -3,6 +3,9 @@ import { Category, Entry, ISettings, ReadingMode, ReadingOrder, Subscription } f
 import { Routes } from "../Routes"
 import { AppReducer, EntrySource, State } from "./AppReducer"
 
+// https://stackoverflow.com/a/45228624/1885506
+jest.mock("../index.tsx", () => "root")
+
 const initialState: State = deepFreeze({
     tree: {
         root: new Category({

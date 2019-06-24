@@ -1,11 +1,14 @@
 import { Drawer } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import React, { Dispatch, useEffect } from "react"
+import { History } from "history"
+import React, { useEffect } from "react"
+import { Provider, useDispatch, useSelector } from "react-redux"
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom"
+import { applyMiddleware, createStore } from "redux"
+import thunk, { ThunkMiddleware } from "redux-thunk"
 import Tinycon from "tinycon"
 import { categoryUnreadCount } from "../api/utils"
 import { Routes } from "../Routes"
-import { Thunk, useThunkReducer } from "../thunk-reducer"
 import { AppConstants } from "./AppConstants"
 import { ActionCreator, Actions, AppReducer, State } from "./AppReducer"
 import { FeedEdit } from "./content/FeedEdit"
@@ -29,36 +32,22 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-export const AppContext = React.createContext({} as { state: State; dispatch: Dispatch<Actions | Thunk<State, Actions>> })
+const thunkMiddleware: ThunkMiddleware<State, Actions> = thunk
+const store = createStore(AppReducer, applyMiddleware(thunkMiddleware))
+export const useAppDispatch = () => useDispatch<typeof store.dispatch>()
 
 export const App: React.FC<RouteComponentProps> = props => {
-    const [state, dispatch] = useThunkReducer(AppReducer, {
-        tree: {},
-        entries: { loading: false },
-        settings: undefined,
-        redirect: {}
-    })
-
     const classes = useStyles()
 
     // load initial data
     useEffect(() => {
-        dispatch(ActionCreator.settings.reload())
-    }, [dispatch])
-
-    // handle favicon unread count
-    useEffect(() => {
-        const unreadCount = categoryUnreadCount(state.tree.root)
-        Tinycon.setBubble(unreadCount)
-    }, [state.tree.root])
-
-    // handle redirect
-    useEffect(() => {
-        if (state.redirect.redirectTo) props.history.push(state.redirect.redirectTo)
-    }, [state.redirect.redirectTo, props.history])
+        store.dispatch(ActionCreator.settings.reload())
+    }, [])
 
     return (
-        <AppContext.Provider value={{ state, dispatch }}>
+        <Provider store={store}>
+            <FaviconHandler />
+            <RedirectHandler history={props.history} />
             <Drawer variant="permanent" open>
                 <div className={classes.sidebar}>
                     <Sidebar />
@@ -80,6 +69,25 @@ export const App: React.FC<RouteComponentProps> = props => {
                     <Route render={() => <Redirect to={Routes.app.category.create({ categoryId: AppConstants.ALL_CATEGORY_ID })} />} />
                 </Switch>
             </div>
-        </AppContext.Provider>
+        </Provider>
     )
+}
+
+const FaviconHandler: React.FC = () => {
+    const root = useSelector((state: State) => state.tree.root)
+    useEffect(() => {
+        const unreadCount = categoryUnreadCount(root)
+        Tinycon.setBubble(unreadCount)
+    }, [root])
+
+    return null
+}
+
+const RedirectHandler: React.FC<{ history: History }> = props => {
+    const redirectTo = useSelector((state: State) => state.redirect.redirectTo)
+    useEffect(() => {
+        if (redirectTo) props.history.push(redirectTo)
+    }, [redirectTo, props.history])
+
+    return null
 }

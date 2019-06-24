@@ -1,11 +1,12 @@
 import { makeStyles } from "@material-ui/core"
 import { ChevronRight, ExpandMore, Inbox } from "@material-ui/icons"
-import React, { useCallback, useContext, useEffect } from "react"
+import React, { useCallback, useEffect } from "react"
+import { useSelector } from "react-redux"
 import { Category, Subscription } from "../../api/commafeed-api"
 import { categoryUnreadCount } from "../../api/utils"
-import { AppContext } from "../App"
+import { useAppDispatch } from "../App"
 import { AppConstants } from "../AppConstants"
-import { ActionCreator } from "../AppReducer"
+import { ActionCreator, State } from "../AppReducer"
 import { TreeNode } from "./TreeNode"
 
 const useStyles = makeStyles({
@@ -21,7 +22,10 @@ const expandedIcon = <ExpandMore />
 const collapsedIcon = <ChevronRight />
 
 export const Tree: React.FC = () => {
-    const { state, dispatch } = useContext(AppContext)
+    const id = useSelector((state: State) => state.entries.id)
+    const source = useSelector((state: State) => state.entries.source)
+    const root = useSelector((state: State) => state.tree.root)
+    const dispatch = useAppDispatch()
     const classes = useStyles()
 
     // load initial tree and refresh periodically
@@ -59,8 +63,8 @@ export const Tree: React.FC = () => {
             id={AppConstants.ALL_CATEGORY_ID}
             name="All"
             icon={allIcon}
-            unread={categoryUnreadCount(state.tree.root)}
-            selected={state.entries.source === "category" && AppConstants.ALL_CATEGORY_ID === state.entries.id}
+            unread={categoryUnreadCount(root)}
+            selected={source === "category" && AppConstants.ALL_CATEGORY_ID === id}
             expanded={false}
             level={0}
             onClick={categoryClicked}
@@ -74,7 +78,7 @@ export const Tree: React.FC = () => {
                 name={category.name}
                 icon={category.expanded ? expandedIcon : collapsedIcon}
                 unread={categoryUnreadCount(category)}
-                selected={state.entries.source === "category" && category.id === state.entries.id}
+                selected={source === "category" && category.id === id}
                 expanded={category.expanded}
                 level={level}
                 onClick={categoryClicked}
@@ -91,7 +95,7 @@ export const Tree: React.FC = () => {
                 name={feed.name}
                 icon={feed.iconUrl}
                 unread={feed.unread}
-                selected={state.entries.source === "feed" && String(feed.id) === state.entries.id}
+                selected={source === "feed" && String(feed.id) === id}
                 level={level}
                 onClick={feedClicked}
                 key={feed.id}
@@ -101,20 +105,20 @@ export const Tree: React.FC = () => {
 
     const recursiveCategoryNode = (category: Category, level: number = 0) => {
         return (
-            <div>
+            <React.Fragment key={"recursiveCategoryNode-" + category.id}>
                 {categoryNode(category, level)}
                 {category.expanded && category.children.map(c => recursiveCategoryNode(c, level + 1))}
                 {category.expanded && category.feeds.map(f => feedNode(f, level + 1))}
-            </div>
+            </React.Fragment>
         )
     }
 
-    if (!state.tree.root) return null
+    if (!root) return null
     return (
         <div className={classes.root}>
             {allCategoryNode()}
-            {state.tree.root.children.map(c => recursiveCategoryNode(c))}
-            {state.tree.root.feeds.map(f => feedNode(f))}
+            {root.children.map(c => recursiveCategoryNode(c))}
+            {root.feeds.map(f => feedNode(f))}
         </div>
     )
 }

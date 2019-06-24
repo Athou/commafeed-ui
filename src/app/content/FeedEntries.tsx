@@ -1,16 +1,21 @@
 import { Container } from "@material-ui/core"
-import React, { useCallback, useContext, useEffect } from "react"
+import React, { useCallback, useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroller"
+import { useSelector } from "react-redux"
 import { Entry } from "../../api/commafeed-api"
-import { AppContext } from "../App"
-import { ActionCreator, EntrySource } from "../AppReducer"
+import { useAppDispatch } from "../App"
+import { ActionCreator, EntrySource, State } from "../AppReducer"
 import { FeedEntry } from "./FeedEntry"
 
 export const FeedEntries: React.FC<{
     id: string
     source: EntrySource
 }> = props => {
-    const { state, dispatch } = useContext(AppContext)
+    const entries = useSelector((state: State) => state.entries.entries)
+    const hasMore = useSelector((state: State) => state.entries.hasMore)
+    const selectedEntryId = useSelector((state: State) => state.entries.selectedEntryId)
+    const selectedEntryExpanded = useSelector((state: State) => state.entries.selectedEntryExpanded)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(ActionCreator.entries.setSource(props.id, props.source))
@@ -55,23 +60,23 @@ export const FeedEntries: React.FC<{
         [dispatch]
     )
 
-    if (!state.entries.label || !state.entries.entries) return null
+    if (!entries) return null
     return (
         <Container>
             <InfiniteScroll
                 initialLoad={false}
                 loadMore={page => loadMoreEntries(page)}
-                hasMore={state.entries.hasMore}
+                hasMore={hasMore}
                 loader={
                     <div className="loader" key={0}>
                         Loading ...
                     </div>
                 }
             >
-                {state.entries.entries.map(e => (
+                {entries.map(e => (
                     <FeedEntry
                         entry={e}
-                        expanded={e.id === state.entries.selectedEntryId && state.entries.selectedEntryExpanded === true}
+                        expanded={e.id === selectedEntryId && selectedEntryExpanded === true}
                         onHeaderClick={entryHeaderClicked}
                         onExternalLinkClick={entryExternalLinkClicked}
                         onReadStatusCheckboxClick={entryReadStatusCheckboxClicked}

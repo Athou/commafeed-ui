@@ -1,11 +1,12 @@
 import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Tab, Tabs, TextField } from "@material-ui/core"
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
+import { useSelector } from "react-redux"
 import { clients } from "../.."
 import { FeedInfo, FeedInfoRequest, SubscribeRequest } from "../../api/commafeed-api"
 import { flattenCategoryTree } from "../../api/utils"
-import { AppContext } from "../App"
+import { useAppDispatch } from "../App"
 import { AppConstants } from "../AppConstants"
-import { ActionCreator } from "../AppReducer"
+import { ActionCreator, State } from "../AppReducer"
 
 export const Subscribe: React.FC = () => {
     const [selectedTab, setSelectedTab] = useState(0)
@@ -80,13 +81,14 @@ export const SubscribeFetchPanel: React.FC = () => {
 }
 
 const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
+    const root = useSelector((state: State) => state.tree.root)
+    const dispatch = useAppDispatch()
+
     const [feedName, setFeedName] = useState(props.infos.title)
     const [categoryId, setCategoryId] = useState(AppConstants.ALL_CATEGORY_ID)
     const [loading, setLoading] = useState(false)
 
-    const { state, dispatch } = useContext(AppContext)
-
-    if (!state.tree.root) return null
+    if (!root) return null
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
@@ -120,7 +122,7 @@ const SubscribePanel: React.FC<{ infos: FeedInfo }> = props => {
                         <FormControl fullWidth>
                             <InputLabel>Category</InputLabel>
                             <Select value={categoryId} onChange={e => setCategoryId(e.target.value as string)}>
-                                {flattenCategoryTree(state.tree.root).map(c => (
+                                {flattenCategoryTree(root).map(c => (
                                     <MenuItem value={c.id} key={c.id}>
                                         {c.name}
                                     </MenuItem>
