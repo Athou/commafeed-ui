@@ -1,5 +1,6 @@
-import React from "react"
+import React from "react";
 
 export const FeedEdit: React.FC<{ feedId: string }> = props => {
-    return <div />
-}
+  const a = "";
+  return <div />;
+};
