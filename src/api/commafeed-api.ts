@@ -8,4128 +8,3805 @@
 // ReSharper disable InconsistentNaming
 
 export class AdminClient {
-  private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
-  protected jsonParseReviver:
-    | ((key: string, value: any) => any)
-    | undefined = undefined;
-
-  constructor(
-    baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }
-  ) {
-    this.http = http ? http : <any>window;
-    this.baseUrl = baseUrl ? baseUrl : "/rest";
-  }
-
-  /**
-   * Retrieve server metrics
-   * @return successful operation
-   */
-  metrics(): Promise<void> {
-    let url_ = this.baseUrl + "/admin/metrics";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {}
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processMetrics(_response);
-    });
-  }
-
-  protected processMetrics(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    private http: {
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+    private baseUrl: string
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window
+        this.baseUrl = baseUrl ? baseUrl : "/rest"
     }
-  }
 
-  /**
-   * Retrieve application settings
-   * @return successful operation
-   */
-  settings(): Promise<ApplicationSettings> {
-    let url_ = this.baseUrl + "/admin/settings";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Retrieve server metrics
+     * @return successful operation
+     */
+    metrics(): Promise<void> {
+        let url_ = this.baseUrl + "/admin/metrics"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {}
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processSettings(_response);
-    });
-  }
-
-  protected processSettings(response: Response): Promise<ApplicationSettings> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processMetrics(_response)
+        })
     }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200
-          ? ApplicationSettings.fromJS(resultData200)
-          : new ApplicationSettings();
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+    protected processMetrics(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-    return Promise.resolve<ApplicationSettings>(<any>null);
-  }
+
+    /**
+     * Retrieve application settings
+     * @return successful operation
+     */
+    settings(): Promise<ApplicationSettings> {
+        let url_ = this.baseUrl + "/admin/settings"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processSettings(_response)
+        })
+    }
+
+    protected processSettings(response: Response): Promise<ApplicationSettings> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 ? ApplicationSettings.fromJS(resultData200) : new ApplicationSettings()
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<ApplicationSettings>(<any>null)
+    }
 }
 
 export class UserClient {
-  private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
-  protected jsonParseReviver:
-    | ((key: string, value: any) => any)
-    | undefined = undefined;
-
-  constructor(
-    baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }
-  ) {
-    this.http = http ? http : <any>window;
-    this.baseUrl = baseUrl ? baseUrl : "/rest";
-  }
-
-  /**
-   * Delete a user
-   * @return successful operation
-   */
-  delete(body: IDRequest): Promise<void> {
-    let url_ = this.baseUrl + "/admin/user/delete";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processDelete(_response);
-    });
-  }
-
-  protected processDelete(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    private http: {
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+    private baseUrl: string
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window
+        this.baseUrl = baseUrl ? baseUrl : "/rest"
     }
-  }
 
-  /**
-   * Get user information
-   * @param id user id
-   * @return successful operation
-   */
-  get(id: number): Promise<UserModel> {
-    let url_ = this.baseUrl + "/admin/user/get/{id}";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace("{id}", encodeURIComponent("" + id));
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Delete a user
+     * @return successful operation
+     */
+    delete(body: IDRequest): Promise<void> {
+        let url_ = this.baseUrl + "/admin/user/delete"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
+        const content_ = JSON.stringify(body)
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGet(_response);
-    });
-  }
-
-  protected processGet(response: Response): Promise<UserModel> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200
-          ? UserModel.fromJS(resultData200)
-          : new UserModel();
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    }
-    return Promise.resolve<UserModel>(<any>null);
-  }
-
-  /**
-   * Get all users
-   * @return successful operation
-   */
-  getAll(): Promise<UserModel[]> {
-    let url_ = this.baseUrl + "/admin/user/getAll";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetAll(_response);
-    });
-  }
-
-  protected processGetAll(response: Response): Promise<UserModel[]> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        if (resultData200 && resultData200.constructor === Array) {
-          result200 = [] as any;
-          for (let item of resultData200)
-            result200!.push(UserModel.fromJS(item));
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
         }
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDelete(_response)
+        })
     }
-    return Promise.resolve<UserModel[]>(<any>null);
-  }
 
-  /**
-   * Save or update a user
-   * @return successful operation
-   */
-  save(body: UserModel): Promise<void> {
-    let url_ = this.baseUrl + "/admin/user/save";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processSave(_response);
-    });
-  }
-
-  protected processSave(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    protected processDelete(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    /**
+     * Get user information
+     * @param id user id
+     * @return successful operation
+     */
+    get(id: number): Promise<UserModel> {
+        let url_ = this.baseUrl + "/admin/user/get/{id}"
+        if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.")
+        url_ = url_.replace("{id}", encodeURIComponent("" + id))
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response)
+        })
     }
-  }
 
-  /**
-   * Login and create a session
-   * @return successful operation
-   */
-  login(body: LoginRequest): Promise<void> {
-    let url_ = this.baseUrl + "/user/login";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processLogin(_response);
-    });
-  }
-
-  protected processLogin(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    protected processGet(response: Response): Promise<UserModel> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 ? UserModel.fromJS(resultData200) : new UserModel()
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<UserModel>(<any>null)
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    /**
+     * Get all users
+     * @return successful operation
+     */
+    getAll(): Promise<UserModel[]> {
+        let url_ = this.baseUrl + "/admin/user/getAll"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetAll(_response)
+        })
     }
-  }
 
-  /**
-   * send a password reset email
-   * @return successful operation
-   */
-  passwordReset(body: PasswordResetRequest): Promise<void> {
-    let url_ = this.baseUrl + "/user/passwordReset";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processPasswordReset(_response);
-    });
-  }
-
-  protected processPasswordReset(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    protected processGetAll(response: Response): Promise<UserModel[]> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [] as any
+                    for (let item of resultData200) result200!.push(UserModel.fromJS(item))
+                }
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<UserModel[]>(<any>null)
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    /**
+     * Save or update a user
+     * @return successful operation
+     */
+    save(body: UserModel): Promise<void> {
+        let url_ = this.baseUrl + "/admin/user/save"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processSave(_response)
+        })
     }
-  }
 
-  /**
-   * @return successful operation
-   */
-  passwordResetCallback(email: string, token: string): Promise<FileResponse> {
-    let url_ = this.baseUrl + "/user/passwordResetCallback?";
-    if (email === undefined || email === null)
-      throw new Error(
-        "The parameter 'email' must be defined and cannot be null."
-      );
-    else url_ += "email=" + encodeURIComponent("" + email) + "&";
-    if (token === undefined || token === null)
-      throw new Error(
-        "The parameter 'token' must be defined and cannot be null."
-      );
-    else url_ += "token=" + encodeURIComponent("" + token) + "&";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "text/html"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processPasswordResetCallback(_response);
-    });
-  }
-
-  protected processPasswordResetCallback(
-    response: Response
-  ): Promise<FileResponse> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    protected processSave(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-    {
-      const contentDisposition = response.headers
-        ? response.headers.get("content-disposition")
-        : undefined;
-      const fileNameMatch = contentDisposition
-        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
-        : undefined;
-      const fileName =
-        fileNameMatch && fileNameMatch.length > 1
-          ? fileNameMatch[1]
-          : undefined;
-      return response.blob().then(blob => {
-        return {
-          fileName: fileName,
-          data: blob,
-          status: status,
-          headers: _headers
-        };
-      });
+
+    /**
+     * Login and create a session
+     * @return successful operation
+     */
+    login(body: LoginRequest): Promise<void> {
+        let url_ = this.baseUrl + "/user/login"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processLogin(_response)
+        })
     }
-  }
 
-  /**
-   * Retrieve user's profile
-   * @return successful operation
-   */
-  profileGet(): Promise<UserModel> {
-    let url_ = this.baseUrl + "/user/profile";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processProfileGet(_response);
-    });
-  }
-
-  protected processProfileGet(response: Response): Promise<UserModel> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    protected processLogin(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200
-          ? UserModel.fromJS(resultData200)
-          : new UserModel();
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+    /**
+     * send a password reset email
+     * @return successful operation
+     */
+    passwordReset(body: PasswordResetRequest): Promise<void> {
+        let url_ = this.baseUrl + "/user/passwordReset"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPasswordReset(_response)
+        })
     }
-    return Promise.resolve<UserModel>(<any>null);
-  }
 
-  /**
-   * Save user's profile
-   * @return successful operation
-   */
-  profilePost(body: ProfileModificationRequest): Promise<void> {
-    let url_ = this.baseUrl + "/user/profile";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processProfilePost(_response);
-    });
-  }
-
-  protected processProfilePost(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    protected processPasswordReset(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    /**
+     * @return successful operation
+     */
+    passwordResetCallback(email: string, token: string): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/user/passwordResetCallback?"
+        if (email === undefined || email === null) throw new Error("The parameter 'email' must be defined and cannot be null.")
+        else url_ += "email=" + encodeURIComponent("" + email) + "&"
+        if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined and cannot be null.")
+        else url_ += "token=" + encodeURIComponent("" + token) + "&"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "text/html"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPasswordResetCallback(_response)
+        })
     }
-  }
 
-  /**
-   * Register a new account
-   * @return successful operation
-   */
-  register(body: RegistrationRequest): Promise<void> {
-    let url_ = this.baseUrl + "/user/register";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processRegister(_response);
-    });
-  }
-
-  protected processRegister(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    protected processPasswordResetCallback(response: Response): Promise<FileResponse> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+            return response.blob().then(blob => {
+                return {
+                    fileName: fileName,
+                    data: blob,
+                    status: status,
+                    headers: _headers
+                }
+            })
+        }
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    /**
+     * Retrieve user's profile
+     * @return successful operation
+     */
+    profileGet(): Promise<UserModel> {
+        let url_ = this.baseUrl + "/user/profile"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processProfileGet(_response)
+        })
     }
-  }
 
-  /**
-   * Retrieve user settings
-   * @return successful operation
-   */
-  settingsGet(): Promise<Settings> {
-    let url_ = this.baseUrl + "/user/settings";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processSettingsGet(_response);
-    });
-  }
-
-  protected processSettingsGet(response: Response): Promise<Settings> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    protected processProfileGet(response: Response): Promise<UserModel> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 ? UserModel.fromJS(resultData200) : new UserModel()
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<UserModel>(<any>null)
     }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200
-          ? Settings.fromJS(resultData200)
-          : new Settings();
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+    /**
+     * Save user's profile
+     * @return successful operation
+     */
+    profilePost(body: ProfileModificationRequest): Promise<void> {
+        let url_ = this.baseUrl + "/user/profile"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processProfilePost(_response)
+        })
     }
-    return Promise.resolve<Settings>(<any>null);
-  }
 
-  /**
-   * Save user settings
-   * @return successful operation
-   */
-  settingsPost(body: Settings): Promise<void> {
-    let url_ = this.baseUrl + "/user/settings";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processSettingsPost(_response);
-    });
-  }
-
-  protected processSettingsPost(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    protected processProfilePost(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    /**
+     * Register a new account
+     * @return successful operation
+     */
+    register(body: RegistrationRequest): Promise<void> {
+        let url_ = this.baseUrl + "/user/register"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processRegister(_response)
+        })
     }
-  }
+
+    protected processRegister(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
+    }
+
+    /**
+     * Retrieve user settings
+     * @return successful operation
+     */
+    settingsGet(): Promise<Settings> {
+        let url_ = this.baseUrl + "/user/settings"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processSettingsGet(_response)
+        })
+    }
+
+    protected processSettingsGet(response: Response): Promise<Settings> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 ? Settings.fromJS(resultData200) : new Settings()
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<Settings>(<any>null)
+    }
+
+    /**
+     * Save user settings
+     * @return successful operation
+     */
+    settingsPost(body: Settings): Promise<void> {
+        let url_ = this.baseUrl + "/user/settings"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processSettingsPost(_response)
+        })
+    }
+
+    protected processSettingsPost(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
+    }
 }
 
 export class CategoryClient {
-  private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
-  protected jsonParseReviver:
-    | ((key: string, value: any) => any)
-    | undefined = undefined;
-
-  constructor(
-    baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }
-  ) {
-    this.http = http ? http : <any>window;
-    this.baseUrl = baseUrl ? baseUrl : "/rest";
-  }
-
-  /**
-   * Add a category
-   * @return successful operation
-   */
-  add(body: AddCategoryRequest): Promise<number> {
-    let url_ = this.baseUrl + "/category/add";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processAdd(_response);
-    });
-  }
-
-  protected processAdd(response: Response): Promise<number> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    private http: {
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
     }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200 !== undefined ? resultData200 : <any>null;
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+    private baseUrl: string
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window
+        this.baseUrl = baseUrl ? baseUrl : "/rest"
     }
-    return Promise.resolve<number>(<any>null);
-  }
 
-  /**
-   * Collapse a category
-   * @return successful operation
-   */
-  collapse(body: CollapseRequest): Promise<void> {
-    let url_ = this.baseUrl + "/category/collapse";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Add a category
+     * @return successful operation
+     */
+    add(body: AddCategoryRequest): Promise<number> {
+        let url_ = this.baseUrl + "/category/add"
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = JSON.stringify(body);
+        const content_ = JSON.stringify(body)
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processCollapse(_response);
-    });
-  }
-
-  protected processCollapse(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
-    }
-  }
-
-  /**
-   * Delete a category
-   * @return successful operation
-   */
-  delete(body: IDRequest): Promise<void> {
-    let url_ = this.baseUrl + "/category/delete";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processDelete(_response);
-    });
-  }
-
-  protected processDelete(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
-    }
-  }
-
-  /**
-   * Get category entries
-   * @param id id of the category, 'all' or 'starred'
-   * @param readType all entries or only unread ones
-   * @param newerThan (optional) only entries newer than this
-   * @param offset (optional) offset for paging
-   * @param limit (optional) limit for paging, default 20, maximum 1000
-   * @param order (optional) ordering
-   * @param keywords (optional) search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum
-   * @param onlyIds (optional) return only entry ids
-   * @param excludedSubscriptionIds (optional) comma-separated list of excluded subscription ids
-   * @param tag (optional) keep only entries tagged with this tag
-   * @return successful operation
-   */
-  entries(
-    id: string,
-    readType: ReadingMode,
-    newerThan?: number | null | undefined,
-    offset?: number | null | undefined,
-    limit?: number | null | undefined,
-    order?: ReadingOrder | null | undefined,
-    keywords?: string | null | undefined,
-    onlyIds?: boolean | null | undefined,
-    excludedSubscriptionIds?: string | null | undefined,
-    tag?: string | null | undefined
-  ): Promise<Entries> {
-    let url_ = this.baseUrl + "/category/entries?";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined and cannot be null.");
-    else url_ += "id=" + encodeURIComponent("" + id) + "&";
-    if (readType === undefined || readType === null)
-      throw new Error(
-        "The parameter 'readType' must be defined and cannot be null."
-      );
-    else url_ += "readType=" + encodeURIComponent("" + readType) + "&";
-    if (newerThan !== undefined)
-      url_ += "newerThan=" + encodeURIComponent("" + newerThan) + "&";
-    if (offset !== undefined)
-      url_ += "offset=" + encodeURIComponent("" + offset) + "&";
-    if (limit !== undefined)
-      url_ += "limit=" + encodeURIComponent("" + limit) + "&";
-    if (order !== undefined)
-      url_ += "order=" + encodeURIComponent("" + order) + "&";
-    if (keywords !== undefined)
-      url_ += "keywords=" + encodeURIComponent("" + keywords) + "&";
-    if (onlyIds !== undefined)
-      url_ += "onlyIds=" + encodeURIComponent("" + onlyIds) + "&";
-    if (excludedSubscriptionIds !== undefined)
-      url_ +=
-        "excludedSubscriptionIds=" +
-        encodeURIComponent("" + excludedSubscriptionIds) +
-        "&";
-    if (tag !== undefined) url_ += "tag=" + encodeURIComponent("" + tag) + "&";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processEntries(_response);
-    });
-  }
-
-  protected processEntries(response: Response): Promise<Entries> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200
-          ? Entries.fromJS(resultData200)
-          : new Entries();
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    }
-    return Promise.resolve<Entries>(<any>null);
-  }
-
-  /**
-   * Get category entries as feed
-   * @param id id of the category, 'all' or 'starred'
-   * @param readType all entries or only unread ones
-   * @param newerThan (optional) only entries newer than this
-   * @param offset (optional) offset for paging
-   * @param limit (optional) limit for paging, default 20, maximum 1000
-   * @param order (optional) date ordering
-   * @param keywords (optional) search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum
-   * @param onlyIds (optional) return only entry ids
-   * @param excludedSubscriptionIds (optional) comma-separated list of excluded subscription ids
-   * @param tag (optional) keep only entries tagged with this tag
-   * @return successful operation
-   */
-  entriesAsFeed(
-    id: string,
-    readType: ReadingMode,
-    newerThan?: number | null | undefined,
-    offset?: number | null | undefined,
-    limit?: number | null | undefined,
-    order?: ReadingOrder | null | undefined,
-    keywords?: string | null | undefined,
-    onlyIds?: boolean | null | undefined,
-    excludedSubscriptionIds?: string | null | undefined,
-    tag?: string | null | undefined
-  ): Promise<FileResponse> {
-    let url_ = this.baseUrl + "/category/entriesAsFeed?";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined and cannot be null.");
-    else url_ += "id=" + encodeURIComponent("" + id) + "&";
-    if (readType === undefined || readType === null)
-      throw new Error(
-        "The parameter 'readType' must be defined and cannot be null."
-      );
-    else url_ += "readType=" + encodeURIComponent("" + readType) + "&";
-    if (newerThan !== undefined)
-      url_ += "newerThan=" + encodeURIComponent("" + newerThan) + "&";
-    if (offset !== undefined)
-      url_ += "offset=" + encodeURIComponent("" + offset) + "&";
-    if (limit !== undefined)
-      url_ += "limit=" + encodeURIComponent("" + limit) + "&";
-    if (order !== undefined)
-      url_ += "order=" + encodeURIComponent("" + order) + "&";
-    if (keywords !== undefined)
-      url_ += "keywords=" + encodeURIComponent("" + keywords) + "&";
-    if (onlyIds !== undefined)
-      url_ += "onlyIds=" + encodeURIComponent("" + onlyIds) + "&";
-    if (excludedSubscriptionIds !== undefined)
-      url_ +=
-        "excludedSubscriptionIds=" +
-        encodeURIComponent("" + excludedSubscriptionIds) +
-        "&";
-    if (tag !== undefined) url_ += "tag=" + encodeURIComponent("" + tag) + "&";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/xml"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processEntriesAsFeed(_response);
-    });
-  }
-
-  protected processEntriesAsFeed(response: Response): Promise<FileResponse> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    {
-      const contentDisposition = response.headers
-        ? response.headers.get("content-disposition")
-        : undefined;
-      const fileNameMatch = contentDisposition
-        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
-        : undefined;
-      const fileName =
-        fileNameMatch && fileNameMatch.length > 1
-          ? fileNameMatch[1]
-          : undefined;
-      return response.blob().then(blob => {
-        return {
-          fileName: fileName,
-          data: blob,
-          status: status,
-          headers: _headers
-        };
-      });
-    }
-  }
-
-  /**
-   * Get root category
-   * @return successful operation
-   */
-  get(): Promise<Category> {
-    let url_ = this.baseUrl + "/category/get";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGet(_response);
-    });
-  }
-
-  protected processGet(response: Response): Promise<Category> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200
-          ? Category.fromJS(resultData200)
-          : new Category();
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
-    }
-    return Promise.resolve<Category>(<any>null);
-  }
-
-  /**
-   * Mark category entries
-   * @param body category id, or 'all'
-   * @return successful operation
-   */
-  mark(body: MarkRequest): Promise<void> {
-    let url_ = this.baseUrl + "/category/mark";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processMark(_response);
-    });
-  }
-
-  protected processMark(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
-    }
-  }
-
-  /**
-   * Rename a category
-   * @return successful operation
-   */
-  modify(body: CategoryModificationRequest): Promise<void> {
-    let url_ = this.baseUrl + "/category/modify";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processModify(_response);
-    });
-  }
-
-  protected processModify(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
-    }
-  }
-
-  /**
-   * Get unread count for feed subscriptions
-   * @return successful operation
-   */
-  unreadCount(): Promise<UnreadCount[]> {
-    let url_ = this.baseUrl + "/category/unreadCount";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processUnreadCount(_response);
-    });
-  }
-
-  protected processUnreadCount(response: Response): Promise<UnreadCount[]> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
-    }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        if (resultData200 && resultData200.constructor === Array) {
-          result200 = [] as any;
-          for (let item of resultData200)
-            result200!.push(UnreadCount.fromJS(item));
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            }
         }
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processAdd(_response)
+        })
     }
-    return Promise.resolve<UnreadCount[]>(<any>null);
-  }
+
+    protected processAdd(response: Response): Promise<number> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 !== undefined ? resultData200 : <any>null
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<number>(<any>null)
+    }
+
+    /**
+     * Collapse a category
+     * @return successful operation
+     */
+    collapse(body: CollapseRequest): Promise<void> {
+        let url_ = this.baseUrl + "/category/collapse"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCollapse(_response)
+        })
+    }
+
+    protected processCollapse(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
+    }
+
+    /**
+     * Delete a category
+     * @return successful operation
+     */
+    delete(body: IDRequest): Promise<void> {
+        let url_ = this.baseUrl + "/category/delete"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDelete(_response)
+        })
+    }
+
+    protected processDelete(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
+    }
+
+    /**
+     * Get category entries
+     * @param id id of the category, 'all' or 'starred'
+     * @param readType all entries or only unread ones
+     * @param newerThan (optional) only entries newer than this
+     * @param offset (optional) offset for paging
+     * @param limit (optional) limit for paging, default 20, maximum 1000
+     * @param order (optional) ordering
+     * @param keywords (optional) search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum
+     * @param onlyIds (optional) return only entry ids
+     * @param excludedSubscriptionIds (optional) comma-separated list of excluded subscription ids
+     * @param tag (optional) keep only entries tagged with this tag
+     * @return successful operation
+     */
+    entries(
+        id: string,
+        readType: ReadingMode,
+        newerThan?: number | null | undefined,
+        offset?: number | null | undefined,
+        limit?: number | null | undefined,
+        order?: ReadingOrder | null | undefined,
+        keywords?: string | null | undefined,
+        onlyIds?: boolean | null | undefined,
+        excludedSubscriptionIds?: string | null | undefined,
+        tag?: string | null | undefined
+    ): Promise<Entries> {
+        let url_ = this.baseUrl + "/category/entries?"
+        if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined and cannot be null.")
+        else url_ += "id=" + encodeURIComponent("" + id) + "&"
+        if (readType === undefined || readType === null) throw new Error("The parameter 'readType' must be defined and cannot be null.")
+        else url_ += "readType=" + encodeURIComponent("" + readType) + "&"
+        if (newerThan !== undefined) url_ += "newerThan=" + encodeURIComponent("" + newerThan) + "&"
+        if (offset !== undefined) url_ += "offset=" + encodeURIComponent("" + offset) + "&"
+        if (limit !== undefined) url_ += "limit=" + encodeURIComponent("" + limit) + "&"
+        if (order !== undefined) url_ += "order=" + encodeURIComponent("" + order) + "&"
+        if (keywords !== undefined) url_ += "keywords=" + encodeURIComponent("" + keywords) + "&"
+        if (onlyIds !== undefined) url_ += "onlyIds=" + encodeURIComponent("" + onlyIds) + "&"
+        if (excludedSubscriptionIds !== undefined)
+            url_ += "excludedSubscriptionIds=" + encodeURIComponent("" + excludedSubscriptionIds) + "&"
+        if (tag !== undefined) url_ += "tag=" + encodeURIComponent("" + tag) + "&"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processEntries(_response)
+        })
+    }
+
+    protected processEntries(response: Response): Promise<Entries> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 ? Entries.fromJS(resultData200) : new Entries()
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<Entries>(<any>null)
+    }
+
+    /**
+     * Get category entries as feed
+     * @param id id of the category, 'all' or 'starred'
+     * @param readType all entries or only unread ones
+     * @param newerThan (optional) only entries newer than this
+     * @param offset (optional) offset for paging
+     * @param limit (optional) limit for paging, default 20, maximum 1000
+     * @param order (optional) date ordering
+     * @param keywords (optional) search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum
+     * @param onlyIds (optional) return only entry ids
+     * @param excludedSubscriptionIds (optional) comma-separated list of excluded subscription ids
+     * @param tag (optional) keep only entries tagged with this tag
+     * @return successful operation
+     */
+    entriesAsFeed(
+        id: string,
+        readType: ReadingMode,
+        newerThan?: number | null | undefined,
+        offset?: number | null | undefined,
+        limit?: number | null | undefined,
+        order?: ReadingOrder | null | undefined,
+        keywords?: string | null | undefined,
+        onlyIds?: boolean | null | undefined,
+        excludedSubscriptionIds?: string | null | undefined,
+        tag?: string | null | undefined
+    ): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/category/entriesAsFeed?"
+        if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined and cannot be null.")
+        else url_ += "id=" + encodeURIComponent("" + id) + "&"
+        if (readType === undefined || readType === null) throw new Error("The parameter 'readType' must be defined and cannot be null.")
+        else url_ += "readType=" + encodeURIComponent("" + readType) + "&"
+        if (newerThan !== undefined) url_ += "newerThan=" + encodeURIComponent("" + newerThan) + "&"
+        if (offset !== undefined) url_ += "offset=" + encodeURIComponent("" + offset) + "&"
+        if (limit !== undefined) url_ += "limit=" + encodeURIComponent("" + limit) + "&"
+        if (order !== undefined) url_ += "order=" + encodeURIComponent("" + order) + "&"
+        if (keywords !== undefined) url_ += "keywords=" + encodeURIComponent("" + keywords) + "&"
+        if (onlyIds !== undefined) url_ += "onlyIds=" + encodeURIComponent("" + onlyIds) + "&"
+        if (excludedSubscriptionIds !== undefined)
+            url_ += "excludedSubscriptionIds=" + encodeURIComponent("" + excludedSubscriptionIds) + "&"
+        if (tag !== undefined) url_ += "tag=" + encodeURIComponent("" + tag) + "&"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/xml"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processEntriesAsFeed(_response)
+        })
+    }
+
+    protected processEntriesAsFeed(response: Response): Promise<FileResponse> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+            return response.blob().then(blob => {
+                return {
+                    fileName: fileName,
+                    data: blob,
+                    status: status,
+                    headers: _headers
+                }
+            })
+        }
+    }
+
+    /**
+     * Get root category
+     * @return successful operation
+     */
+    get(): Promise<Category> {
+        let url_ = this.baseUrl + "/category/get"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response)
+        })
+    }
+
+    protected processGet(response: Response): Promise<Category> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 ? Category.fromJS(resultData200) : new Category()
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<Category>(<any>null)
+    }
+
+    /**
+     * Mark category entries
+     * @param body category id, or 'all'
+     * @return successful operation
+     */
+    mark(body: MarkRequest): Promise<void> {
+        let url_ = this.baseUrl + "/category/mark"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processMark(_response)
+        })
+    }
+
+    protected processMark(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
+    }
+
+    /**
+     * Rename a category
+     * @return successful operation
+     */
+    modify(body: CategoryModificationRequest): Promise<void> {
+        let url_ = this.baseUrl + "/category/modify"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processModify(_response)
+        })
+    }
+
+    protected processModify(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
+    }
+
+    /**
+     * Get unread count for feed subscriptions
+     * @return successful operation
+     */
+    unreadCount(): Promise<UnreadCount[]> {
+        let url_ = this.baseUrl + "/category/unreadCount"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUnreadCount(_response)
+        })
+    }
+
+    protected processUnreadCount(response: Response): Promise<UnreadCount[]> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [] as any
+                    for (let item of resultData200) result200!.push(UnreadCount.fromJS(item))
+                }
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<UnreadCount[]>(<any>null)
+    }
 }
 
 export class EntryClient {
-  private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
-  protected jsonParseReviver:
-    | ((key: string, value: any) => any)
-    | undefined = undefined;
-
-  constructor(
-    baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }
-  ) {
-    this.http = http ? http : <any>window;
-    this.baseUrl = baseUrl ? baseUrl : "/rest";
-  }
-
-  /**
-   * Mark a feed entry
-   * @param body Mark Request
-   * @return successful operation
-   */
-  mark(body: MarkRequest): Promise<void> {
-    let url_ = this.baseUrl + "/entry/mark";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(body);
-
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processMark(_response);
-    });
-  }
-
-  protected processMark(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    private http: {
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+    private baseUrl: string
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window
+        this.baseUrl = baseUrl ? baseUrl : "/rest"
     }
-  }
 
-  /**
-   * Mark multiple feed entries
-   * @param body Multiple Mark Request
-   * @return successful operation
-   */
-  markMultiple(body: MultipleMarkRequest): Promise<void> {
-    let url_ = this.baseUrl + "/entry/markMultiple";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Mark a feed entry
+     * @param body Mark Request
+     * @return successful operation
+     */
+    mark(body: MarkRequest): Promise<void> {
+        let url_ = this.baseUrl + "/entry/mark"
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = JSON.stringify(body);
+        const content_ = JSON.stringify(body)
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processMarkMultiple(_response);
-    });
-  }
-
-  protected processMarkMultiple(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processMark(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processMark(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
 
-  /**
-   * Mark a feed entry
-   * @param body Star Request
-   * @return successful operation
-   */
-  star(body: StarRequest): Promise<void> {
-    let url_ = this.baseUrl + "/entry/star";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Mark multiple feed entries
+     * @param body Multiple Mark Request
+     * @return successful operation
+     */
+    markMultiple(body: MultipleMarkRequest): Promise<void> {
+        let url_ = this.baseUrl + "/entry/markMultiple"
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = JSON.stringify(body);
+        const content_ = JSON.stringify(body)
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processStar(_response);
-    });
-  }
-
-  protected processStar(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processMarkMultiple(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processMarkMultiple(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
 
-  /**
-   * Mark a feed entry
-   * @param body Tag Request
-   * @return successful operation
-   */
-  tag(body: TagRequest): Promise<void> {
-    let url_ = this.baseUrl + "/entry/tag";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Mark a feed entry
+     * @param body Star Request
+     * @return successful operation
+     */
+    star(body: StarRequest): Promise<void> {
+        let url_ = this.baseUrl + "/entry/star"
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = JSON.stringify(body);
+        const content_ = JSON.stringify(body)
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processTag(_response);
-    });
-  }
-
-  protected processTag(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processStar(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processStar(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
 
-  /**
-   * Get list of tags for the user
-   * @return successful operation
-   */
-  tags(): Promise<void> {
-    let url_ = this.baseUrl + "/entry/tags";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Mark a feed entry
+     * @param body Tag Request
+     * @return successful operation
+     */
+    tag(body: TagRequest): Promise<void> {
+        let url_ = this.baseUrl + "/entry/tag"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {}
-    };
+        const content_ = JSON.stringify(body)
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processTags(_response);
-    });
-  }
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
 
-  protected processTags(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processTag(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processTag(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
+
+    /**
+     * Get list of tags for the user
+     * @return successful operation
+     */
+    tags(): Promise<void> {
+        let url_ = this.baseUrl + "/entry/tags"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {}
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processTags(_response)
+        })
+    }
+
+    protected processTags(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
+    }
 }
 
 export class FeedClient {
-  private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
-  protected jsonParseReviver:
-    | ((key: string, value: any) => any)
-    | undefined = undefined;
-
-  constructor(
-    baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }
-  ) {
-    this.http = http ? http : <any>window;
-    this.baseUrl = baseUrl ? baseUrl : "/rest";
-  }
-
-  /**
-   * Get feed entries
-   * @param id id of the feed
-   * @param readType all entries or only unread ones
-   * @param newerThan (optional) only entries newer than this
-   * @param offset (optional) offset for paging
-   * @param limit (optional) limit for paging, default 20, maximum 1000
-   * @param order (optional) ordering
-   * @param keywords (optional) search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum
-   * @param onlyIds (optional) return only entry ids
-   * @return successful operation
-   */
-  entries(
-    id: string,
-    readType: ReadingMode,
-    newerThan?: number | null | undefined,
-    offset?: number | null | undefined,
-    limit?: number | null | undefined,
-    order?: ReadingOrder | null | undefined,
-    keywords?: string | null | undefined,
-    onlyIds?: boolean | null | undefined
-  ): Promise<Entries> {
-    let url_ = this.baseUrl + "/feed/entries?";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined and cannot be null.");
-    else url_ += "id=" + encodeURIComponent("" + id) + "&";
-    if (readType === undefined || readType === null)
-      throw new Error(
-        "The parameter 'readType' must be defined and cannot be null."
-      );
-    else url_ += "readType=" + encodeURIComponent("" + readType) + "&";
-    if (newerThan !== undefined)
-      url_ += "newerThan=" + encodeURIComponent("" + newerThan) + "&";
-    if (offset !== undefined)
-      url_ += "offset=" + encodeURIComponent("" + offset) + "&";
-    if (limit !== undefined)
-      url_ += "limit=" + encodeURIComponent("" + limit) + "&";
-    if (order !== undefined)
-      url_ += "order=" + encodeURIComponent("" + order) + "&";
-    if (keywords !== undefined)
-      url_ += "keywords=" + encodeURIComponent("" + keywords) + "&";
-    if (onlyIds !== undefined)
-      url_ += "onlyIds=" + encodeURIComponent("" + onlyIds) + "&";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processEntries(_response);
-    });
-  }
-
-  protected processEntries(response: Response): Promise<Entries> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    private http: {
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
     }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200
-          ? Entries.fromJS(resultData200)
-          : new Entries();
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+    private baseUrl: string
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window
+        this.baseUrl = baseUrl ? baseUrl : "/rest"
     }
-    return Promise.resolve<Entries>(<any>null);
-  }
 
-  /**
-   * Get feed entries as a feed
-   * @param id id of the feed
-   * @param readType all entries or only unread ones
-   * @param newerThan (optional) only entries newer than this
-   * @param offset (optional) offset for paging
-   * @param limit (optional) limit for paging, default 20, maximum 1000
-   * @param order (optional) date ordering
-   * @param keywords (optional) search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum
-   * @param onlyIds (optional) return only entry ids
-   * @return successful operation
-   */
-  entriesAsFeed(
-    id: string,
-    readType: ReadingMode,
-    newerThan?: number | null | undefined,
-    offset?: number | null | undefined,
-    limit?: number | null | undefined,
-    order?: ReadingOrder | null | undefined,
-    keywords?: string | null | undefined,
-    onlyIds?: boolean | null | undefined
-  ): Promise<FileResponse> {
-    let url_ = this.baseUrl + "/feed/entriesAsFeed?";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined and cannot be null.");
-    else url_ += "id=" + encodeURIComponent("" + id) + "&";
-    if (readType === undefined || readType === null)
-      throw new Error(
-        "The parameter 'readType' must be defined and cannot be null."
-      );
-    else url_ += "readType=" + encodeURIComponent("" + readType) + "&";
-    if (newerThan !== undefined)
-      url_ += "newerThan=" + encodeURIComponent("" + newerThan) + "&";
-    if (offset !== undefined)
-      url_ += "offset=" + encodeURIComponent("" + offset) + "&";
-    if (limit !== undefined)
-      url_ += "limit=" + encodeURIComponent("" + limit) + "&";
-    if (order !== undefined)
-      url_ += "order=" + encodeURIComponent("" + order) + "&";
-    if (keywords !== undefined)
-      url_ += "keywords=" + encodeURIComponent("" + keywords) + "&";
-    if (onlyIds !== undefined)
-      url_ += "onlyIds=" + encodeURIComponent("" + onlyIds) + "&";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Get feed entries
+     * @param id id of the feed
+     * @param readType all entries or only unread ones
+     * @param newerThan (optional) only entries newer than this
+     * @param offset (optional) offset for paging
+     * @param limit (optional) limit for paging, default 20, maximum 1000
+     * @param order (optional) ordering
+     * @param keywords (optional) search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum
+     * @param onlyIds (optional) return only entry ids
+     * @return successful operation
+     */
+    entries(
+        id: string,
+        readType: ReadingMode,
+        newerThan?: number | null | undefined,
+        offset?: number | null | undefined,
+        limit?: number | null | undefined,
+        order?: ReadingOrder | null | undefined,
+        keywords?: string | null | undefined,
+        onlyIds?: boolean | null | undefined
+    ): Promise<Entries> {
+        let url_ = this.baseUrl + "/feed/entries?"
+        if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined and cannot be null.")
+        else url_ += "id=" + encodeURIComponent("" + id) + "&"
+        if (readType === undefined || readType === null) throw new Error("The parameter 'readType' must be defined and cannot be null.")
+        else url_ += "readType=" + encodeURIComponent("" + readType) + "&"
+        if (newerThan !== undefined) url_ += "newerThan=" + encodeURIComponent("" + newerThan) + "&"
+        if (offset !== undefined) url_ += "offset=" + encodeURIComponent("" + offset) + "&"
+        if (limit !== undefined) url_ += "limit=" + encodeURIComponent("" + limit) + "&"
+        if (order !== undefined) url_ += "order=" + encodeURIComponent("" + order) + "&"
+        if (keywords !== undefined) url_ += "keywords=" + encodeURIComponent("" + keywords) + "&"
+        if (onlyIds !== undefined) url_ += "onlyIds=" + encodeURIComponent("" + onlyIds) + "&"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/xml"
-      }
-    };
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processEntriesAsFeed(_response);
-    });
-  }
-
-  protected processEntriesAsFeed(response: Response): Promise<FileResponse> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processEntries(_response)
+        })
     }
-    {
-      const contentDisposition = response.headers
-        ? response.headers.get("content-disposition")
-        : undefined;
-      const fileNameMatch = contentDisposition
-        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
-        : undefined;
-      const fileName =
-        fileNameMatch && fileNameMatch.length > 1
-          ? fileNameMatch[1]
-          : undefined;
-      return response.blob().then(blob => {
-        return {
-          fileName: fileName,
-          data: blob,
-          status: status,
-          headers: _headers
-        };
-      });
+
+    protected processEntries(response: Response): Promise<Entries> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 ? Entries.fromJS(resultData200) : new Entries()
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<Entries>(<any>null)
     }
-  }
 
-  /**
-   * OPML export
-   * @return successful operation
-   */
-  export(): Promise<FileResponse> {
-    let url_ = this.baseUrl + "/feed/export";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Get feed entries as a feed
+     * @param id id of the feed
+     * @param readType all entries or only unread ones
+     * @param newerThan (optional) only entries newer than this
+     * @param offset (optional) offset for paging
+     * @param limit (optional) limit for paging, default 20, maximum 1000
+     * @param order (optional) date ordering
+     * @param keywords (optional) search for keywords in either the title or the content of the entries, separated by spaces, 3 characters minimum
+     * @param onlyIds (optional) return only entry ids
+     * @return successful operation
+     */
+    entriesAsFeed(
+        id: string,
+        readType: ReadingMode,
+        newerThan?: number | null | undefined,
+        offset?: number | null | undefined,
+        limit?: number | null | undefined,
+        order?: ReadingOrder | null | undefined,
+        keywords?: string | null | undefined,
+        onlyIds?: boolean | null | undefined
+    ): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/feed/entriesAsFeed?"
+        if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined and cannot be null.")
+        else url_ += "id=" + encodeURIComponent("" + id) + "&"
+        if (readType === undefined || readType === null) throw new Error("The parameter 'readType' must be defined and cannot be null.")
+        else url_ += "readType=" + encodeURIComponent("" + readType) + "&"
+        if (newerThan !== undefined) url_ += "newerThan=" + encodeURIComponent("" + newerThan) + "&"
+        if (offset !== undefined) url_ += "offset=" + encodeURIComponent("" + offset) + "&"
+        if (limit !== undefined) url_ += "limit=" + encodeURIComponent("" + limit) + "&"
+        if (order !== undefined) url_ += "order=" + encodeURIComponent("" + order) + "&"
+        if (keywords !== undefined) url_ += "keywords=" + encodeURIComponent("" + keywords) + "&"
+        if (onlyIds !== undefined) url_ += "onlyIds=" + encodeURIComponent("" + onlyIds) + "&"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/xml"
-      }
-    };
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/xml"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processExport(_response);
-    });
-  }
-
-  protected processExport(response: Response): Promise<FileResponse> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processEntriesAsFeed(_response)
+        })
     }
-    {
-      const contentDisposition = response.headers
-        ? response.headers.get("content-disposition")
-        : undefined;
-      const fileNameMatch = contentDisposition
-        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
-        : undefined;
-      const fileName =
-        fileNameMatch && fileNameMatch.length > 1
-          ? fileNameMatch[1]
-          : undefined;
-      return response.blob().then(blob => {
-        return {
-          fileName: fileName,
-          data: blob,
-          status: status,
-          headers: _headers
-        };
-      });
+
+    protected processEntriesAsFeed(response: Response): Promise<FileResponse> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+            return response.blob().then(blob => {
+                return {
+                    fileName: fileName,
+                    data: blob,
+                    status: status,
+                    headers: _headers
+                }
+            })
+        }
     }
-  }
 
-  /**
-   * Fetch a feed's icon
-   * @param id subscription id
-   * @return successful operation
-   */
-  favicon(id: number): Promise<void> {
-    let url_ = this.baseUrl + "/feed/favicon/{id}";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace("{id}", encodeURIComponent("" + id));
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * OPML export
+     * @return successful operation
+     */
+    export(): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/feed/export"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {}
-    };
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/xml"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processFavicon(_response);
-    });
-  }
-
-  protected processFavicon(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processExport(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processExport(response: Response): Promise<FileResponse> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+            return response.blob().then(blob => {
+                return {
+                    fileName: fileName,
+                    data: blob,
+                    status: status,
+                    headers: _headers
+                }
+            })
+        }
     }
-  }
 
-  /**
-   * Fetch a feed
-   * @param body feed url
-   * @return successful operation
-   */
-  fetch(body: FeedInfoRequest): Promise<FeedInfo> {
-    let url_ = this.baseUrl + "/feed/fetch";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Fetch a feed's icon
+     * @param id subscription id
+     * @return successful operation
+     */
+    favicon(id: number): Promise<void> {
+        let url_ = this.baseUrl + "/feed/favicon/{id}"
+        if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.")
+        url_ = url_.replace("{id}", encodeURIComponent("" + id))
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = JSON.stringify(body);
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {}
+        }
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processFetch(_response);
-    });
-  }
-
-  protected processFetch(response: Response): Promise<FeedInfo> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processFavicon(_response)
+        })
     }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200
-          ? FeedInfo.fromJS(resultData200)
-          : new FeedInfo();
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+    protected processFavicon(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-    return Promise.resolve<FeedInfo>(<any>null);
-  }
 
-  /**
-   * get feed
-   * @param id user id
-   * @return successful operation
-   */
-  get(id: number): Promise<Subscription> {
-    let url_ = this.baseUrl + "/feed/get/{id}";
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.");
-    url_ = url_.replace("{id}", encodeURIComponent("" + id));
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Fetch a feed
+     * @param body feed url
+     * @return successful operation
+     */
+    fetch(body: FeedInfoRequest): Promise<FeedInfo> {
+        let url_ = this.baseUrl + "/feed/fetch"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
+        const content_ = JSON.stringify(body)
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGet(_response);
-    });
-  }
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            }
+        }
 
-  protected processGet(response: Response): Promise<Subscription> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processFetch(_response)
+        })
     }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200
-          ? Subscription.fromJS(resultData200)
-          : new Subscription();
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+
+    protected processFetch(response: Response): Promise<FeedInfo> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 ? FeedInfo.fromJS(resultData200) : new FeedInfo()
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<FeedInfo>(<any>null)
     }
-    return Promise.resolve<Subscription>(<any>null);
-  }
 
-  /**
-   * OPML import
-   * @param body ompl file
-   * @return successful operation
-   */
-  import(body: Blob): Promise<void> {
-    let url_ = this.baseUrl + "/feed/import";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * get feed
+     * @param id user id
+     * @return successful operation
+     */
+    get(id: number): Promise<Subscription> {
+        let url_ = this.baseUrl + "/feed/get/{id}"
+        if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.")
+        url_ = url_.replace("{id}", encodeURIComponent("" + id))
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = body;
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processImport(_response);
-    });
-  }
-
-  protected processImport(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processGet(response: Response): Promise<Subscription> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 ? Subscription.fromJS(resultData200) : new Subscription()
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<Subscription>(<any>null)
     }
-  }
 
-  /**
-   * Mark feed entries
-   * @param body Mark request
-   * @return successful operation
-   */
-  mark(body: MarkRequest): Promise<void> {
-    let url_ = this.baseUrl + "/feed/mark";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * OPML import
+     * @param body ompl file
+     * @return successful operation
+     */
+    import(body: Blob): Promise<void> {
+        let url_ = this.baseUrl + "/feed/import"
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = JSON.stringify(body);
+        const content_ = body
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processMark(_response);
-    });
-  }
-
-  protected processMark(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processImport(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processImport(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
 
-  /**
-   * Modify a subscription
-   * @param body subscription id
-   * @return successful operation
-   */
-  modify(body: FeedModificationRequest): Promise<void> {
-    let url_ = this.baseUrl + "/feed/modify";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Mark feed entries
+     * @param body Mark request
+     * @return successful operation
+     */
+    mark(body: MarkRequest): Promise<void> {
+        let url_ = this.baseUrl + "/feed/mark"
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = JSON.stringify(body);
+        const content_ = JSON.stringify(body)
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processModify(_response);
-    });
-  }
-
-  protected processModify(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processMark(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processMark(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
 
-  /**
-   * Queue a feed for refresh
-   * @param body Feed id
-   * @return successful operation
-   */
-  refresh(body: IDRequest): Promise<void> {
-    let url_ = this.baseUrl + "/feed/refresh";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Modify a subscription
+     * @param body subscription id
+     * @return successful operation
+     */
+    modify(body: FeedModificationRequest): Promise<void> {
+        let url_ = this.baseUrl + "/feed/modify"
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = JSON.stringify(body);
+        const content_ = JSON.stringify(body)
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processRefresh(_response);
-    });
-  }
-
-  protected processRefresh(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processModify(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processModify(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
 
-  /**
-   * Queue all feeds of the user for refresh
-   * @return successful operation
-   */
-  refreshAll(): Promise<void> {
-    let url_ = this.baseUrl + "/feed/refreshAll";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Queue a feed for refresh
+     * @param body Feed id
+     * @return successful operation
+     */
+    refresh(body: IDRequest): Promise<void> {
+        let url_ = this.baseUrl + "/feed/refresh"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {}
-    };
+        const content_ = JSON.stringify(body)
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processRefreshAll(_response);
-    });
-  }
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
 
-  protected processRefreshAll(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processRefresh(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processRefresh(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
 
-  /**
-   * Subscribe to a feed
-   * @param url feed url
-   * @return successful operation
-   */
-  subscribeGet(url: string): Promise<void> {
-    let url_ = this.baseUrl + "/feed/subscribe?";
-    if (url === undefined || url === null)
-      throw new Error(
-        "The parameter 'url' must be defined and cannot be null."
-      );
-    else url_ += "url=" + encodeURIComponent("" + url) + "&";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Queue all feeds of the user for refresh
+     * @return successful operation
+     */
+    refreshAll(): Promise<void> {
+        let url_ = this.baseUrl + "/feed/refreshAll"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {}
-    };
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {}
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processSubscribeGet(_response);
-    });
-  }
-
-  protected processSubscribeGet(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processRefreshAll(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processRefreshAll(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
 
-  /**
-   * Subscribe to a feed
-   * @param body subscription request
-   * @return successful operation
-   */
-  subscribePost(body: SubscribeRequest): Promise<void> {
-    let url_ = this.baseUrl + "/feed/subscribe";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Subscribe to a feed
+     * @param url feed url
+     * @return successful operation
+     */
+    subscribeGet(url: string): Promise<void> {
+        let url_ = this.baseUrl + "/feed/subscribe?"
+        if (url === undefined || url === null) throw new Error("The parameter 'url' must be defined and cannot be null.")
+        else url_ += "url=" + encodeURIComponent("" + url) + "&"
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = JSON.stringify(body);
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {}
+        }
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processSubscribePost(_response);
-    });
-  }
-
-  protected processSubscribePost(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processSubscribeGet(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processSubscribeGet(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
 
-  /**
-   * Unsubscribe from a feed
-   * @return successful operation
-   */
-  unsubscribe(body: IDRequest): Promise<void> {
-    let url_ = this.baseUrl + "/feed/unsubscribe";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Subscribe to a feed
+     * @param body subscription request
+     * @return successful operation
+     */
+    subscribePost(body: SubscribeRequest): Promise<void> {
+        let url_ = this.baseUrl + "/feed/subscribe"
+        url_ = url_.replace(/[?&]$/, "")
 
-    const content_ = JSON.stringify(body);
+        const content_ = JSON.stringify(body)
 
-    let options_ = <RequestInit>{
-      body: content_,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processUnsubscribe(_response);
-    });
-  }
-
-  protected processUnsubscribe(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processSubscribePost(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processSubscribePost(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
+
+    /**
+     * Unsubscribe from a feed
+     * @return successful operation
+     */
+    unsubscribe(body: IDRequest): Promise<void> {
+        let url_ = this.baseUrl + "/feed/unsubscribe"
+        url_ = url_.replace(/[?&]$/, "")
+
+        const content_ = JSON.stringify(body)
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUnsubscribe(_response)
+        })
+    }
+
+    protected processUnsubscribe(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
+    }
 }
 
 export class PushClient {
-  private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
-  protected jsonParseReviver:
-    | ((key: string, value: any) => any)
-    | undefined = undefined;
-
-  constructor(
-    baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }
-  ) {
-    this.http = http ? http : <any>window;
-    this.baseUrl = baseUrl ? baseUrl : "/rest";
-  }
-
-  /**
-   * @param hub_mode (optional)
-   * @param hub_topic (optional)
-   * @param hub_challenge (optional)
-   * @param hub_lease_seconds (optional)
-   * @param hub_verify_token (optional)
-   * @return successful operation
-   */
-  callbackGet(
-    hub_mode?: string | null | undefined,
-    hub_topic?: string | null | undefined,
-    hub_challenge?: string | null | undefined,
-    hub_lease_seconds?: string | null | undefined,
-    hub_verify_token?: string | null | undefined
-  ): Promise<void> {
-    let url_ = this.baseUrl + "/push/callback?";
-    if (hub_mode !== undefined)
-      url_ += "hub.mode=" + encodeURIComponent("" + hub_mode) + "&";
-    if (hub_topic !== undefined)
-      url_ += "hub.topic=" + encodeURIComponent("" + hub_topic) + "&";
-    if (hub_challenge !== undefined)
-      url_ += "hub.challenge=" + encodeURIComponent("" + hub_challenge) + "&";
-    if (hub_lease_seconds !== undefined)
-      url_ +=
-        "hub.lease_seconds=" + encodeURIComponent("" + hub_lease_seconds) + "&";
-    if (hub_verify_token !== undefined)
-      url_ +=
-        "hub.verify_token=" + encodeURIComponent("" + hub_verify_token) + "&";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {}
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processCallbackGet(_response);
-    });
-  }
-
-  protected processCallbackGet(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    private http: {
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+    private baseUrl: string
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window
+        this.baseUrl = baseUrl ? baseUrl : "/rest"
     }
-  }
 
-  /**
-   * @return successful operation
-   */
-  callbackPost(): Promise<void> {
-    let url_ = this.baseUrl + "/push/callback";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * @param hub_mode (optional)
+     * @param hub_topic (optional)
+     * @param hub_challenge (optional)
+     * @param hub_lease_seconds (optional)
+     * @param hub_verify_token (optional)
+     * @return successful operation
+     */
+    callbackGet(
+        hub_mode?: string | null | undefined,
+        hub_topic?: string | null | undefined,
+        hub_challenge?: string | null | undefined,
+        hub_lease_seconds?: string | null | undefined,
+        hub_verify_token?: string | null | undefined
+    ): Promise<void> {
+        let url_ = this.baseUrl + "/push/callback?"
+        if (hub_mode !== undefined) url_ += "hub.mode=" + encodeURIComponent("" + hub_mode) + "&"
+        if (hub_topic !== undefined) url_ += "hub.topic=" + encodeURIComponent("" + hub_topic) + "&"
+        if (hub_challenge !== undefined) url_ += "hub.challenge=" + encodeURIComponent("" + hub_challenge) + "&"
+        if (hub_lease_seconds !== undefined) url_ += "hub.lease_seconds=" + encodeURIComponent("" + hub_lease_seconds) + "&"
+        if (hub_verify_token !== undefined) url_ += "hub.verify_token=" + encodeURIComponent("" + hub_verify_token) + "&"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "POST",
-      headers: {}
-    };
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {}
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processCallbackPost(_response);
-    });
-  }
-
-  protected processCallbackPost(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCallbackGet(_response)
+        })
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+
+    protected processCallbackGet(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
     }
-  }
+
+    /**
+     * @return successful operation
+     */
+    callbackPost(): Promise<void> {
+        let url_ = this.baseUrl + "/push/callback"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {}
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCallbackPost(_response)
+        })
+    }
+
+    protected processCallbackPost(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
+    }
 }
 
 export class ServerClient {
-  private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
-  protected jsonParseReviver:
-    | ((key: string, value: any) => any)
-    | undefined = undefined;
-
-  constructor(
-    baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }
-  ) {
-    this.http = http ? http : <any>window;
-    this.baseUrl = baseUrl ? baseUrl : "/rest";
-  }
-
-  /**
-   * Get server infos
-   * @return successful operation
-   */
-  get(): Promise<ServerInfo> {
-    let url_ = this.baseUrl + "/server/get";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "application/json"
-      }
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGet(_response);
-    });
-  }
-
-  protected processGet(response: Response): Promise<ServerInfo> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    private http: {
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
     }
-    if (status === 200) {
-      return response.text().then(_responseText => {
-        let result200: any = null;
-        let resultData200 =
-          _responseText === ""
-            ? null
-            : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = resultData200
-          ? ServerInfo.fromJS(resultData200)
-          : new ServerInfo();
-        return result200;
-      });
-    } else if (status !== 200 && status !== 204) {
-      return response.text().then(_responseText => {
-        return throwException(
-          "An unexpected server error occurred.",
-          status,
-          _responseText,
-          _headers
-        );
-      });
+    private baseUrl: string
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window
+        this.baseUrl = baseUrl ? baseUrl : "/rest"
     }
-    return Promise.resolve<ServerInfo>(<any>null);
-  }
 
-  /**
-   * proxy image
-   * @param u image url
-   * @return successful operation
-   */
-  proxy(u: string): Promise<FileResponse> {
-    let url_ = this.baseUrl + "/server/proxy?";
-    if (u === undefined || u === null)
-      throw new Error("The parameter 'u' must be defined and cannot be null.");
-    else url_ += "u=" + encodeURIComponent("" + u) + "&";
-    url_ = url_.replace(/[?&]$/, "");
+    /**
+     * Get server infos
+     * @return successful operation
+     */
+    get(): Promise<ServerInfo> {
+        let url_ = this.baseUrl + "/server/get"
+        url_ = url_.replace(/[?&]$/, "")
 
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        Accept: "image/png"
-      }
-    };
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        }
 
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processProxy(_response);
-    });
-  }
-
-  protected processProxy(response: Response): Promise<FileResponse> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGet(_response)
+        })
     }
-    {
-      const contentDisposition = response.headers
-        ? response.headers.get("content-disposition")
-        : undefined;
-      const fileNameMatch = contentDisposition
-        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
-        : undefined;
-      const fileName =
-        fileNameMatch && fileNameMatch.length > 1
-          ? fileNameMatch[1]
-          : undefined;
-      return response.blob().then(blob => {
-        return {
-          fileName: fileName,
-          data: blob,
-          status: status,
-          headers: _headers
-        };
-      });
+
+    protected processGet(response: Response): Promise<ServerInfo> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        if (status === 200) {
+            return response.text().then(_responseText => {
+                let result200: any = null
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver)
+                result200 = resultData200 ? ServerInfo.fromJS(resultData200) : new ServerInfo()
+                return result200
+            })
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers)
+            })
+        }
+        return Promise.resolve<ServerInfo>(<any>null)
     }
-  }
+
+    /**
+     * proxy image
+     * @param u image url
+     * @return successful operation
+     */
+    proxy(u: string): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/server/proxy?"
+        if (u === undefined || u === null) throw new Error("The parameter 'u' must be defined and cannot be null.")
+        else url_ += "u=" + encodeURIComponent("" + u) + "&"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                Accept: "image/png"
+            }
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processProxy(_response)
+        })
+    }
+
+    protected processProxy(response: Response): Promise<FileResponse> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+            return response.blob().then(blob => {
+                return {
+                    fileName: fileName,
+                    data: blob,
+                    status: status,
+                    headers: _headers
+                }
+            })
+        }
+    }
 }
 
 export class ProfileClient {
-  private http: {
-    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-  };
-  private baseUrl: string;
-  protected jsonParseReviver:
-    | ((key: string, value: any) => any)
-    | undefined = undefined;
-
-  constructor(
-    baseUrl?: string,
-    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }
-  ) {
-    this.http = http ? http : <any>window;
-    this.baseUrl = baseUrl ? baseUrl : "/rest";
-  }
-
-  /**
-   * Delete the user account
-   * @return successful operation
-   */
-  deleteAccount(): Promise<void> {
-    let url_ = this.baseUrl + "/user/profile/deleteAccount";
-    url_ = url_.replace(/[?&]$/, "");
-
-    let options_ = <RequestInit>{
-      method: "POST",
-      headers: {}
-    };
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processDeleteAccount(_response);
-    });
-  }
-
-  protected processDeleteAccount(response: Response): Promise<void> {
-    const status = response.status;
-    let _headers: any = {};
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    private http: {
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
     }
-    {
-      return response.text().then(_responseText => {
-        return;
-      });
+    private baseUrl: string
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window
+        this.baseUrl = baseUrl ? baseUrl : "/rest"
     }
-  }
+
+    /**
+     * Delete the user account
+     * @return successful operation
+     */
+    deleteAccount(): Promise<void> {
+        let url_ = this.baseUrl + "/user/profile/deleteAccount"
+        url_ = url_.replace(/[?&]$/, "")
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {}
+        }
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeleteAccount(_response)
+        })
+    }
+
+    protected processDeleteAccount(response: Response): Promise<void> {
+        const status = response.status
+        let _headers: any = {}
+        if (response.headers && response.headers.forEach) {
+            response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+        }
+        {
+            return response.text().then(_responseText => {
+                return
+            })
+        }
+    }
 }
 
 /** Add Category Request */
 export class AddCategoryRequest implements IAddCategoryRequest {
-  /** name */
-  name!: string;
-  /** parent category id, if any */
-  parentId?: string | undefined;
+    /** name */
+    name!: string
+    /** parent category id, if any */
+    parentId?: string | undefined
 
-  constructor(data?: IAddCategoryRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IAddCategoryRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.name = data["name"];
-      this.parentId = data["parentId"];
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"]
+            this.parentId = data["parentId"]
+        }
     }
-  }
 
-  static fromJS(data: any): AddCategoryRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new AddCategoryRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): AddCategoryRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new AddCategoryRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["name"] = this.name;
-    data["parentId"] = this.parentId;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["name"] = this.name
+        data["parentId"] = this.parentId
+        return data
+    }
 }
 
 /** Add Category Request */
 export interface IAddCategoryRequest {
-  /** name */
-  name: string;
-  /** parent category id, if any */
-  parentId?: string | undefined;
+    /** name */
+    name: string
+    /** parent category id, if any */
+    parentId?: string | undefined
 }
 
 export class ApplicationSettings implements IApplicationSettings {
-  publicUrl!: string;
-  allowRegistrations!: boolean;
-  createDemoAccount!: boolean;
-  googleAnalyticsTrackingCode?: string | undefined;
-  googleAuthKey?: string | undefined;
-  backgroundThreads!: number;
-  databaseUpdateThreads!: number;
-  smtpHost?: string | undefined;
-  smtpPort?: number | undefined;
-  smtpTls?: boolean | undefined;
-  smtpUserName?: string | undefined;
-  smtpPassword?: string | undefined;
-  smtpFromAddress?: string | undefined;
-  graphiteEnabled?: boolean | undefined;
-  graphitePrefix?: string | undefined;
-  graphiteHost?: string | undefined;
-  graphitePort?: number | undefined;
-  graphiteInterval?: number | undefined;
-  heavyLoad!: boolean;
-  pubsubhubbub!: boolean;
-  imageProxyEnabled!: boolean;
-  queryTimeout!: number;
-  keepStatusDays!: number;
-  maxFeedCapacity!: number;
-  refreshIntervalMinutes!: number;
-  cache!: ApplicationSettingsCache;
-  announcement?: string | undefined;
-  userAgent?: string | undefined;
-  unreadThreshold?: Date | undefined;
+    publicUrl!: string
+    allowRegistrations!: boolean
+    createDemoAccount!: boolean
+    googleAnalyticsTrackingCode?: string | undefined
+    googleAuthKey?: string | undefined
+    backgroundThreads!: number
+    databaseUpdateThreads!: number
+    smtpHost?: string | undefined
+    smtpPort?: number | undefined
+    smtpTls?: boolean | undefined
+    smtpUserName?: string | undefined
+    smtpPassword?: string | undefined
+    smtpFromAddress?: string | undefined
+    graphiteEnabled?: boolean | undefined
+    graphitePrefix?: string | undefined
+    graphiteHost?: string | undefined
+    graphitePort?: number | undefined
+    graphiteInterval?: number | undefined
+    heavyLoad!: boolean
+    pubsubhubbub!: boolean
+    imageProxyEnabled!: boolean
+    queryTimeout!: number
+    keepStatusDays!: number
+    maxFeedCapacity!: number
+    refreshIntervalMinutes!: number
+    cache!: ApplicationSettingsCache
+    announcement?: string | undefined
+    userAgent?: string | undefined
+    unreadThreshold?: Date | undefined
 
-  constructor(data?: IApplicationSettings) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IApplicationSettings) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.publicUrl = data["publicUrl"];
-      this.allowRegistrations = data["allowRegistrations"];
-      this.createDemoAccount = data["createDemoAccount"];
-      this.googleAnalyticsTrackingCode = data["googleAnalyticsTrackingCode"];
-      this.googleAuthKey = data["googleAuthKey"];
-      this.backgroundThreads = data["backgroundThreads"];
-      this.databaseUpdateThreads = data["databaseUpdateThreads"];
-      this.smtpHost = data["smtpHost"];
-      this.smtpPort = data["smtpPort"];
-      this.smtpTls = data["smtpTls"];
-      this.smtpUserName = data["smtpUserName"];
-      this.smtpPassword = data["smtpPassword"];
-      this.smtpFromAddress = data["smtpFromAddress"];
-      this.graphiteEnabled = data["graphiteEnabled"];
-      this.graphitePrefix = data["graphitePrefix"];
-      this.graphiteHost = data["graphiteHost"];
-      this.graphitePort = data["graphitePort"];
-      this.graphiteInterval = data["graphiteInterval"];
-      this.heavyLoad = data["heavyLoad"];
-      this.pubsubhubbub = data["pubsubhubbub"];
-      this.imageProxyEnabled = data["imageProxyEnabled"];
-      this.queryTimeout = data["queryTimeout"];
-      this.keepStatusDays = data["keepStatusDays"];
-      this.maxFeedCapacity = data["maxFeedCapacity"];
-      this.refreshIntervalMinutes = data["refreshIntervalMinutes"];
-      this.cache = data["cache"];
-      this.announcement = data["announcement"];
-      this.userAgent = data["userAgent"];
-      this.unreadThreshold = data["unreadThreshold"]
-        ? new Date(data["unreadThreshold"].toString())
-        : <any>undefined;
+    init(data?: any) {
+        if (data) {
+            this.publicUrl = data["publicUrl"]
+            this.allowRegistrations = data["allowRegistrations"]
+            this.createDemoAccount = data["createDemoAccount"]
+            this.googleAnalyticsTrackingCode = data["googleAnalyticsTrackingCode"]
+            this.googleAuthKey = data["googleAuthKey"]
+            this.backgroundThreads = data["backgroundThreads"]
+            this.databaseUpdateThreads = data["databaseUpdateThreads"]
+            this.smtpHost = data["smtpHost"]
+            this.smtpPort = data["smtpPort"]
+            this.smtpTls = data["smtpTls"]
+            this.smtpUserName = data["smtpUserName"]
+            this.smtpPassword = data["smtpPassword"]
+            this.smtpFromAddress = data["smtpFromAddress"]
+            this.graphiteEnabled = data["graphiteEnabled"]
+            this.graphitePrefix = data["graphitePrefix"]
+            this.graphiteHost = data["graphiteHost"]
+            this.graphitePort = data["graphitePort"]
+            this.graphiteInterval = data["graphiteInterval"]
+            this.heavyLoad = data["heavyLoad"]
+            this.pubsubhubbub = data["pubsubhubbub"]
+            this.imageProxyEnabled = data["imageProxyEnabled"]
+            this.queryTimeout = data["queryTimeout"]
+            this.keepStatusDays = data["keepStatusDays"]
+            this.maxFeedCapacity = data["maxFeedCapacity"]
+            this.refreshIntervalMinutes = data["refreshIntervalMinutes"]
+            this.cache = data["cache"]
+            this.announcement = data["announcement"]
+            this.userAgent = data["userAgent"]
+            this.unreadThreshold = data["unreadThreshold"] ? new Date(data["unreadThreshold"].toString()) : <any>undefined
+        }
     }
-  }
 
-  static fromJS(data: any): ApplicationSettings {
-    data = typeof data === "object" ? data : {};
-    let result = new ApplicationSettings();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): ApplicationSettings {
+        data = typeof data === "object" ? data : {}
+        let result = new ApplicationSettings()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["publicUrl"] = this.publicUrl;
-    data["allowRegistrations"] = this.allowRegistrations;
-    data["createDemoAccount"] = this.createDemoAccount;
-    data["googleAnalyticsTrackingCode"] = this.googleAnalyticsTrackingCode;
-    data["googleAuthKey"] = this.googleAuthKey;
-    data["backgroundThreads"] = this.backgroundThreads;
-    data["databaseUpdateThreads"] = this.databaseUpdateThreads;
-    data["smtpHost"] = this.smtpHost;
-    data["smtpPort"] = this.smtpPort;
-    data["smtpTls"] = this.smtpTls;
-    data["smtpUserName"] = this.smtpUserName;
-    data["smtpPassword"] = this.smtpPassword;
-    data["smtpFromAddress"] = this.smtpFromAddress;
-    data["graphiteEnabled"] = this.graphiteEnabled;
-    data["graphitePrefix"] = this.graphitePrefix;
-    data["graphiteHost"] = this.graphiteHost;
-    data["graphitePort"] = this.graphitePort;
-    data["graphiteInterval"] = this.graphiteInterval;
-    data["heavyLoad"] = this.heavyLoad;
-    data["pubsubhubbub"] = this.pubsubhubbub;
-    data["imageProxyEnabled"] = this.imageProxyEnabled;
-    data["queryTimeout"] = this.queryTimeout;
-    data["keepStatusDays"] = this.keepStatusDays;
-    data["maxFeedCapacity"] = this.maxFeedCapacity;
-    data["refreshIntervalMinutes"] = this.refreshIntervalMinutes;
-    data["cache"] = this.cache;
-    data["announcement"] = this.announcement;
-    data["userAgent"] = this.userAgent;
-    data["unreadThreshold"] = this.unreadThreshold
-      ? this.unreadThreshold.toISOString()
-      : <any>undefined;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["publicUrl"] = this.publicUrl
+        data["allowRegistrations"] = this.allowRegistrations
+        data["createDemoAccount"] = this.createDemoAccount
+        data["googleAnalyticsTrackingCode"] = this.googleAnalyticsTrackingCode
+        data["googleAuthKey"] = this.googleAuthKey
+        data["backgroundThreads"] = this.backgroundThreads
+        data["databaseUpdateThreads"] = this.databaseUpdateThreads
+        data["smtpHost"] = this.smtpHost
+        data["smtpPort"] = this.smtpPort
+        data["smtpTls"] = this.smtpTls
+        data["smtpUserName"] = this.smtpUserName
+        data["smtpPassword"] = this.smtpPassword
+        data["smtpFromAddress"] = this.smtpFromAddress
+        data["graphiteEnabled"] = this.graphiteEnabled
+        data["graphitePrefix"] = this.graphitePrefix
+        data["graphiteHost"] = this.graphiteHost
+        data["graphitePort"] = this.graphitePort
+        data["graphiteInterval"] = this.graphiteInterval
+        data["heavyLoad"] = this.heavyLoad
+        data["pubsubhubbub"] = this.pubsubhubbub
+        data["imageProxyEnabled"] = this.imageProxyEnabled
+        data["queryTimeout"] = this.queryTimeout
+        data["keepStatusDays"] = this.keepStatusDays
+        data["maxFeedCapacity"] = this.maxFeedCapacity
+        data["refreshIntervalMinutes"] = this.refreshIntervalMinutes
+        data["cache"] = this.cache
+        data["announcement"] = this.announcement
+        data["userAgent"] = this.userAgent
+        data["unreadThreshold"] = this.unreadThreshold ? this.unreadThreshold.toISOString() : <any>undefined
+        return data
+    }
 }
 
 export interface IApplicationSettings {
-  publicUrl: string;
-  allowRegistrations: boolean;
-  createDemoAccount: boolean;
-  googleAnalyticsTrackingCode?: string | undefined;
-  googleAuthKey?: string | undefined;
-  backgroundThreads: number;
-  databaseUpdateThreads: number;
-  smtpHost?: string | undefined;
-  smtpPort?: number | undefined;
-  smtpTls?: boolean | undefined;
-  smtpUserName?: string | undefined;
-  smtpPassword?: string | undefined;
-  smtpFromAddress?: string | undefined;
-  graphiteEnabled?: boolean | undefined;
-  graphitePrefix?: string | undefined;
-  graphiteHost?: string | undefined;
-  graphitePort?: number | undefined;
-  graphiteInterval?: number | undefined;
-  heavyLoad: boolean;
-  pubsubhubbub: boolean;
-  imageProxyEnabled: boolean;
-  queryTimeout: number;
-  keepStatusDays: number;
-  maxFeedCapacity: number;
-  refreshIntervalMinutes: number;
-  cache: ApplicationSettingsCache;
-  announcement?: string | undefined;
-  userAgent?: string | undefined;
-  unreadThreshold?: Date | undefined;
+    publicUrl: string
+    allowRegistrations: boolean
+    createDemoAccount: boolean
+    googleAnalyticsTrackingCode?: string | undefined
+    googleAuthKey?: string | undefined
+    backgroundThreads: number
+    databaseUpdateThreads: number
+    smtpHost?: string | undefined
+    smtpPort?: number | undefined
+    smtpTls?: boolean | undefined
+    smtpUserName?: string | undefined
+    smtpPassword?: string | undefined
+    smtpFromAddress?: string | undefined
+    graphiteEnabled?: boolean | undefined
+    graphitePrefix?: string | undefined
+    graphiteHost?: string | undefined
+    graphitePort?: number | undefined
+    graphiteInterval?: number | undefined
+    heavyLoad: boolean
+    pubsubhubbub: boolean
+    imageProxyEnabled: boolean
+    queryTimeout: number
+    keepStatusDays: number
+    maxFeedCapacity: number
+    refreshIntervalMinutes: number
+    cache: ApplicationSettingsCache
+    announcement?: string | undefined
+    userAgent?: string | undefined
+    unreadThreshold?: Date | undefined
 }
 
 /** Entry details */
 export class Category implements ICategory {
-  /** category id */
-  id!: string;
-  /** parent category id */
-  parentId?: string | undefined;
-  /** category id */
-  name!: string;
-  /** category children categories */
-  children!: Category[];
-  /** category feeds */
-  feeds!: Subscription[];
-  /** wether the category is expanded or collapsed */
-  expanded!: boolean;
-  /** position of the category in the list */
-  position!: number;
+    /** category id */
+    id!: string
+    /** parent category id */
+    parentId?: string | undefined
+    /** category id */
+    name!: string
+    /** category children categories */
+    children!: Category[]
+    /** category feeds */
+    feeds!: Subscription[]
+    /** wether the category is expanded or collapsed */
+    expanded!: boolean
+    /** position of the category in the list */
+    position!: number
 
-  constructor(data?: ICategory) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: ICategory) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
+        if (!data) {
+            this.children = []
+            this.feeds = []
+        }
     }
-    if (!data) {
-      this.children = [];
-      this.feeds = [];
-    }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.id = data["id"];
-      this.parentId = data["parentId"];
-      this.name = data["name"];
-      if (data["children"] && data["children"].constructor === Array) {
-        this.children = [] as any;
-        for (let item of data["children"])
-          this.children!.push(Category.fromJS(item));
-      }
-      if (data["feeds"] && data["feeds"].constructor === Array) {
-        this.feeds = [] as any;
-        for (let item of data["feeds"])
-          this.feeds!.push(Subscription.fromJS(item));
-      }
-      this.expanded = data["expanded"];
-      this.position = data["position"];
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"]
+            this.parentId = data["parentId"]
+            this.name = data["name"]
+            if (data["children"] && data["children"].constructor === Array) {
+                this.children = [] as any
+                for (let item of data["children"]) this.children!.push(Category.fromJS(item))
+            }
+            if (data["feeds"] && data["feeds"].constructor === Array) {
+                this.feeds = [] as any
+                for (let item of data["feeds"]) this.feeds!.push(Subscription.fromJS(item))
+            }
+            this.expanded = data["expanded"]
+            this.position = data["position"]
+        }
     }
-  }
 
-  static fromJS(data: any): Category {
-    data = typeof data === "object" ? data : {};
-    let result = new Category();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): Category {
+        data = typeof data === "object" ? data : {}
+        let result = new Category()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    data["parentId"] = this.parentId;
-    data["name"] = this.name;
-    if (this.children && this.children.constructor === Array) {
-      data["children"] = [];
-      for (let item of this.children) data["children"].push(item.toJSON());
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["id"] = this.id
+        data["parentId"] = this.parentId
+        data["name"] = this.name
+        if (this.children && this.children.constructor === Array) {
+            data["children"] = []
+            for (let item of this.children) data["children"].push(item.toJSON())
+        }
+        if (this.feeds && this.feeds.constructor === Array) {
+            data["feeds"] = []
+            for (let item of this.feeds) data["feeds"].push(item.toJSON())
+        }
+        data["expanded"] = this.expanded
+        data["position"] = this.position
+        return data
     }
-    if (this.feeds && this.feeds.constructor === Array) {
-      data["feeds"] = [];
-      for (let item of this.feeds) data["feeds"].push(item.toJSON());
-    }
-    data["expanded"] = this.expanded;
-    data["position"] = this.position;
-    return data;
-  }
 }
 
 /** Entry details */
 export interface ICategory {
-  /** category id */
-  id: string;
-  /** parent category id */
-  parentId?: string | undefined;
-  /** category id */
-  name: string;
-  /** category children categories */
-  children: Category[];
-  /** category feeds */
-  feeds: Subscription[];
-  /** wether the category is expanded or collapsed */
-  expanded: boolean;
-  /** position of the category in the list */
-  position: number;
+    /** category id */
+    id: string
+    /** parent category id */
+    parentId?: string | undefined
+    /** category id */
+    name: string
+    /** category children categories */
+    children: Category[]
+    /** category feeds */
+    feeds: Subscription[]
+    /** wether the category is expanded or collapsed */
+    expanded: boolean
+    /** position of the category in the list */
+    position: number
 }
 
 /** Category modification request */
-export class CategoryModificationRequest
-  implements ICategoryModificationRequest {
-  /** id */
-  id!: number;
-  /** new name, null if not changed */
-  name?: string | undefined;
-  /** new parent category id */
-  parentId?: string | undefined;
-  /** new display position, null if not changed */
-  position?: number | undefined;
+export class CategoryModificationRequest implements ICategoryModificationRequest {
+    /** id */
+    id!: number
+    /** new name, null if not changed */
+    name?: string | undefined
+    /** new parent category id */
+    parentId?: string | undefined
+    /** new display position, null if not changed */
+    position?: number | undefined
 
-  constructor(data?: ICategoryModificationRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: ICategoryModificationRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.id = data["id"];
-      this.name = data["name"];
-      this.parentId = data["parentId"];
-      this.position = data["position"];
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"]
+            this.name = data["name"]
+            this.parentId = data["parentId"]
+            this.position = data["position"]
+        }
     }
-  }
 
-  static fromJS(data: any): CategoryModificationRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new CategoryModificationRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): CategoryModificationRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new CategoryModificationRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    data["name"] = this.name;
-    data["parentId"] = this.parentId;
-    data["position"] = this.position;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["id"] = this.id
+        data["name"] = this.name
+        data["parentId"] = this.parentId
+        data["position"] = this.position
+        return data
+    }
 }
 
 /** Category modification request */
 export interface ICategoryModificationRequest {
-  /** id */
-  id: number;
-  /** new name, null if not changed */
-  name?: string | undefined;
-  /** new parent category id */
-  parentId?: string | undefined;
-  /** new display position, null if not changed */
-  position?: number | undefined;
+    /** id */
+    id: number
+    /** new name, null if not changed */
+    name?: string | undefined
+    /** new parent category id */
+    parentId?: string | undefined
+    /** new display position, null if not changed */
+    position?: number | undefined
 }
 
 /** Mark Request */
 export class CollapseRequest implements ICollapseRequest {
-  /** category id */
-  id!: number;
-  /** collapse */
-  collapse!: boolean;
+    /** category id */
+    id!: number
+    /** collapse */
+    collapse!: boolean
 
-  constructor(data?: ICollapseRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: ICollapseRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.id = data["id"];
-      this.collapse = data["collapse"];
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"]
+            this.collapse = data["collapse"]
+        }
     }
-  }
 
-  static fromJS(data: any): CollapseRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new CollapseRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): CollapseRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new CollapseRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    data["collapse"] = this.collapse;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["id"] = this.id
+        data["collapse"] = this.collapse
+        return data
+    }
 }
 
 /** Mark Request */
 export interface ICollapseRequest {
-  /** category id */
-  id: number;
-  /** collapse */
-  collapse: boolean;
+    /** category id */
+    id: number
+    /** collapse */
+    collapse: boolean
 }
 
 /** List of entries with some metadata */
 export class Entries implements IEntries {
-  /** name of the feed or the category requested */
-  name!: string;
-  /** error or warning message */
-  message?: string | undefined;
-  /** times the server tried to refresh the feed and failed */
-  errorCount!: number;
-  /** URL of the website, extracted from the feed */
-  feedLink!: string;
-  /** list generation timestamp */
-  timestamp!: number;
-  /** if the query has more elements */
-  hasMore!: boolean;
-  /** the requested offset */
-  offset?: number | undefined;
-  /** the requested limit */
-  limit?: number | undefined;
-  /** list of entries */
-  entries!: Entry[];
-  /** if true, the unread flag was ignored in the request, all entries are returned regardless of their read status */
-  ignoredReadStatus!: boolean;
+    /** name of the feed or the category requested */
+    name!: string
+    /** error or warning message */
+    message?: string | undefined
+    /** times the server tried to refresh the feed and failed */
+    errorCount!: number
+    /** URL of the website, extracted from the feed */
+    feedLink!: string
+    /** list generation timestamp */
+    timestamp!: number
+    /** if the query has more elements */
+    hasMore!: boolean
+    /** the requested offset */
+    offset?: number | undefined
+    /** the requested limit */
+    limit?: number | undefined
+    /** list of entries */
+    entries!: Entry[]
+    /** if true, the unread flag was ignored in the request, all entries are returned regardless of their read status */
+    ignoredReadStatus!: boolean
 
-  constructor(data?: IEntries) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IEntries) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
+        if (!data) {
+            this.entries = []
+        }
     }
-    if (!data) {
-      this.entries = [];
-    }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.name = data["name"];
-      this.message = data["message"];
-      this.errorCount = data["errorCount"];
-      this.feedLink = data["feedLink"];
-      this.timestamp = data["timestamp"];
-      this.hasMore = data["hasMore"];
-      this.offset = data["offset"];
-      this.limit = data["limit"];
-      if (data["entries"] && data["entries"].constructor === Array) {
-        this.entries = [] as any;
-        for (let item of data["entries"])
-          this.entries!.push(Entry.fromJS(item));
-      }
-      this.ignoredReadStatus = data["ignoredReadStatus"];
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"]
+            this.message = data["message"]
+            this.errorCount = data["errorCount"]
+            this.feedLink = data["feedLink"]
+            this.timestamp = data["timestamp"]
+            this.hasMore = data["hasMore"]
+            this.offset = data["offset"]
+            this.limit = data["limit"]
+            if (data["entries"] && data["entries"].constructor === Array) {
+                this.entries = [] as any
+                for (let item of data["entries"]) this.entries!.push(Entry.fromJS(item))
+            }
+            this.ignoredReadStatus = data["ignoredReadStatus"]
+        }
     }
-  }
 
-  static fromJS(data: any): Entries {
-    data = typeof data === "object" ? data : {};
-    let result = new Entries();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["name"] = this.name;
-    data["message"] = this.message;
-    data["errorCount"] = this.errorCount;
-    data["feedLink"] = this.feedLink;
-    data["timestamp"] = this.timestamp;
-    data["hasMore"] = this.hasMore;
-    data["offset"] = this.offset;
-    data["limit"] = this.limit;
-    if (this.entries && this.entries.constructor === Array) {
-      data["entries"] = [];
-      for (let item of this.entries) data["entries"].push(item.toJSON());
+    static fromJS(data: any): Entries {
+        data = typeof data === "object" ? data : {}
+        let result = new Entries()
+        result.init(data)
+        return result
     }
-    data["ignoredReadStatus"] = this.ignoredReadStatus;
-    return data;
-  }
+
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["name"] = this.name
+        data["message"] = this.message
+        data["errorCount"] = this.errorCount
+        data["feedLink"] = this.feedLink
+        data["timestamp"] = this.timestamp
+        data["hasMore"] = this.hasMore
+        data["offset"] = this.offset
+        data["limit"] = this.limit
+        if (this.entries && this.entries.constructor === Array) {
+            data["entries"] = []
+            for (let item of this.entries) data["entries"].push(item.toJSON())
+        }
+        data["ignoredReadStatus"] = this.ignoredReadStatus
+        return data
+    }
 }
 
 /** List of entries with some metadata */
 export interface IEntries {
-  /** name of the feed or the category requested */
-  name: string;
-  /** error or warning message */
-  message?: string | undefined;
-  /** times the server tried to refresh the feed and failed */
-  errorCount: number;
-  /** URL of the website, extracted from the feed */
-  feedLink: string;
-  /** list generation timestamp */
-  timestamp: number;
-  /** if the query has more elements */
-  hasMore: boolean;
-  /** the requested offset */
-  offset?: number | undefined;
-  /** the requested limit */
-  limit?: number | undefined;
-  /** list of entries */
-  entries: Entry[];
-  /** if true, the unread flag was ignored in the request, all entries are returned regardless of their read status */
-  ignoredReadStatus: boolean;
+    /** name of the feed or the category requested */
+    name: string
+    /** error or warning message */
+    message?: string | undefined
+    /** times the server tried to refresh the feed and failed */
+    errorCount: number
+    /** URL of the website, extracted from the feed */
+    feedLink: string
+    /** list generation timestamp */
+    timestamp: number
+    /** if the query has more elements */
+    hasMore: boolean
+    /** the requested offset */
+    offset?: number | undefined
+    /** the requested limit */
+    limit?: number | undefined
+    /** list of entries */
+    entries: Entry[]
+    /** if true, the unread flag was ignored in the request, all entries are returned regardless of their read status */
+    ignoredReadStatus: boolean
 }
 
 /** Entry details */
 export class Entry implements IEntry {
-  /** entry id */
-  id!: string;
-  /** entry guid */
-  guid!: string;
-  /** entry title */
-  title!: string;
-  /** entry content */
-  content!: string;
-  /** comma-separated list of categories */
-  categories?: string | undefined;
-  /** wether entry content and title are rtl */
-  rtl!: boolean;
-  /** entry author */
-  author?: string | undefined;
-  /** entry enclosure url, if any */
-  enclosureUrl?: string | undefined;
-  /** entry enclosure mime type, if any */
-  enclosureType?: string | undefined;
-  /** entry publication date */
-  date!: number;
-  /** entry insertion date in the database */
-  insertedDate!: number;
-  /** feed id */
-  feedId!: string;
-  /** feed name */
-  feedName!: string;
-  /** this entry's feed url */
-  feedUrl!: string;
-  /** this entry's website url */
-  feedLink!: string;
-  /** The favicon url to use for this feed */
-  iconUrl!: string;
-  /** entry url */
-  url!: string;
-  /** read status */
-  read!: boolean;
-  /** starred status */
-  starred!: boolean;
-  /** wether the entry is still markable (old entry statuses are discarded) */
-  markable!: boolean;
-  /** tags */
-  tags!: string[];
+    /** entry id */
+    id!: string
+    /** entry guid */
+    guid!: string
+    /** entry title */
+    title!: string
+    /** entry content */
+    content!: string
+    /** comma-separated list of categories */
+    categories?: string | undefined
+    /** wether entry content and title are rtl */
+    rtl!: boolean
+    /** entry author */
+    author?: string | undefined
+    /** entry enclosure url, if any */
+    enclosureUrl?: string | undefined
+    /** entry enclosure mime type, if any */
+    enclosureType?: string | undefined
+    /** entry publication date */
+    date!: number
+    /** entry insertion date in the database */
+    insertedDate!: number
+    /** feed id */
+    feedId!: string
+    /** feed name */
+    feedName!: string
+    /** this entry's feed url */
+    feedUrl!: string
+    /** this entry's website url */
+    feedLink!: string
+    /** The favicon url to use for this feed */
+    iconUrl!: string
+    /** entry url */
+    url!: string
+    /** read status */
+    read!: boolean
+    /** starred status */
+    starred!: boolean
+    /** wether the entry is still markable (old entry statuses are discarded) */
+    markable!: boolean
+    /** tags */
+    tags!: string[]
 
-  constructor(data?: IEntry) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IEntry) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
+        if (!data) {
+            this.tags = []
+        }
     }
-    if (!data) {
-      this.tags = [];
-    }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.id = data["id"];
-      this.guid = data["guid"];
-      this.title = data["title"];
-      this.content = data["content"];
-      this.categories = data["categories"];
-      this.rtl = data["rtl"];
-      this.author = data["author"];
-      this.enclosureUrl = data["enclosureUrl"];
-      this.enclosureType = data["enclosureType"];
-      this.date = data["date"];
-      this.insertedDate = data["insertedDate"];
-      this.feedId = data["feedId"];
-      this.feedName = data["feedName"];
-      this.feedUrl = data["feedUrl"];
-      this.feedLink = data["feedLink"];
-      this.iconUrl = data["iconUrl"];
-      this.url = data["url"];
-      this.read = data["read"];
-      this.starred = data["starred"];
-      this.markable = data["markable"];
-      if (data["tags"] && data["tags"].constructor === Array) {
-        this.tags = [] as any;
-        for (let item of data["tags"]) this.tags!.push(item);
-      }
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"]
+            this.guid = data["guid"]
+            this.title = data["title"]
+            this.content = data["content"]
+            this.categories = data["categories"]
+            this.rtl = data["rtl"]
+            this.author = data["author"]
+            this.enclosureUrl = data["enclosureUrl"]
+            this.enclosureType = data["enclosureType"]
+            this.date = data["date"]
+            this.insertedDate = data["insertedDate"]
+            this.feedId = data["feedId"]
+            this.feedName = data["feedName"]
+            this.feedUrl = data["feedUrl"]
+            this.feedLink = data["feedLink"]
+            this.iconUrl = data["iconUrl"]
+            this.url = data["url"]
+            this.read = data["read"]
+            this.starred = data["starred"]
+            this.markable = data["markable"]
+            if (data["tags"] && data["tags"].constructor === Array) {
+                this.tags = [] as any
+                for (let item of data["tags"]) this.tags!.push(item)
+            }
+        }
     }
-  }
 
-  static fromJS(data: any): Entry {
-    data = typeof data === "object" ? data : {};
-    let result = new Entry();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    data["guid"] = this.guid;
-    data["title"] = this.title;
-    data["content"] = this.content;
-    data["categories"] = this.categories;
-    data["rtl"] = this.rtl;
-    data["author"] = this.author;
-    data["enclosureUrl"] = this.enclosureUrl;
-    data["enclosureType"] = this.enclosureType;
-    data["date"] = this.date;
-    data["insertedDate"] = this.insertedDate;
-    data["feedId"] = this.feedId;
-    data["feedName"] = this.feedName;
-    data["feedUrl"] = this.feedUrl;
-    data["feedLink"] = this.feedLink;
-    data["iconUrl"] = this.iconUrl;
-    data["url"] = this.url;
-    data["read"] = this.read;
-    data["starred"] = this.starred;
-    data["markable"] = this.markable;
-    if (this.tags && this.tags.constructor === Array) {
-      data["tags"] = [];
-      for (let item of this.tags) data["tags"].push(item);
+    static fromJS(data: any): Entry {
+        data = typeof data === "object" ? data : {}
+        let result = new Entry()
+        result.init(data)
+        return result
     }
-    return data;
-  }
+
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["id"] = this.id
+        data["guid"] = this.guid
+        data["title"] = this.title
+        data["content"] = this.content
+        data["categories"] = this.categories
+        data["rtl"] = this.rtl
+        data["author"] = this.author
+        data["enclosureUrl"] = this.enclosureUrl
+        data["enclosureType"] = this.enclosureType
+        data["date"] = this.date
+        data["insertedDate"] = this.insertedDate
+        data["feedId"] = this.feedId
+        data["feedName"] = this.feedName
+        data["feedUrl"] = this.feedUrl
+        data["feedLink"] = this.feedLink
+        data["iconUrl"] = this.iconUrl
+        data["url"] = this.url
+        data["read"] = this.read
+        data["starred"] = this.starred
+        data["markable"] = this.markable
+        if (this.tags && this.tags.constructor === Array) {
+            data["tags"] = []
+            for (let item of this.tags) data["tags"].push(item)
+        }
+        return data
+    }
 }
 
 /** Entry details */
 export interface IEntry {
-  /** entry id */
-  id: string;
-  /** entry guid */
-  guid: string;
-  /** entry title */
-  title: string;
-  /** entry content */
-  content: string;
-  /** comma-separated list of categories */
-  categories?: string | undefined;
-  /** wether entry content and title are rtl */
-  rtl: boolean;
-  /** entry author */
-  author?: string | undefined;
-  /** entry enclosure url, if any */
-  enclosureUrl?: string | undefined;
-  /** entry enclosure mime type, if any */
-  enclosureType?: string | undefined;
-  /** entry publication date */
-  date: number;
-  /** entry insertion date in the database */
-  insertedDate: number;
-  /** feed id */
-  feedId: string;
-  /** feed name */
-  feedName: string;
-  /** this entry's feed url */
-  feedUrl: string;
-  /** this entry's website url */
-  feedLink: string;
-  /** The favicon url to use for this feed */
-  iconUrl: string;
-  /** entry url */
-  url: string;
-  /** read status */
-  read: boolean;
-  /** starred status */
-  starred: boolean;
-  /** wether the entry is still markable (old entry statuses are discarded) */
-  markable: boolean;
-  /** tags */
-  tags: string[];
+    /** entry id */
+    id: string
+    /** entry guid */
+    guid: string
+    /** entry title */
+    title: string
+    /** entry content */
+    content: string
+    /** comma-separated list of categories */
+    categories?: string | undefined
+    /** wether entry content and title are rtl */
+    rtl: boolean
+    /** entry author */
+    author?: string | undefined
+    /** entry enclosure url, if any */
+    enclosureUrl?: string | undefined
+    /** entry enclosure mime type, if any */
+    enclosureType?: string | undefined
+    /** entry publication date */
+    date: number
+    /** entry insertion date in the database */
+    insertedDate: number
+    /** feed id */
+    feedId: string
+    /** feed name */
+    feedName: string
+    /** this entry's feed url */
+    feedUrl: string
+    /** this entry's website url */
+    feedLink: string
+    /** The favicon url to use for this feed */
+    iconUrl: string
+    /** entry url */
+    url: string
+    /** read status */
+    read: boolean
+    /** starred status */
+    starred: boolean
+    /** wether the entry is still markable (old entry statuses are discarded) */
+    markable: boolean
+    /** tags */
+    tags: string[]
 }
 
 /** Feed details */
 export class FeedInfo implements IFeedInfo {
-  /** url */
-  url!: string;
-  /** title */
-  title!: string;
+    /** url */
+    url!: string
+    /** title */
+    title!: string
 
-  constructor(data?: IFeedInfo) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IFeedInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.url = data["url"];
-      this.title = data["title"];
+    init(data?: any) {
+        if (data) {
+            this.url = data["url"]
+            this.title = data["title"]
+        }
     }
-  }
 
-  static fromJS(data: any): FeedInfo {
-    data = typeof data === "object" ? data : {};
-    let result = new FeedInfo();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): FeedInfo {
+        data = typeof data === "object" ? data : {}
+        let result = new FeedInfo()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["url"] = this.url;
-    data["title"] = this.title;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["url"] = this.url
+        data["title"] = this.title
+        return data
+    }
 }
 
 /** Feed details */
 export interface IFeedInfo {
-  /** url */
-  url: string;
-  /** title */
-  title: string;
+    /** url */
+    url: string
+    /** title */
+    title: string
 }
 
 /** Feed information request */
 export class FeedInfoRequest implements IFeedInfoRequest {
-  /** feed url */
-  url!: string;
+    /** feed url */
+    url!: string
 
-  constructor(data?: IFeedInfoRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IFeedInfoRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.url = data["url"];
+    init(data?: any) {
+        if (data) {
+            this.url = data["url"]
+        }
     }
-  }
 
-  static fromJS(data: any): FeedInfoRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new FeedInfoRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): FeedInfoRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new FeedInfoRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["url"] = this.url;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["url"] = this.url
+        return data
+    }
 }
 
 /** Feed information request */
 export interface IFeedInfoRequest {
-  /** feed url */
-  url: string;
+    /** feed url */
+    url: string
 }
 
 /** Feed modification request */
 export class FeedModificationRequest implements IFeedModificationRequest {
-  /** id */
-  id!: number;
-  /** new name, null if not changed */
-  name?: string | undefined;
-  /** new parent category id */
-  categoryId?: string | undefined;
-  /** new display position, null if not changed */
-  position?: number | undefined;
-  /** JEXL string evaluated on new entries to mark them as read if they do not match */
-  filter?: string | undefined;
+    /** id */
+    id!: number
+    /** new name, null if not changed */
+    name?: string | undefined
+    /** new parent category id */
+    categoryId?: string | undefined
+    /** new display position, null if not changed */
+    position?: number | undefined
+    /** JEXL string evaluated on new entries to mark them as read if they do not match */
+    filter?: string | undefined
 
-  constructor(data?: IFeedModificationRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IFeedModificationRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.id = data["id"];
-      this.name = data["name"];
-      this.categoryId = data["categoryId"];
-      this.position = data["position"];
-      this.filter = data["filter"];
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"]
+            this.name = data["name"]
+            this.categoryId = data["categoryId"]
+            this.position = data["position"]
+            this.filter = data["filter"]
+        }
     }
-  }
 
-  static fromJS(data: any): FeedModificationRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new FeedModificationRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): FeedModificationRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new FeedModificationRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    data["name"] = this.name;
-    data["categoryId"] = this.categoryId;
-    data["position"] = this.position;
-    data["filter"] = this.filter;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["id"] = this.id
+        data["name"] = this.name
+        data["categoryId"] = this.categoryId
+        data["position"] = this.position
+        data["filter"] = this.filter
+        return data
+    }
 }
 
 /** Feed modification request */
 export interface IFeedModificationRequest {
-  /** id */
-  id: number;
-  /** new name, null if not changed */
-  name?: string | undefined;
-  /** new parent category id */
-  categoryId?: string | undefined;
-  /** new display position, null if not changed */
-  position?: number | undefined;
-  /** JEXL string evaluated on new entries to mark them as read if they do not match */
-  filter?: string | undefined;
+    /** id */
+    id: number
+    /** new name, null if not changed */
+    name?: string | undefined
+    /** new parent category id */
+    categoryId?: string | undefined
+    /** new display position, null if not changed */
+    position?: number | undefined
+    /** JEXL string evaluated on new entries to mark them as read if they do not match */
+    filter?: string | undefined
 }
 
 export class IDRequest implements IIDRequest {
-  id!: number;
+    id!: number
 
-  constructor(data?: IIDRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IIDRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.id = data["id"];
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"]
+        }
     }
-  }
 
-  static fromJS(data: any): IDRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new IDRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): IDRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new IDRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["id"] = this.id
+        return data
+    }
 }
 
 export interface IIDRequest {
-  id: number;
+    id: number
 }
 
 export class LoginRequest implements ILoginRequest {
-  /** username */
-  name!: string;
-  /** password */
-  password!: string;
+    /** username */
+    name!: string
+    /** password */
+    password!: string
 
-  constructor(data?: ILoginRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: ILoginRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.name = data["name"];
-      this.password = data["password"];
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"]
+            this.password = data["password"]
+        }
     }
-  }
 
-  static fromJS(data: any): LoginRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new LoginRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): LoginRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new LoginRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["name"] = this.name;
-    data["password"] = this.password;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["name"] = this.name
+        data["password"] = this.password
+        return data
+    }
 }
 
 export interface ILoginRequest {
-  /** username */
-  name: string;
-  /** password */
-  password: string;
+    /** username */
+    name: string
+    /** password */
+    password: string
 }
 
 /** Mark Request */
 export class MarkRequest implements IMarkRequest {
-  /** entry id, category id, 'all' or 'starred' */
-  id!: string;
-  /** mark as read or unread */
-  read!: boolean;
-  /** only entries older than this, pass the timestamp you got from the entry list to prevent marking an entry that was not retrieved */
-  olderThan?: number | undefined;
-  /** only mark read if a feed has these keywords in the title or rss content */
-  keywords?: string | undefined;
-  /** if marking a category or 'all', exclude those subscriptions from the marking */
-  excludedSubscriptions?: number[] | undefined;
+    /** entry id, category id, 'all' or 'starred' */
+    id!: string
+    /** mark as read or unread */
+    read!: boolean
+    /** only entries older than this, pass the timestamp you got from the entry list to prevent marking an entry that was not retrieved */
+    olderThan?: number | undefined
+    /** only mark read if a feed has these keywords in the title or rss content */
+    keywords?: string | undefined
+    /** if marking a category or 'all', exclude those subscriptions from the marking */
+    excludedSubscriptions?: number[] | undefined
 
-  constructor(data?: IMarkRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IMarkRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.id = data["id"];
-      this.read = data["read"];
-      this.olderThan = data["olderThan"];
-      this.keywords = data["keywords"];
-      if (
-        data["excludedSubscriptions"] &&
-        data["excludedSubscriptions"].constructor === Array
-      ) {
-        this.excludedSubscriptions = [] as any;
-        for (let item of data["excludedSubscriptions"])
-          this.excludedSubscriptions!.push(item);
-      }
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"]
+            this.read = data["read"]
+            this.olderThan = data["olderThan"]
+            this.keywords = data["keywords"]
+            if (data["excludedSubscriptions"] && data["excludedSubscriptions"].constructor === Array) {
+                this.excludedSubscriptions = [] as any
+                for (let item of data["excludedSubscriptions"]) this.excludedSubscriptions!.push(item)
+            }
+        }
     }
-  }
 
-  static fromJS(data: any): MarkRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new MarkRequest();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    data["read"] = this.read;
-    data["olderThan"] = this.olderThan;
-    data["keywords"] = this.keywords;
-    if (
-      this.excludedSubscriptions &&
-      this.excludedSubscriptions.constructor === Array
-    ) {
-      data["excludedSubscriptions"] = [];
-      for (let item of this.excludedSubscriptions)
-        data["excludedSubscriptions"].push(item);
+    static fromJS(data: any): MarkRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new MarkRequest()
+        result.init(data)
+        return result
     }
-    return data;
-  }
+
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["id"] = this.id
+        data["read"] = this.read
+        data["olderThan"] = this.olderThan
+        data["keywords"] = this.keywords
+        if (this.excludedSubscriptions && this.excludedSubscriptions.constructor === Array) {
+            data["excludedSubscriptions"] = []
+            for (let item of this.excludedSubscriptions) data["excludedSubscriptions"].push(item)
+        }
+        return data
+    }
 }
 
 /** Mark Request */
 export interface IMarkRequest {
-  /** entry id, category id, 'all' or 'starred' */
-  id: string;
-  /** mark as read or unread */
-  read: boolean;
-  /** only entries older than this, pass the timestamp you got from the entry list to prevent marking an entry that was not retrieved */
-  olderThan?: number | undefined;
-  /** only mark read if a feed has these keywords in the title or rss content */
-  keywords?: string | undefined;
-  /** if marking a category or 'all', exclude those subscriptions from the marking */
-  excludedSubscriptions?: number[] | undefined;
+    /** entry id, category id, 'all' or 'starred' */
+    id: string
+    /** mark as read or unread */
+    read: boolean
+    /** only entries older than this, pass the timestamp you got from the entry list to prevent marking an entry that was not retrieved */
+    olderThan?: number | undefined
+    /** only mark read if a feed has these keywords in the title or rss content */
+    keywords?: string | undefined
+    /** if marking a category or 'all', exclude those subscriptions from the marking */
+    excludedSubscriptions?: number[] | undefined
 }
 
 /** Multiple Mark Request */
 export class MultipleMarkRequest implements IMultipleMarkRequest {
-  /** list of mark requests */
-  requests!: MarkRequest[];
+    /** list of mark requests */
+    requests!: MarkRequest[]
 
-  constructor(data?: IMultipleMarkRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IMultipleMarkRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
+        if (!data) {
+            this.requests = []
+        }
     }
-    if (!data) {
-      this.requests = [];
-    }
-  }
 
-  init(data?: any) {
-    if (data) {
-      if (data["requests"] && data["requests"].constructor === Array) {
-        this.requests = [] as any;
-        for (let item of data["requests"])
-          this.requests!.push(MarkRequest.fromJS(item));
-      }
+    init(data?: any) {
+        if (data) {
+            if (data["requests"] && data["requests"].constructor === Array) {
+                this.requests = [] as any
+                for (let item of data["requests"]) this.requests!.push(MarkRequest.fromJS(item))
+            }
+        }
     }
-  }
 
-  static fromJS(data: any): MultipleMarkRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new MultipleMarkRequest();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    if (this.requests && this.requests.constructor === Array) {
-      data["requests"] = [];
-      for (let item of this.requests) data["requests"].push(item.toJSON());
+    static fromJS(data: any): MultipleMarkRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new MultipleMarkRequest()
+        result.init(data)
+        return result
     }
-    return data;
-  }
+
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        if (this.requests && this.requests.constructor === Array) {
+            data["requests"] = []
+            for (let item of this.requests) data["requests"].push(item.toJSON())
+        }
+        return data
+    }
 }
 
 /** Multiple Mark Request */
 export interface IMultipleMarkRequest {
-  /** list of mark requests */
-  requests: MarkRequest[];
+    /** list of mark requests */
+    requests: MarkRequest[]
 }
 
 export class PasswordResetRequest implements IPasswordResetRequest {
-  /** email address for password recovery */
-  email!: string;
+    /** email address for password recovery */
+    email!: string
 
-  constructor(data?: IPasswordResetRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IPasswordResetRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.email = data["email"];
+    init(data?: any) {
+        if (data) {
+            this.email = data["email"]
+        }
     }
-  }
 
-  static fromJS(data: any): PasswordResetRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new PasswordResetRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): PasswordResetRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new PasswordResetRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["email"] = this.email;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["email"] = this.email
+        return data
+    }
 }
 
 export interface IPasswordResetRequest {
-  /** email address for password recovery */
-  email: string;
+    /** email address for password recovery */
+    email: string
 }
 
 /** Profile modification request */
 export class ProfileModificationRequest implements IProfileModificationRequest {
-  /** changes email of the user, if specified */
-  email?: string | undefined;
-  /** changes password of the user, if specified */
-  password?: string | undefined;
-  /** generate a new api key */
-  newApiKey?: boolean | undefined;
+    /** changes email of the user, if specified */
+    email?: string | undefined
+    /** changes password of the user, if specified */
+    password?: string | undefined
+    /** generate a new api key */
+    newApiKey?: boolean | undefined
 
-  constructor(data?: IProfileModificationRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IProfileModificationRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.email = data["email"];
-      this.password = data["password"];
-      this.newApiKey = data["newApiKey"];
+    init(data?: any) {
+        if (data) {
+            this.email = data["email"]
+            this.password = data["password"]
+            this.newApiKey = data["newApiKey"]
+        }
     }
-  }
 
-  static fromJS(data: any): ProfileModificationRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new ProfileModificationRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): ProfileModificationRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new ProfileModificationRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["email"] = this.email;
-    data["password"] = this.password;
-    data["newApiKey"] = this.newApiKey;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["email"] = this.email
+        data["password"] = this.password
+        data["newApiKey"] = this.newApiKey
+        return data
+    }
 }
 
 /** Profile modification request */
 export interface IProfileModificationRequest {
-  /** changes email of the user, if specified */
-  email?: string | undefined;
-  /** changes password of the user, if specified */
-  password?: string | undefined;
-  /** generate a new api key */
-  newApiKey?: boolean | undefined;
+    /** changes email of the user, if specified */
+    email?: string | undefined
+    /** changes password of the user, if specified */
+    password?: string | undefined
+    /** generate a new api key */
+    newApiKey?: boolean | undefined
 }
 
 export class RegistrationRequest implements IRegistrationRequest {
-  /** username, between 3 and 32 characters */
-  name!: string;
-  /** password, minimum 6 characters */
-  password!: string;
-  /** email address for password recovery */
-  email!: string;
+    /** username, between 3 and 32 characters */
+    name!: string
+    /** password, minimum 6 characters */
+    password!: string
+    /** email address for password recovery */
+    email!: string
 
-  constructor(data?: IRegistrationRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IRegistrationRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.name = data["name"];
-      this.password = data["password"];
-      this.email = data["email"];
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"]
+            this.password = data["password"]
+            this.email = data["email"]
+        }
     }
-  }
 
-  static fromJS(data: any): RegistrationRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new RegistrationRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): RegistrationRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new RegistrationRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["name"] = this.name;
-    data["password"] = this.password;
-    data["email"] = this.email;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["name"] = this.name
+        data["password"] = this.password
+        data["email"] = this.email
+        return data
+    }
 }
 
 export interface IRegistrationRequest {
-  /** username, between 3 and 32 characters */
-  name: string;
-  /** password, minimum 6 characters */
-  password: string;
-  /** email address for password recovery */
-  email: string;
+    /** username, between 3 and 32 characters */
+    name: string
+    /** password, minimum 6 characters */
+    password: string
+    /** email address for password recovery */
+    email: string
 }
 
 /** Server infos */
 export class ServerInfo implements IServerInfo {
-  announcement?: string | undefined;
-  version!: string;
-  gitCommit!: string;
-  allowRegistrations!: boolean;
-  googleAnalyticsCode?: string | undefined;
-  smtpEnabled!: boolean;
+    announcement?: string | undefined
+    version!: string
+    gitCommit!: string
+    allowRegistrations!: boolean
+    googleAnalyticsCode?: string | undefined
+    smtpEnabled!: boolean
 
-  constructor(data?: IServerInfo) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IServerInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.announcement = data["announcement"];
-      this.version = data["version"];
-      this.gitCommit = data["gitCommit"];
-      this.allowRegistrations = data["allowRegistrations"];
-      this.googleAnalyticsCode = data["googleAnalyticsCode"];
-      this.smtpEnabled = data["smtpEnabled"];
+    init(data?: any) {
+        if (data) {
+            this.announcement = data["announcement"]
+            this.version = data["version"]
+            this.gitCommit = data["gitCommit"]
+            this.allowRegistrations = data["allowRegistrations"]
+            this.googleAnalyticsCode = data["googleAnalyticsCode"]
+            this.smtpEnabled = data["smtpEnabled"]
+        }
     }
-  }
 
-  static fromJS(data: any): ServerInfo {
-    data = typeof data === "object" ? data : {};
-    let result = new ServerInfo();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): ServerInfo {
+        data = typeof data === "object" ? data : {}
+        let result = new ServerInfo()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["announcement"] = this.announcement;
-    data["version"] = this.version;
-    data["gitCommit"] = this.gitCommit;
-    data["allowRegistrations"] = this.allowRegistrations;
-    data["googleAnalyticsCode"] = this.googleAnalyticsCode;
-    data["smtpEnabled"] = this.smtpEnabled;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["announcement"] = this.announcement
+        data["version"] = this.version
+        data["gitCommit"] = this.gitCommit
+        data["allowRegistrations"] = this.allowRegistrations
+        data["googleAnalyticsCode"] = this.googleAnalyticsCode
+        data["smtpEnabled"] = this.smtpEnabled
+        return data
+    }
 }
 
 /** Server infos */
 export interface IServerInfo {
-  announcement?: string | undefined;
-  version: string;
-  gitCommit: string;
-  allowRegistrations: boolean;
-  googleAnalyticsCode?: string | undefined;
-  smtpEnabled: boolean;
+    announcement?: string | undefined
+    version: string
+    gitCommit: string
+    allowRegistrations: boolean
+    googleAnalyticsCode?: string | undefined
+    smtpEnabled: boolean
 }
 
 /** User settings */
 export class Settings implements ISettings {
-  /** user's preferred language, english if none */
-  language!: string;
-  /** user reads all entries or unread entries only */
-  readingMode!: ReadingMode;
-  /** user reads entries in ascending or descending order */
-  readingOrder!: ReadingOrder;
-  /** user viewing mode, either title-only or expande view */
-  viewMode!: ViewMode;
-  /** user wants category and feeds with no unread entries shown */
-  showRead!: boolean;
-  /** In expanded view, scroll through entries mark them as read */
-  scrollMarks!: boolean;
-  /** user's selected theme */
-  theme?: string | undefined;
-  /** user's custom css for the website */
-  customCss?: string | undefined;
-  /** user's preferred scroll speed when navigating between entries */
-  scrollSpeed!: number;
-  email!: boolean;
-  gmail!: boolean;
-  facebook!: boolean;
-  twitter!: boolean;
-  googleplus!: boolean;
-  tumblr!: boolean;
-  pocket!: boolean;
-  instapaper!: boolean;
-  buffer!: boolean;
-  readability!: boolean;
+    /** user's preferred language, english if none */
+    language!: string
+    /** user reads all entries or unread entries only */
+    readingMode!: ReadingMode
+    /** user reads entries in ascending or descending order */
+    readingOrder!: ReadingOrder
+    /** user viewing mode, either title-only or expande view */
+    viewMode!: ViewMode
+    /** user wants category and feeds with no unread entries shown */
+    showRead!: boolean
+    /** In expanded view, scroll through entries mark them as read */
+    scrollMarks!: boolean
+    /** user's selected theme */
+    theme?: string | undefined
+    /** user's custom css for the website */
+    customCss?: string | undefined
+    /** user's preferred scroll speed when navigating between entries */
+    scrollSpeed!: number
+    email!: boolean
+    gmail!: boolean
+    facebook!: boolean
+    twitter!: boolean
+    googleplus!: boolean
+    tumblr!: boolean
+    pocket!: boolean
+    instapaper!: boolean
+    buffer!: boolean
+    readability!: boolean
 
-  constructor(data?: ISettings) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: ISettings) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.language = data["language"];
-      this.readingMode = data["readingMode"];
-      this.readingOrder = data["readingOrder"];
-      this.viewMode = data["viewMode"];
-      this.showRead = data["showRead"];
-      this.scrollMarks = data["scrollMarks"];
-      this.theme = data["theme"];
-      this.customCss = data["customCss"];
-      this.scrollSpeed = data["scrollSpeed"];
-      this.email = data["email"];
-      this.gmail = data["gmail"];
-      this.facebook = data["facebook"];
-      this.twitter = data["twitter"];
-      this.googleplus = data["googleplus"];
-      this.tumblr = data["tumblr"];
-      this.pocket = data["pocket"];
-      this.instapaper = data["instapaper"];
-      this.buffer = data["buffer"];
-      this.readability = data["readability"];
+    init(data?: any) {
+        if (data) {
+            this.language = data["language"]
+            this.readingMode = data["readingMode"]
+            this.readingOrder = data["readingOrder"]
+            this.viewMode = data["viewMode"]
+            this.showRead = data["showRead"]
+            this.scrollMarks = data["scrollMarks"]
+            this.theme = data["theme"]
+            this.customCss = data["customCss"]
+            this.scrollSpeed = data["scrollSpeed"]
+            this.email = data["email"]
+            this.gmail = data["gmail"]
+            this.facebook = data["facebook"]
+            this.twitter = data["twitter"]
+            this.googleplus = data["googleplus"]
+            this.tumblr = data["tumblr"]
+            this.pocket = data["pocket"]
+            this.instapaper = data["instapaper"]
+            this.buffer = data["buffer"]
+            this.readability = data["readability"]
+        }
     }
-  }
 
-  static fromJS(data: any): Settings {
-    data = typeof data === "object" ? data : {};
-    let result = new Settings();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): Settings {
+        data = typeof data === "object" ? data : {}
+        let result = new Settings()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["language"] = this.language;
-    data["readingMode"] = this.readingMode;
-    data["readingOrder"] = this.readingOrder;
-    data["viewMode"] = this.viewMode;
-    data["showRead"] = this.showRead;
-    data["scrollMarks"] = this.scrollMarks;
-    data["theme"] = this.theme;
-    data["customCss"] = this.customCss;
-    data["scrollSpeed"] = this.scrollSpeed;
-    data["email"] = this.email;
-    data["gmail"] = this.gmail;
-    data["facebook"] = this.facebook;
-    data["twitter"] = this.twitter;
-    data["googleplus"] = this.googleplus;
-    data["tumblr"] = this.tumblr;
-    data["pocket"] = this.pocket;
-    data["instapaper"] = this.instapaper;
-    data["buffer"] = this.buffer;
-    data["readability"] = this.readability;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["language"] = this.language
+        data["readingMode"] = this.readingMode
+        data["readingOrder"] = this.readingOrder
+        data["viewMode"] = this.viewMode
+        data["showRead"] = this.showRead
+        data["scrollMarks"] = this.scrollMarks
+        data["theme"] = this.theme
+        data["customCss"] = this.customCss
+        data["scrollSpeed"] = this.scrollSpeed
+        data["email"] = this.email
+        data["gmail"] = this.gmail
+        data["facebook"] = this.facebook
+        data["twitter"] = this.twitter
+        data["googleplus"] = this.googleplus
+        data["tumblr"] = this.tumblr
+        data["pocket"] = this.pocket
+        data["instapaper"] = this.instapaper
+        data["buffer"] = this.buffer
+        data["readability"] = this.readability
+        return data
+    }
 }
 
 /** User settings */
 export interface ISettings {
-  /** user's preferred language, english if none */
-  language: string;
-  /** user reads all entries or unread entries only */
-  readingMode: ReadingMode;
-  /** user reads entries in ascending or descending order */
-  readingOrder: ReadingOrder;
-  /** user viewing mode, either title-only or expande view */
-  viewMode: ViewMode;
-  /** user wants category and feeds with no unread entries shown */
-  showRead: boolean;
-  /** In expanded view, scroll through entries mark them as read */
-  scrollMarks: boolean;
-  /** user's selected theme */
-  theme?: string | undefined;
-  /** user's custom css for the website */
-  customCss?: string | undefined;
-  /** user's preferred scroll speed when navigating between entries */
-  scrollSpeed: number;
-  email: boolean;
-  gmail: boolean;
-  facebook: boolean;
-  twitter: boolean;
-  googleplus: boolean;
-  tumblr: boolean;
-  pocket: boolean;
-  instapaper: boolean;
-  buffer: boolean;
-  readability: boolean;
+    /** user's preferred language, english if none */
+    language: string
+    /** user reads all entries or unread entries only */
+    readingMode: ReadingMode
+    /** user reads entries in ascending or descending order */
+    readingOrder: ReadingOrder
+    /** user viewing mode, either title-only or expande view */
+    viewMode: ViewMode
+    /** user wants category and feeds with no unread entries shown */
+    showRead: boolean
+    /** In expanded view, scroll through entries mark them as read */
+    scrollMarks: boolean
+    /** user's selected theme */
+    theme?: string | undefined
+    /** user's custom css for the website */
+    customCss?: string | undefined
+    /** user's preferred scroll speed when navigating between entries */
+    scrollSpeed: number
+    email: boolean
+    gmail: boolean
+    facebook: boolean
+    twitter: boolean
+    googleplus: boolean
+    tumblr: boolean
+    pocket: boolean
+    instapaper: boolean
+    buffer: boolean
+    readability: boolean
 }
 
 /** Star Request */
 export class StarRequest implements IStarRequest {
-  /** id */
-  id!: string;
-  /** feed id */
-  feedId!: number;
-  /** starred or not */
-  starred!: boolean;
+    /** id */
+    id!: string
+    /** feed id */
+    feedId!: number
+    /** starred or not */
+    starred!: boolean
 
-  constructor(data?: IStarRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IStarRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.id = data["id"];
-      this.feedId = data["feedId"];
-      this.starred = data["starred"];
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"]
+            this.feedId = data["feedId"]
+            this.starred = data["starred"]
+        }
     }
-  }
 
-  static fromJS(data: any): StarRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new StarRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): StarRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new StarRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    data["feedId"] = this.feedId;
-    data["starred"] = this.starred;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["id"] = this.id
+        data["feedId"] = this.feedId
+        data["starred"] = this.starred
+        return data
+    }
 }
 
 /** Star Request */
 export interface IStarRequest {
-  /** id */
-  id: string;
-  /** feed id */
-  feedId: number;
-  /** starred or not */
-  starred: boolean;
+    /** id */
+    id: string
+    /** feed id */
+    feedId: number
+    /** starred or not */
+    starred: boolean
 }
 
 /** Subscription request */
 export class SubscribeRequest implements ISubscribeRequest {
-  /** url of the feed */
-  url!: string;
-  /** name of the feed for the user */
-  title!: string;
-  /** id of the user category to place the feed in */
-  categoryId?: string | undefined;
+    /** url of the feed */
+    url!: string
+    /** name of the feed for the user */
+    title!: string
+    /** id of the user category to place the feed in */
+    categoryId?: string | undefined
 
-  constructor(data?: ISubscribeRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: ISubscribeRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.url = data["url"];
-      this.title = data["title"];
-      this.categoryId = data["categoryId"];
+    init(data?: any) {
+        if (data) {
+            this.url = data["url"]
+            this.title = data["title"]
+            this.categoryId = data["categoryId"]
+        }
     }
-  }
 
-  static fromJS(data: any): SubscribeRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new SubscribeRequest();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): SubscribeRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new SubscribeRequest()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["url"] = this.url;
-    data["title"] = this.title;
-    data["categoryId"] = this.categoryId;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["url"] = this.url
+        data["title"] = this.title
+        data["categoryId"] = this.categoryId
+        return data
+    }
 }
 
 /** Subscription request */
 export interface ISubscribeRequest {
-  /** url of the feed */
-  url: string;
-  /** name of the feed for the user */
-  title: string;
-  /** id of the user category to place the feed in */
-  categoryId?: string | undefined;
+    /** url of the feed */
+    url: string
+    /** name of the feed for the user */
+    title: string
+    /** id of the user category to place the feed in */
+    categoryId?: string | undefined
 }
 
 /** User information */
 export class Subscription implements ISubscription {
-  /** subscription id */
-  id!: number;
-  /** subscription name */
-  name!: string;
-  /** error message while fetching the feed */
-  message!: string;
-  /** error count */
-  errorCount!: number;
-  /** last time the feed was refreshed */
-  lastRefresh!: number;
-  /** next time the feed refresh is planned, null if refresh is already queued */
-  nextRefresh!: number;
-  /** this subscription's feed url */
-  feedUrl!: string;
-  /** this subscription's website url */
-  feedLink!: string;
-  /** The favicon url to use for this feed */
-  iconUrl!: string;
-  /** unread count */
-  unread!: number;
-  /** category id */
-  categoryId?: string | undefined;
-  /** position of the subscription's in the list */
-  position?: number | undefined;
-  /** date of the newest item */
-  newestItemTime?: number | undefined;
-  /** JEXL string evaluated on new entries to mark them as read if they do not match */
-  filter?: string | undefined;
+    /** subscription id */
+    id!: number
+    /** subscription name */
+    name!: string
+    /** error message while fetching the feed */
+    message!: string
+    /** error count */
+    errorCount!: number
+    /** last time the feed was refreshed */
+    lastRefresh!: number
+    /** next time the feed refresh is planned, null if refresh is already queued */
+    nextRefresh!: number
+    /** this subscription's feed url */
+    feedUrl!: string
+    /** this subscription's website url */
+    feedLink!: string
+    /** The favicon url to use for this feed */
+    iconUrl!: string
+    /** unread count */
+    unread!: number
+    /** category id */
+    categoryId?: string | undefined
+    /** position of the subscription's in the list */
+    position?: number | undefined
+    /** date of the newest item */
+    newestItemTime?: number | undefined
+    /** JEXL string evaluated on new entries to mark them as read if they do not match */
+    filter?: string | undefined
 
-  constructor(data?: ISubscription) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: ISubscription) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.id = data["id"];
-      this.name = data["name"];
-      this.message = data["message"];
-      this.errorCount = data["errorCount"];
-      this.lastRefresh = data["lastRefresh"];
-      this.nextRefresh = data["nextRefresh"];
-      this.feedUrl = data["feedUrl"];
-      this.feedLink = data["feedLink"];
-      this.iconUrl = data["iconUrl"];
-      this.unread = data["unread"];
-      this.categoryId = data["categoryId"];
-      this.position = data["position"];
-      this.newestItemTime = data["newestItemTime"];
-      this.filter = data["filter"];
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"]
+            this.name = data["name"]
+            this.message = data["message"]
+            this.errorCount = data["errorCount"]
+            this.lastRefresh = data["lastRefresh"]
+            this.nextRefresh = data["nextRefresh"]
+            this.feedUrl = data["feedUrl"]
+            this.feedLink = data["feedLink"]
+            this.iconUrl = data["iconUrl"]
+            this.unread = data["unread"]
+            this.categoryId = data["categoryId"]
+            this.position = data["position"]
+            this.newestItemTime = data["newestItemTime"]
+            this.filter = data["filter"]
+        }
     }
-  }
 
-  static fromJS(data: any): Subscription {
-    data = typeof data === "object" ? data : {};
-    let result = new Subscription();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): Subscription {
+        data = typeof data === "object" ? data : {}
+        let result = new Subscription()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    data["name"] = this.name;
-    data["message"] = this.message;
-    data["errorCount"] = this.errorCount;
-    data["lastRefresh"] = this.lastRefresh;
-    data["nextRefresh"] = this.nextRefresh;
-    data["feedUrl"] = this.feedUrl;
-    data["feedLink"] = this.feedLink;
-    data["iconUrl"] = this.iconUrl;
-    data["unread"] = this.unread;
-    data["categoryId"] = this.categoryId;
-    data["position"] = this.position;
-    data["newestItemTime"] = this.newestItemTime;
-    data["filter"] = this.filter;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["id"] = this.id
+        data["name"] = this.name
+        data["message"] = this.message
+        data["errorCount"] = this.errorCount
+        data["lastRefresh"] = this.lastRefresh
+        data["nextRefresh"] = this.nextRefresh
+        data["feedUrl"] = this.feedUrl
+        data["feedLink"] = this.feedLink
+        data["iconUrl"] = this.iconUrl
+        data["unread"] = this.unread
+        data["categoryId"] = this.categoryId
+        data["position"] = this.position
+        data["newestItemTime"] = this.newestItemTime
+        data["filter"] = this.filter
+        return data
+    }
 }
 
 /** User information */
 export interface ISubscription {
-  /** subscription id */
-  id: number;
-  /** subscription name */
-  name: string;
-  /** error message while fetching the feed */
-  message: string;
-  /** error count */
-  errorCount: number;
-  /** last time the feed was refreshed */
-  lastRefresh: number;
-  /** next time the feed refresh is planned, null if refresh is already queued */
-  nextRefresh: number;
-  /** this subscription's feed url */
-  feedUrl: string;
-  /** this subscription's website url */
-  feedLink: string;
-  /** The favicon url to use for this feed */
-  iconUrl: string;
-  /** unread count */
-  unread: number;
-  /** category id */
-  categoryId?: string | undefined;
-  /** position of the subscription's in the list */
-  position?: number | undefined;
-  /** date of the newest item */
-  newestItemTime?: number | undefined;
-  /** JEXL string evaluated on new entries to mark them as read if they do not match */
-  filter?: string | undefined;
+    /** subscription id */
+    id: number
+    /** subscription name */
+    name: string
+    /** error message while fetching the feed */
+    message: string
+    /** error count */
+    errorCount: number
+    /** last time the feed was refreshed */
+    lastRefresh: number
+    /** next time the feed refresh is planned, null if refresh is already queued */
+    nextRefresh: number
+    /** this subscription's feed url */
+    feedUrl: string
+    /** this subscription's website url */
+    feedLink: string
+    /** The favicon url to use for this feed */
+    iconUrl: string
+    /** unread count */
+    unread: number
+    /** category id */
+    categoryId?: string | undefined
+    /** position of the subscription's in the list */
+    position?: number | undefined
+    /** date of the newest item */
+    newestItemTime?: number | undefined
+    /** JEXL string evaluated on new entries to mark them as read if they do not match */
+    filter?: string | undefined
 }
 
 /** Tag Request */
 export class TagRequest implements ITagRequest {
-  /** entry id */
-  entryId!: number;
-  /** tags */
-  tags!: string[];
+    /** entry id */
+    entryId!: number
+    /** tags */
+    tags!: string[]
 
-  constructor(data?: ITagRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: ITagRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
+        if (!data) {
+            this.tags = []
+        }
     }
-    if (!data) {
-      this.tags = [];
-    }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.entryId = data["entryId"];
-      if (data["tags"] && data["tags"].constructor === Array) {
-        this.tags = [] as any;
-        for (let item of data["tags"]) this.tags!.push(item);
-      }
+    init(data?: any) {
+        if (data) {
+            this.entryId = data["entryId"]
+            if (data["tags"] && data["tags"].constructor === Array) {
+                this.tags = [] as any
+                for (let item of data["tags"]) this.tags!.push(item)
+            }
+        }
     }
-  }
 
-  static fromJS(data: any): TagRequest {
-    data = typeof data === "object" ? data : {};
-    let result = new TagRequest();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["entryId"] = this.entryId;
-    if (this.tags && this.tags.constructor === Array) {
-      data["tags"] = [];
-      for (let item of this.tags) data["tags"].push(item);
+    static fromJS(data: any): TagRequest {
+        data = typeof data === "object" ? data : {}
+        let result = new TagRequest()
+        result.init(data)
+        return result
     }
-    return data;
-  }
+
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["entryId"] = this.entryId
+        if (this.tags && this.tags.constructor === Array) {
+            data["tags"] = []
+            for (let item of this.tags) data["tags"].push(item)
+        }
+        return data
+    }
 }
 
 /** Tag Request */
 export interface ITagRequest {
-  /** entry id */
-  entryId: number;
-  /** tags */
-  tags: string[];
+    /** entry id */
+    entryId: number
+    /** tags */
+    tags: string[]
 }
 
 /** Unread count */
 export class UnreadCount implements IUnreadCount {
-  feedId?: number | undefined;
-  unreadCount?: number | undefined;
-  newestItemTime?: number | undefined;
+    feedId?: number | undefined
+    unreadCount?: number | undefined
+    newestItemTime?: number | undefined
 
-  constructor(data?: IUnreadCount) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IUnreadCount) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.feedId = data["feedId"];
-      this.unreadCount = data["unreadCount"];
-      this.newestItemTime = data["newestItemTime"];
+    init(data?: any) {
+        if (data) {
+            this.feedId = data["feedId"]
+            this.unreadCount = data["unreadCount"]
+            this.newestItemTime = data["newestItemTime"]
+        }
     }
-  }
 
-  static fromJS(data: any): UnreadCount {
-    data = typeof data === "object" ? data : {};
-    let result = new UnreadCount();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): UnreadCount {
+        data = typeof data === "object" ? data : {}
+        let result = new UnreadCount()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["feedId"] = this.feedId;
-    data["unreadCount"] = this.unreadCount;
-    data["newestItemTime"] = this.newestItemTime;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["feedId"] = this.feedId
+        data["unreadCount"] = this.unreadCount
+        data["newestItemTime"] = this.newestItemTime
+        return data
+    }
 }
 
 /** Unread count */
 export interface IUnreadCount {
-  feedId?: number | undefined;
-  unreadCount?: number | undefined;
-  newestItemTime?: number | undefined;
+    feedId?: number | undefined
+    unreadCount?: number | undefined
+    newestItemTime?: number | undefined
 }
 
 /** User information */
 export class UserModel implements IUserModel {
-  /** user id */
-  id!: number;
-  /** user name */
-  name!: string;
-  /** user email, if any */
-  email?: string | undefined;
-  /** api key */
-  apiKey?: string | undefined;
-  /** user password, never returned by the api */
-  password?: string | undefined;
-  /** account status */
-  enabled!: boolean;
-  /** account creation date */
-  created!: number;
-  /** last login date */
-  lastLogin?: number | undefined;
-  /** user is admin */
-  admin!: boolean;
+    /** user id */
+    id!: number
+    /** user name */
+    name!: string
+    /** user email, if any */
+    email?: string | undefined
+    /** api key */
+    apiKey?: string | undefined
+    /** user password, never returned by the api */
+    password?: string | undefined
+    /** account status */
+    enabled!: boolean
+    /** account creation date */
+    created!: number
+    /** last login date */
+    lastLogin?: number | undefined
+    /** user is admin */
+    admin!: boolean
 
-  constructor(data?: IUserModel) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
+    constructor(data?: IUserModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property]
+            }
+        }
     }
-  }
 
-  init(data?: any) {
-    if (data) {
-      this.id = data["id"];
-      this.name = data["name"];
-      this.email = data["email"];
-      this.apiKey = data["apiKey"];
-      this.password = data["password"];
-      this.enabled = data["enabled"];
-      this.created = data["created"];
-      this.lastLogin = data["lastLogin"];
-      this.admin = data["admin"];
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"]
+            this.name = data["name"]
+            this.email = data["email"]
+            this.apiKey = data["apiKey"]
+            this.password = data["password"]
+            this.enabled = data["enabled"]
+            this.created = data["created"]
+            this.lastLogin = data["lastLogin"]
+            this.admin = data["admin"]
+        }
     }
-  }
 
-  static fromJS(data: any): UserModel {
-    data = typeof data === "object" ? data : {};
-    let result = new UserModel();
-    result.init(data);
-    return result;
-  }
+    static fromJS(data: any): UserModel {
+        data = typeof data === "object" ? data : {}
+        let result = new UserModel()
+        result.init(data)
+        return result
+    }
 
-  toJSON(data?: any) {
-    data = typeof data === "object" ? data : {};
-    data["id"] = this.id;
-    data["name"] = this.name;
-    data["email"] = this.email;
-    data["apiKey"] = this.apiKey;
-    data["password"] = this.password;
-    data["enabled"] = this.enabled;
-    data["created"] = this.created;
-    data["lastLogin"] = this.lastLogin;
-    data["admin"] = this.admin;
-    return data;
-  }
+    toJSON(data?: any) {
+        data = typeof data === "object" ? data : {}
+        data["id"] = this.id
+        data["name"] = this.name
+        data["email"] = this.email
+        data["apiKey"] = this.apiKey
+        data["password"] = this.password
+        data["enabled"] = this.enabled
+        data["created"] = this.created
+        data["lastLogin"] = this.lastLogin
+        data["admin"] = this.admin
+        return data
+    }
 }
 
 /** User information */
 export interface IUserModel {
-  /** user id */
-  id: number;
-  /** user name */
-  name: string;
-  /** user email, if any */
-  email?: string | undefined;
-  /** api key */
-  apiKey?: string | undefined;
-  /** user password, never returned by the api */
-  password?: string | undefined;
-  /** account status */
-  enabled: boolean;
-  /** account creation date */
-  created: number;
-  /** last login date */
-  lastLogin?: number | undefined;
-  /** user is admin */
-  admin: boolean;
+    /** user id */
+    id: number
+    /** user name */
+    name: string
+    /** user email, if any */
+    email?: string | undefined
+    /** api key */
+    apiKey?: string | undefined
+    /** user password, never returned by the api */
+    password?: string | undefined
+    /** account status */
+    enabled: boolean
+    /** account creation date */
+    created: number
+    /** last login date */
+    lastLogin?: number | undefined
+    /** user is admin */
+    admin: boolean
 }
 
 export enum ApplicationSettingsCache {
-  NOOP = "NOOP",
-  REDIS = "REDIS"
+    NOOP = "NOOP",
+    REDIS = "REDIS"
 }
 
 export enum ReadingMode {
-  All = "all",
-  Unread = "unread"
+    All = "all",
+    Unread = "unread"
 }
 
 export enum ReadingOrder {
-  Asc = "asc",
-  Desc = "desc"
+    Asc = "asc",
+    Desc = "desc"
 }
 
 export enum ViewMode {
-  Title = "title",
-  Expanded = "expanded"
+    Title = "title",
+    Expanded = "expanded"
 }
 
 export interface FileResponse {
-  data: Blob;
-  status: number;
-  fileName?: string;
-  headers?: { [name: string]: any };
+    data: Blob
+    status: number
+    fileName?: string
+    headers?: { [name: string]: any }
 }
 
 export class SwaggerException extends Error {
-  message: string;
-  status: number;
-  response: string;
-  headers: { [key: string]: any };
-  result: any;
-
-  constructor(
-    message: string,
-    status: number,
-    response: string,
-    headers: { [key: string]: any },
+    message: string
+    status: number
+    response: string
+    headers: { [key: string]: any }
     result: any
-  ) {
-    super();
 
-    this.message = message;
-    this.status = status;
-    this.response = response;
-    this.headers = headers;
-    this.result = result;
-  }
+    constructor(message: string, status: number, response: string, headers: { [key: string]: any }, result: any) {
+        super()
 
-  protected isSwaggerException = true;
+        this.message = message
+        this.status = status
+        this.response = response
+        this.headers = headers
+        this.result = result
+    }
 
-  static isSwaggerException(obj: any): obj is SwaggerException {
-    return obj.isSwaggerException === true;
-  }
+    protected isSwaggerException = true
+
+    static isSwaggerException(obj: any): obj is SwaggerException {
+        return obj.isSwaggerException === true
+    }
 }
 
-function throwException(
-  message: string,
-  status: number,
-  response: string,
-  headers: { [key: string]: any },
-  result?: any
-): any {
-  if (result !== null && result !== undefined) throw result;
-  else throw new SwaggerException(message, status, response, headers, null);
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any }, result?: any): any {
+    if (result !== null && result !== undefined) throw result
+    else throw new SwaggerException(message, status, response, headers, null)
 }
