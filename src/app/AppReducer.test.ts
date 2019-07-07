@@ -54,7 +54,8 @@ const initialState: State = deepFreeze({
             feeds: [],
             expanded: true,
             position: 0
-        })
+        }),
+        visible: false
     },
     entries: {
         entries: [
@@ -91,6 +92,11 @@ describe("Tree reducer", () => {
         const root = { id: "test" } as Category
         const state = reducer(initialState, { type: "tree.setRoot", root })
         expect(state.tree.root).toBe(root)
+    })
+    it("toggles visibility", () => {
+        expect(initialState.tree.visible).toBe(false)
+        const state = reducer(initialState, { type: "tree.setVisible", visible: true })
+        expect(state.tree.visible).toBe(true)
     })
     it("changes category expanded status", () => {
         expect(initialState.tree.root!.children[0].expanded).toBe(false)

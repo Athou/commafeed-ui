@@ -1,5 +1,5 @@
 import { AppBar, Button, IconButton, LinearProgress, makeStyles, Toolbar, Typography } from "@material-ui/core"
-import { Add, DoneAll, Refresh } from "@material-ui/icons"
+import { Add, DoneAll, Menu, Refresh } from "@material-ui/icons"
 import React from "react"
 import { useSelector } from "react-redux"
 import { ReadingMode, ReadingOrder } from "../../api/commafeed-api"
@@ -8,12 +8,21 @@ import { AppConstants } from "../AppConstants"
 import { ActionCreator, State } from "../AppReducer"
 import { ProfileButton } from "./ProfileButton"
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
+    spacer: {
+        [theme.breakpoints.up("sm")]: {
+            paddingLeft: AppConstants.SIDEBAR_WIDTH
+        }
+    },
+    menuIcon: {
+        [theme.breakpoints.up("sm")]: {
+            display: "none"
+        }
+    },
     title: {
-        flexGrow: 1,
-        paddingLeft: AppConstants.SIDEBAR_WIDTH
+        flexGrow: 1
     }
-})
+}))
 
 export const Navbar: React.FC = () => {
     const id = useSelector((state: State) => state.entries.id)
@@ -24,6 +33,10 @@ export const Navbar: React.FC = () => {
     const readingOrder = useSelector((state: State) => state.settings && state.settings.readingOrder)
     const dispatch = useAppDispatch()
     const classes = useStyles()
+
+    function menuClicked() {
+        dispatch(ActionCreator.tree.toggleVisibility())
+    }
 
     function refreshClicked() {
         dispatch(ActionCreator.entries.reload())
@@ -53,6 +66,10 @@ export const Navbar: React.FC = () => {
     return (
         <AppBar position="fixed">
             <Toolbar variant="dense">
+                <span className={classes.spacer} />
+                <IconButton color="inherit" className={classes.menuIcon} onClick={menuClicked}>
+                    <Menu />
+                </IconButton>
                 <Typography variant="h5" className={classes.title}>
                     {label}
                 </Typography>
@@ -60,16 +77,16 @@ export const Navbar: React.FC = () => {
                     <IconButton color="inherit" onClick={() => dispatch(ActionCreator.redirect.navigateToSubscribe())}>
                         <Add />
                     </IconButton>
-                    <IconButton color="inherit" onClick={() => refreshClicked()}>
+                    <IconButton color="inherit" onClick={refreshClicked}>
                         <Refresh />
                     </IconButton>
-                    <IconButton color="inherit" onClick={() => markAllClicked()}>
+                    <IconButton color="inherit" onClick={markAllClicked}>
                         <DoneAll />
                     </IconButton>
-                    <Button color="inherit" onClick={() => readingModeClicked()}>
+                    <Button color="inherit" onClick={readingModeClicked}>
                         {readingMode}
                     </Button>
-                    <Button color="inherit" onClick={() => readingOrderClicked()}>
+                    <Button color="inherit" onClick={readingOrderClicked}>
                         {readingOrder}
                     </Button>
                     <ProfileButton color="inherit" />

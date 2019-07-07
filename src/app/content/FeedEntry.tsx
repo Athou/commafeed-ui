@@ -1,35 +1,33 @@
-import { Box, Checkbox, createStyles, Divider, FormControlLabel, Link, makeStyles, Paper, Typography } from "@material-ui/core"
+import { Box, Checkbox, Divider, FormControlLabel, Link, makeStyles, Paper, Typography } from "@material-ui/core"
 import React, { useEffect, useRef } from "react"
 import Moment from "react-moment"
 import { Entry } from "../../api/commafeed-api"
 import { AppConstants } from "../AppConstants"
 
-const useStyles = makeStyles(theme =>
-    createStyles({
-        header: {
-            display: "flex",
-            alignItems: "center",
-            cursor: "pointer"
-        },
-        icon: {
-            width: "24px",
-            height: "24px",
-            marginRight: "0.5em"
-        },
-        content: {
-            marginTop: "0.5em",
-            "& a": {
-                color: theme.palette.action.active
-            }
-        },
-        enclosure: {
-            paddingTop: "10px"
-        },
-        enclosureImage: {
-            maxWidth: "50%"
+const useStyles = makeStyles(theme => ({
+    header: {
+        display: "flex",
+        alignItems: "center",
+        cursor: "pointer"
+    },
+    icon: {
+        width: "24px",
+        height: "24px",
+        marginRight: "0.5em"
+    },
+    content: {
+        marginTop: "0.5em",
+        "& a": {
+            color: theme.palette.action.active
         }
-    })
-)
+    },
+    enclosure: {
+        paddingTop: "10px"
+    },
+    enclosureImage: {
+        maxWidth: "50%"
+    }
+}))
 
 export const FeedEntry: React.FC<{
     entry: Entry

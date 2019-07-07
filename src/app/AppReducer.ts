@@ -10,6 +10,7 @@ export type EntrySource = "category" | "feed"
 
 interface TreeState {
     root?: Category
+    visible: boolean
 }
 
 interface EntriesState {
@@ -36,6 +37,7 @@ export interface State {
 
 export type Actions =
     | { type: "tree.setRoot"; root: Category }
+    | { type: "tree.setVisible"; visible: boolean }
     | { type: "tree.setCategoryExpanded"; categoryId: number; expanded: boolean }
     | { type: "entries.setSource"; id: string; source: EntrySource }
     | {
@@ -57,10 +59,12 @@ export type Actions =
     | { type: "navigateToCategory"; categoryId: string }
     | { type: "navigateToFeed"; feedId: number }
 
-const treeReducer: Reducer<TreeState, Actions> = (state = {}, action) => {
+const treeReducer: Reducer<TreeState, Actions> = (state = { visible: false }, action) => {
     switch (action.type) {
         case "tree.setRoot":
             return { ...state, root: action.root }
+        case "tree.setVisible":
+            return { ...state, visible: action.visible }
         case "tree.setCategoryExpanded": {
             if (!state.root) return state
 
@@ -170,6 +174,11 @@ export const ActionCreator = {
         reload(): ThunkAction<void, State, void, Actions> {
             return dispatch => {
                 clients.category.get().then(root => dispatch({ type: "tree.setRoot", root }))
+            }
+        },
+        toggleVisibility(): ThunkAction<void, State, void, Actions> {
+            return (dispatch, getState) => {
+                dispatch({ type: "tree.setVisible", visible: !getState().tree.visible })
             }
         },
         toggleCategoryExpanded(categoryId: number): ThunkAction<void, State, void, Actions> {

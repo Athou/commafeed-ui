@@ -1,5 +1,6 @@
-import { Drawer } from "@material-ui/core"
+import { Divider, Drawer, Hidden, IconButton } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
+import { ChevronLeft } from "@material-ui/icons"
 import { History } from "history"
 import React, { useEffect } from "react"
 import { Provider, useDispatch, useSelector } from "react-redux"
@@ -15,7 +16,7 @@ import { FeedEdit } from "./content/FeedEdit"
 import { FeedEntries } from "./content/FeedEntries"
 import { Subscribe } from "./content/Subscribe"
 import { Navbar } from "./navbar/Navbar"
-import { Sidebar } from "./sidebar/Sidebar"
+import { Tree } from "./sidebar/Tree"
 
 const useStyles = makeStyles(theme => ({
     sidebar: {
@@ -26,9 +27,17 @@ const useStyles = makeStyles(theme => ({
             overflow: "auto"
         }
     },
+    sidebarHeader: {
+        height: AppConstants.NAVBAR_HEIGHT,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-end"
+    },
     content: {
-        marginLeft: AppConstants.SIDEBAR_WIDTH,
-        paddingTop: AppConstants.NAVBAR_HEIGHT
+        paddingTop: AppConstants.NAVBAR_HEIGHT,
+        [theme.breakpoints.up("sm")]: {
+            marginLeft: AppConstants.SIDEBAR_WIDTH
+        }
     }
 }))
 
@@ -48,11 +57,7 @@ export const App: React.FC<RouteComponentProps> = props => {
         <Provider store={store}>
             <FaviconHandler />
             <RedirectHandler history={props.history} />
-            <Drawer variant="permanent" open>
-                <div className={classes.sidebar}>
-                    <Sidebar />
-                </div>
-            </Drawer>
+            <Sidebar />
             <Navbar />
             <div className={classes.content}>
                 <Switch>
@@ -98,4 +103,39 @@ const RedirectHandler: React.FC<{ history: History }> = props => {
     }, [redirectTo, props.history])
 
     return null
+}
+
+const Sidebar: React.FC = () => {
+    const visible = useSelector((state: State) => state.tree.visible)
+    const dispatch = useAppDispatch()
+    const classes = useStyles()
+
+    const closeMenuClicked = () => dispatch(ActionCreator.tree.toggleVisibility())
+
+    return (
+        <>
+            <Hidden smUp>
+                <Drawer variant="temporary" open={visible} onClose={closeMenuClicked}>
+                    <div className={classes.sidebar}>
+                        <div className={classes.sidebarHeader}>
+                            <IconButton onClick={closeMenuClicked}>
+                                <ChevronLeft />
+                            </IconButton>
+                        </div>
+                        <Divider />
+                        <Tree />
+                    </div>
+                </Drawer>
+            </Hidden>
+            <Hidden xsDown>
+                <Drawer variant="persistent" open>
+                    <div className={classes.sidebarHeader} />
+                    <div className={classes.sidebar}>
+                        <Divider />
+                        <Tree />
+                    </div>
+                </Drawer>
+            </Hidden>
+        </>
+    )
 }
