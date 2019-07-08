@@ -19,6 +19,10 @@ const useStyles = makeStyles(theme => ({
         marginTop: "0.5em",
         "& a": {
             color: theme.palette.action.active
+        },
+        "& img": {
+            maxWidth: "100%",
+            height: "auto"
         }
     },
     enclosure: {
