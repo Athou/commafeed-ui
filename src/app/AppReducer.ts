@@ -336,21 +336,21 @@ export const ActionCreator = {
     settings: {
         setReadingMode(readingMode: ReadingMode): ThunkAction<void, State, void, Actions> {
             return (dispatch, getState) => {
-                const settings = getState().settings
-                if (!settings) return
                 dispatch({ type: "settings.setReadingMode", readingMode })
                 dispatch(ActionCreator.entries.reload())
-                clients.user.settingsPost(new Settings(settings))
+
+                const settings = getState().settings
+                settings && clients.user.settingsPost(new Settings(settings))
             }
         },
 
         setReadingOrder(readingOrder: ReadingOrder): ThunkAction<void, State, void, Actions> {
             return (dispatch, getState) => {
-                const settings = getState().settings
-                if (!settings) return
                 dispatch({ type: "settings.setReadingOrder", readingOrder })
                 dispatch(ActionCreator.entries.reload())
-                clients.user.settingsPost(new Settings(settings))
+
+                const settings = getState().settings
+                settings && clients.user.settingsPost(new Settings(settings))
             }
         },
 
