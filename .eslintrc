@@ -1,0 +1,45 @@
+{
+    "extends": ["plugin:react/recommended", "react-app", "airbnb-typescript", "prettier"],
+    "plugins": ["prettier", "hooks"],
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        // make eslint check prettier rules
+        "prettier/prettier": "error",
+
+        // make sure the key prop is filled when required
+        "react/jsx-key": ["error", { "checkFragmentShorthand": true }],
+
+        // no longer required with modern react versions
+        "react/react-in-jsx-scope": "off",
+
+        // not required with typescript
+        "react/prop-types": "off",
+        "react/require-default-props": "off",
+
+        // matter of taste
+        "react/destructuring-assignment": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/no-unescaped-entities": "off",
+        "import/prefer-default-export": "off",
+
+        // enforce hook call order
+        "hooks/sort": [
+            2,
+            {
+                "groups": [
+                    "useLocation",
+                    "useParams",
+                    "useStyles",
+                    "useState",
+                    "useAppSelector",
+                    "useAppDispatch",
+                    "useCallback",
+                    "useMutation",
+                    "useEffect"
+                ]
+            }
+        ]
+    }
+}
