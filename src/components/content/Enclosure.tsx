@@ -1,8 +1,9 @@
-import { createStyles, Image } from "@mantine/core"
+import { createStyles } from "@mantine/core"
 
 const useStyles = createStyles(() => ({
     enclosureImage: {
-        maxWidth: "50%",
+        maxWidth: "100%",
+        height: "auto",
     },
 }))
 
@@ -26,7 +27,7 @@ export const Enclosure: React.FC<{
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </audio>
             )}
-            {hasImage && <Image src={props.enclosureUrl} alt="enclosure" className={classes.enclosureImage} />}
+            {hasImage && <img src={props.enclosureUrl} alt="enclosure" className={classes.enclosureImage} />}
         </>
     )
 }
