@@ -30,7 +30,14 @@ export default function Layout({ sidebar, header }: LayoutProps) {
     const theme = useMantineTheme()
     const dispatch = useAppDispatch()
 
-    const burger = <Burger opened={mobileMenuOpen} onClick={() => dispatch(setMobileMenuOpen(!mobileMenuOpen))} size="sm" />
+    const burger = (
+        <Burger
+            color={theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color}
+            opened={mobileMenuOpen}
+            onClick={() => dispatch(setMobileMenuOpen(!mobileMenuOpen))}
+            size="sm"
+        />
+    )
     return (
         <AppShell
             fixed
