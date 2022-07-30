@@ -29,7 +29,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => ({
     },
     header: {
         cursor: "pointer",
-        whiteSpace: "nowrap",
+        whiteSpace: props.expanded ? "inherit" : "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
     },
@@ -38,7 +38,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => ({
         display: "flex",
         alignItems: "center",
         fontSize: "90%",
-        whiteSpace: "nowrap",
+        whiteSpace: props.expanded ? "inherit" : "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
     },
