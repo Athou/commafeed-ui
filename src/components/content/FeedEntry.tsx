@@ -133,11 +133,13 @@ export const FeedEntry: React.FC<FeedEntryProps> = props => {
                             )}
                             <Divider variant="dashed" mt="md" mb="md" />
                             <Group>
-                                <Checkbox
-                                    checked={!props.entry.read}
-                                    onChange={() => props.onReadStatusCheckboxClick(props.entry)}
-                                    label="Keep unread"
-                                />
+                                {props.entry.markable && (
+                                    <Checkbox
+                                        checked={!props.entry.read}
+                                        onChange={() => props.onReadStatusCheckboxClick(props.entry)}
+                                        label="Keep unread"
+                                    />
+                                )}
                             </Group>
                         </Box>
                     </>
