@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { RootState } from "app/store"
 import { Entries, Entry, GetEntriesRequest, MarkRequest } from "app/types"
@@ -80,20 +80,21 @@ export const markAllEntries = createAsyncThunk("entries/entry/markAll", (arg: { 
     const endpoint = arg.sourceType === "category" ? client.category.markEntries : client.feed.markEntries
     endpoint(arg.req)
 })
-export const selectEntry = createAsyncThunk<void, Entry, { state: RootState }>("entries/entry/select", (entry, thunkApi) => {
-    if (entry.read) return
-    thunkApi.dispatch(
-        markEntry({
-            entry,
-            read: true,
-        })
-    )
-})
 
 export const entriesSlice = createSlice({
     name: "entries",
     initialState,
-    reducers: {},
+    reducers: {
+        selectEntry: (state, action: PayloadAction<Entry>) => {
+            const alreadySelected = state.selectedEntryId === action.payload.id
+            state.entries
+                .filter(e => e.id === action.payload.id)
+                .forEach(e => {
+                    e.expanded = alreadySelected ? !e.expanded : true
+                })
+            state.selectedEntryId = action.payload.id
+        },
+    },
     extraReducers: builder => {
         builder.addCase(markEntry.pending, (state, action) => {
             state.entries
@@ -106,15 +107,6 @@ export const entriesSlice = createSlice({
             state.entries.forEach(e => {
                 e.read = true
             })
-        })
-        builder.addCase(selectEntry.pending, (state, action) => {
-            const alreadySelected = state.selectedEntryId === action.meta.arg.id
-            state.entries
-                .filter(e => e.id === action.meta.arg.id)
-                .forEach(e => {
-                    e.expanded = alreadySelected ? !e.expanded : true
-                })
-            state.selectedEntryId = action.meta.arg.id
         })
         builder.addCase(loadEntries.pending, (state, action) => {
             state.source = {
@@ -153,4 +145,5 @@ export const entriesSlice = createSlice({
     },
 })
 
+export const { selectEntry } = entriesSlice.actions
 export default entriesSlice.reducer

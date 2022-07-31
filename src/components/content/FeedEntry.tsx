@@ -64,6 +64,15 @@ export function FeedEntry(props: FeedEntryProps) {
             // main click
             // don't trigger the link
             e.preventDefault()
+
+            // only mark entry as read if we're expanding and it was not already read
+            if (!props.entry.read && !props.expanded)
+                dispatch(
+                    markEntry({
+                        entry: props.entry,
+                        read: true,
+                    })
+                )
             dispatch(selectEntry(props.entry))
         } else if (e.button === 1) {
             // middle click
