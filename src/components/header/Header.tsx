@@ -18,6 +18,8 @@ const useStyles = createStyles(() => ({
     },
 }))
 
+const iconSize = 18
+
 export function Header() {
     const { classes } = useStyles()
     const source = useAppSelector(state => state.entries.source)
@@ -48,8 +50,6 @@ export function Header() {
         })
 
     if (!settings) return <Loader />
-
-    const iconSize = 18
     return (
         <Center>
             <Group>

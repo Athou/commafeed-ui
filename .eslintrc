@@ -8,6 +8,9 @@
         // make eslint check prettier rules
         "prettier/prettier": "error",
 
+        // enforce consistent curly braces usage
+        "curly": ["error", "multi-line", "consistent"],
+
         // set "props" to false because it cases false positives with immer
         "no-param-reassign": ["error", { "props": false }],
 

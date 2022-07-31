@@ -16,9 +16,7 @@ interface TreeNodeProps {
 
 const useStyles = createStyles((theme, props: TreeNodeProps) => {
     let backgroundColor = "inherit"
-    if (props.selected) {
-        backgroundColor = theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }
+    if (props.selected) backgroundColor = theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
 
     return {
         node: {

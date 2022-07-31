@@ -66,23 +66,25 @@ export function FeedEntry(props: FeedEntryProps) {
             e.preventDefault()
 
             // only mark entry as read if we're expanding and it was not already read
-            if (!props.entry.read && !props.expanded)
+            if (!props.entry.read && !props.expanded) {
                 dispatch(
                     markEntry({
                         entry: props.entry,
                         read: true,
                     })
                 )
+            }
             dispatch(selectEntry(props.entry))
         } else if (e.button === 1) {
             // middle click
-            if (!props.entry.read)
+            if (!props.entry.read) {
                 dispatch(
                     markEntry({
                         entry: props.entry,
                         read: true,
                     })
                 )
+            }
         }
     }
 

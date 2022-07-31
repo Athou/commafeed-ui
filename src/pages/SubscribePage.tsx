@@ -38,13 +38,16 @@ export function SubscribePage() {
     const nextStep = (e: React.FormEvent) => {
         e.preventDefault()
 
-        if (activeStep === 0) fetchFeed({ url })
-        else if (activeStep === 1 && fetchFeedResult.data)
+        if (activeStep === 0) {
+            fetchFeed({ url })
+        } else if (activeStep === 1 && fetchFeedResult.data) {
             subscribe({
                 url: fetchFeedResult.data.data.url,
                 title: feedName,
             })
-        else returnToApp()
+        } else {
+            returnToApp()
+        }
     }
 
     return (

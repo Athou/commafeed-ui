@@ -18,9 +18,7 @@ const axiosInstance = axios.create({ baseURL: "./rest", withCredentials: true })
 axiosInstance.interceptors.response.use(
     response => response,
     error => {
-        if (error.response.status === 401) {
-            window.location.hash = "/login"
-        }
+        if (error.response.status === 401) window.location.hash = "/login"
         throw error
     }
 )
