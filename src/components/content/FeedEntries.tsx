@@ -1,7 +1,6 @@
 import { Title } from "@mantine/core"
-import { loadMoreEntries, markEntry, selectEntry } from "app/slices/entries"
+import { loadMoreEntries } from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
-import { Entry } from "app/types"
 import { Loader } from "components/Loader"
 import { useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroller"
@@ -21,9 +20,6 @@ export const FeedEntries = () => {
     }, [dispatch, source])
 
     const loadMore = () => dispatch(loadMoreEntries())
-    const entryHeaderClicked = (entry: Entry) => dispatch(selectEntry(entry))
-    const entryExternalLinkClicked = (entry: Entry) => !entry.read && dispatch(markEntry({ entry, read: true }))
-    const entryReadStatusCheckboxClicked = (entry: Entry) => dispatch(markEntry({ entry, read: !entry.read }))
 
     if (!entries) return <Loader />
     return (
@@ -31,14 +27,7 @@ export const FeedEntries = () => {
             <Title order={3}>{sourceLabel}</Title>
             <InfiniteScroll initialLoad={false} loadMore={loadMore} hasMore={hasMore} loader={<Loader key={0} />}>
                 {entries.map(e => (
-                    <FeedEntry
-                        entry={e}
-                        expanded={e.id === selectedEntryId && !!e.expanded}
-                        onHeaderClick={entryHeaderClicked}
-                        onExternalLinkClick={entryExternalLinkClicked}
-                        onReadStatusCheckboxClick={entryReadStatusCheckboxClicked}
-                        key={e.id}
-                    />
+                    <FeedEntry entry={e} expanded={e.id === selectedEntryId && !!e.expanded} key={e.id} />
                 ))}
             </InfiniteScroll>
         </>

@@ -1,4 +1,6 @@
 import { Box, createStyles, Divider, Group, Image, Paper } from "@mantine/core"
+import { markEntry, selectEntry } from "app/slices/entries"
+import { useAppDispatch } from "app/store"
 import { Entry } from "app/types"
 import { ActionButton } from "components/ActionButtton"
 import { headerHeight } from "components/Layout"
@@ -13,9 +15,6 @@ import { Media } from "./Media"
 interface FeedEntryProps {
     entry: Entry
     expanded: boolean
-    onHeaderClick: (entry: Entry) => void
-    onExternalLinkClick: (entry: Entry) => void
-    onReadStatusCheckboxClick: (entry: Entry) => void
 }
 
 const useStyles = createStyles((theme, props: FeedEntryProps) => ({
@@ -30,23 +29,23 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => ({
                 : "inherit",
     },
     header: {
+        color: "inherit",
+        textDecoration: "inherit",
         cursor: "pointer",
+    },
+    headerText: {
         fontWeight: theme.colorScheme === "light" && !props.entry.read ? "bold" : "inherit",
         whiteSpace: props.expanded ? "inherit" : "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
     },
-    subheader: {
-        cursor: "pointer",
+    headerSubtext: {
         display: "flex",
         alignItems: "center",
         fontSize: "90%",
         whiteSpace: props.expanded ? "inherit" : "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-    },
-    externalLink: {
-        color: "inherit",
     },
     subtitle: {
         fontSize: "90%",
@@ -57,8 +56,35 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => ({
 }))
 
 dayjs.extend(relativeTime)
-export const FeedEntry: React.FC<FeedEntryProps> = props => {
+export function FeedEntry(props: FeedEntryProps) {
     const { classes } = useStyles(props)
+    const dispatch = useAppDispatch()
+
+    const headerClicked = (e: React.MouseEvent) => {
+        if (e.button === 0) {
+            // main click
+            // don't trigger the link
+            e.preventDefault()
+            dispatch(selectEntry(props.entry))
+        } else if (e.button === 1) {
+            // middle click
+            if (!props.entry.read)
+                dispatch(
+                    markEntry({
+                        entry: props.entry,
+                        read: true,
+                    })
+                )
+        }
+    }
+
+    const readStatusButtonClicked = () =>
+        dispatch(
+            markEntry({
+                entry: props.entry,
+                read: !props.entry.read,
+            })
+        )
 
     // scroll to entry when expanded
     const ref = useRef<HTMLDivElement>(null)
@@ -78,16 +104,23 @@ export const FeedEntry: React.FC<FeedEntryProps> = props => {
     return (
         <div ref={ref}>
             <Paper shadow="xs" p="xs" my="xs" withBorder className={classes.paper}>
-                <Box className={classes.header} onClick={() => props.onHeaderClick(props.entry)}>
-                    {props.entry.title}
-                </Box>
-                <Box className={classes.subheader} onClick={() => props.onHeaderClick(props.entry)}>
-                    <Box mr={6}>
-                        <Image src={props.entry.iconUrl} alt="feed icon" width={18} height={18} />
+                <a
+                    href={props.entry.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={classes.header}
+                    onClick={headerClicked}
+                    onAuxClick={headerClicked}
+                >
+                    <Box className={classes.headerText}>{props.entry.title}</Box>
+                    <Box className={classes.headerSubtext}>
+                        <Box mr={6}>
+                            <Image src={props.entry.iconUrl} alt="feed icon" width={18} height={18} />
+                        </Box>
+                        <Box>{props.entry.feedName}</Box>
+                        <Box>&nbsp;·&nbsp;{dayjs(props.entry.date).fromNow()}</Box>
                     </Box>
-                    <Box>{props.entry.feedName}</Box>
-                    <Box>&nbsp;·&nbsp;{dayjs(props.entry.date).fromNow()}</Box>
-                </Box>
+                </a>
                 {props.expanded && (
                     <>
                         <Box className={classes.subtitle}>
@@ -119,7 +152,7 @@ export const FeedEntry: React.FC<FeedEntryProps> = props => {
                                     <ActionButton
                                         icon={props.entry.read ? <TbEyeCheck size={18} /> : <TbEyeOff size={18} />}
                                         label={props.entry.read ? "Read" : "Unread"}
-                                        onClick={() => props.onReadStatusCheckboxClick(props.entry)}
+                                        onClick={readStatusButtonClicked}
                                     />
                                 )}
                                 <a href={props.entry.url} target="_blank" rel="noreferrer">
