@@ -14,6 +14,17 @@
         // set "props" to false because it cases false positives with immer
         "no-param-reassign": ["error", { "props": false }],
 
+        "prefer-destructuring": [
+            "error",
+            {
+                "array": false,
+                "object": true
+            },
+            {
+                "enforceForRenamedProperties": false
+            }
+        ],
+
         // make sure the key prop is filled when required
         "react/jsx-key": ["error", { "checkFragmentShorthand": true }],
 

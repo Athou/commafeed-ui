@@ -3,7 +3,7 @@ import { redirectTo } from "app/slices/redirect"
 import { collapseTreeCategory } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Category, Subscription } from "app/types"
-import { categoryUnreadCount } from "app/utils"
+import { categoryUnreadCount, flattenCategoryTree } from "app/utils"
 import { Loader } from "components/Loader"
 import React from "react"
 import { FaChevronDown, FaChevronRight, FaInbox } from "react-icons/fa"
@@ -13,6 +13,7 @@ const allIcon = <FaInbox size={14} />
 const expandedIcon = <FaChevronDown size={14} />
 const collapsedIcon = <FaChevronRight size={14} />
 
+const errorThreshold = 9
 export function Tree() {
     const root = useAppSelector(state => state.tree.rootCategory)
     const source = useAppSelector(state => state.entries.source)
@@ -40,24 +41,29 @@ export function Tree() {
             selected={source.type === "category" && source.id === "all"}
             expanded={false}
             level={0}
+            hasError={false}
             onClick={categoryClicked}
         />
     )
 
-    const categoryNode = (category: Category, level: number = 0) => (
-        <TreeNode
-            id={category.id}
-            name={category.name}
-            icon={category.expanded ? expandedIcon : collapsedIcon}
-            unread={categoryUnreadCount(category)}
-            selected={source.type === "category" && source.id === category.id}
-            expanded={category.expanded}
-            level={level}
-            onClick={categoryClicked}
-            onIconClick={e => categoryIconClicked(e, category)}
-            key={category.id}
-        />
-    )
+    const categoryNode = (category: Category, level: number = 0) => {
+        const hasError = !category.expanded && flattenCategoryTree(category).some(c => c.feeds.some(f => f.errorCount > errorThreshold))
+        return (
+            <TreeNode
+                id={category.id}
+                name={category.name}
+                icon={category.expanded ? expandedIcon : collapsedIcon}
+                unread={categoryUnreadCount(category)}
+                selected={source.type === "category" && source.id === category.id}
+                expanded={category.expanded}
+                level={level}
+                hasError={hasError}
+                onClick={categoryClicked}
+                onIconClick={e => categoryIconClicked(e, category)}
+                key={category.id}
+            />
+        )
+    }
 
     const feedNode = (feed: Subscription, level: number = 0) => (
         <TreeNode
@@ -67,6 +73,7 @@ export function Tree() {
             unread={feed.unread}
             selected={source.type === "feed" && source.id === String(feed.id)}
             level={level}
+            hasError={feed.errorCount > errorThreshold}
             onClick={feedClicked}
             key={feed.id}
         />

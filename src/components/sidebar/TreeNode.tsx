@@ -10,6 +10,7 @@ interface TreeNodeProps {
     selected: boolean
     expanded?: boolean
     level: number
+    hasError: boolean
     onClick: (id: string) => void
     onIconClick?: (e: React.MouseEvent, id: string) => void
 }
@@ -18,12 +19,15 @@ const useStyles = createStyles((theme, props: TreeNodeProps) => {
     let backgroundColor = "inherit"
     if (props.selected) backgroundColor = theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
 
+    let color = theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black
+    if (props.hasError) color = theme.colors.red[6]
+
     return {
         node: {
             display: "flex",
             alignItems: "center",
             cursor: "pointer",
-            color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+            color,
             backgroundColor,
             "&:hover": {
                 backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
