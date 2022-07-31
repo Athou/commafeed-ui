@@ -1,5 +1,5 @@
 import { Divider, Menu, useMantineColorScheme } from "@mantine/core"
-import { FaCogs, FaMoon, FaPowerOff, FaSun } from "react-icons/fa"
+import { TbMoon, TbPower, TbSettings, TbSun } from "react-icons/tb"
 
 interface ProfileMenuProps {
     control: React.ReactElement
@@ -13,14 +13,14 @@ export const ProfileMenu = (props: ProfileMenuProps) => {
         <Menu position="bottom-end" closeOnItemClick={false}>
             <Menu.Target>{props.control}</Menu.Target>
             <Menu.Dropdown>
-                <Menu.Item icon={<FaCogs size={14} />}>Settings</Menu.Item>
-                <Menu.Item icon={dark ? <FaMoon size={14} /> : <FaSun size={14} />} onClick={() => toggleColorScheme()}>
+                <Menu.Item icon={<TbSettings />}>Settings</Menu.Item>
+                <Menu.Item icon={dark ? <TbMoon /> : <TbSun />} onClick={() => toggleColorScheme()}>
                     Theme
                 </Menu.Item>
 
                 <Divider />
 
-                <Menu.Item icon={<FaPowerOff size={14} />} onClick={() => (window.location.href = "logout")}>
+                <Menu.Item icon={<TbPower />} onClick={() => (window.location.href = "logout")}>
                     Logout
                 </Menu.Item>
             </Menu.Dropdown>

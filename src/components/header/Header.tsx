@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { ActionButton } from "components/ActionButtton"
 import { Loader } from "components/Loader"
 import { useEffect } from "react"
-import { FaArrowDown, FaArrowUp, FaCheckDouble, FaEye, FaEyeSlash, FaSyncAlt, FaUser } from "react-icons/fa"
+import { TbArrowDown, TbArrowUp, TbChecks, TbEyeCheck, TbEyeOff, TbRefresh, TbUser } from "react-icons/tb"
 import { ProfileMenu } from "./ProfileMenu"
 
 const HeaderDivider = () => <Divider sx={{ height: "28px" }} orientation="vertical" />
@@ -52,27 +52,29 @@ export const Header = () => {
     }, [dispatch])
 
     if (!settings) return <Loader />
+
+    const iconSize = 18
     return (
         <Center>
             <Group>
-                <ActionButton icon={<FaSyncAlt />} label="Refresh" onClick={() => dispatch(reloadEntries())}></ActionButton>
+                <ActionButton icon={<TbRefresh size={iconSize} />} label="Refresh" onClick={() => dispatch(reloadEntries())}></ActionButton>
                 <HeaderDivider />
-                <ActionButton icon={<FaCheckDouble />} label="Mark all as read" onClick={openMarkAllEntriesModal}></ActionButton>
+                <ActionButton icon={<TbChecks size={iconSize} />} label="Mark all as read" onClick={openMarkAllEntriesModal}></ActionButton>
                 <HeaderDivider />
                 <ActionButton
                     className={classes.button}
-                    icon={settings.readingMode === "all" ? <FaEye /> : <FaEyeSlash />}
+                    icon={settings.readingMode === "all" ? <TbEyeCheck size={iconSize} /> : <TbEyeOff size={iconSize} />}
                     label={settings.readingMode}
                     onClick={() => dispatch(changeReadingMode(settings.readingMode === "all" ? "unread" : "all"))}
                 ></ActionButton>
                 <ActionButton
                     className={classes.button}
-                    icon={settings.readingOrder === "asc" ? <FaArrowUp /> : <FaArrowDown />}
+                    icon={settings.readingOrder === "asc" ? <TbArrowUp size={iconSize} /> : <TbArrowDown size={iconSize} />}
                     label={settings.readingOrder}
                     onClick={() => dispatch(changeReadingOrder(settings.readingOrder === "asc" ? "desc" : "asc"))}
                 ></ActionButton>
                 <HeaderDivider />
-                <ProfileMenu control={<ActionButton icon={<FaUser />} label={profile?.name} />} />
+                <ProfileMenu control={<ActionButton icon={<TbUser size={iconSize} />} label={profile?.name} />} />
             </Group>
         </Center>
     )

@@ -3,7 +3,7 @@ import { redirectTo } from "app/slices/redirect"
 import { setMobileMenuOpen } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ReactNode } from "react"
-import { FaPlus } from "react-icons/fa"
+import { TbPlus } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
 import { Logo } from "./Logo"
 
@@ -62,7 +62,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                                     </Box>
                                     <Box>
                                         <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectTo("/app/subscribe"))}>
-                                            <FaPlus />
+                                            <TbPlus size={18} />
                                         </ActionIcon>
                                     </Box>
                                     {!mobileMenuOpen && <Box>{header}</Box>}
@@ -85,7 +85,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                                 </Box>
                                 <Box>
                                     <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectTo("/app/subscribe"))}>
-                                        <FaPlus />
+                                        <TbPlus size={18} />
                                     </ActionIcon>
                                 </Box>
                             </Box>

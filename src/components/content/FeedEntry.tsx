@@ -5,8 +5,7 @@ import { headerHeight } from "components/Layout"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import React, { useEffect, useRef } from "react"
-import { FaExternalLinkAlt } from "react-icons/fa"
-import { TbEyeCheck, TbEyeOff } from "react-icons/tb"
+import { TbExternalLink, TbEyeCheck, TbEyeOff } from "react-icons/tb"
 import { Enclosure } from "./Enclosure"
 import { FeedEntryContent } from "./FeedEntryContent"
 import { Media } from "./Media"
@@ -123,7 +122,7 @@ export const FeedEntry: React.FC<FeedEntryProps> = props => {
                                     />
                                 )}
                                 <a href={props.entry.url} target="_blank" rel="noreferrer">
-                                    <ActionButton icon={<FaExternalLinkAlt />} label="Open link" />
+                                    <ActionButton icon={<TbExternalLink size={18} />} label="Open link" />
                                 </a>
                             </Group>
                         </Box>
