@@ -31,6 +31,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => ({
     },
     header: {
         cursor: "pointer",
+        fontWeight: theme.colorScheme === "light" && !props.entry.read ? "bold" : "inherit",
         whiteSpace: props.expanded ? "inherit" : "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
