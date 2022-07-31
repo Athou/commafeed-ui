@@ -1,9 +1,12 @@
-import { Anchor, Box, Checkbox, createStyles, Divider, Group, Image, Paper } from "@mantine/core"
+import { Box, createStyles, Divider, Group, Image, Paper } from "@mantine/core"
 import { Entry } from "app/types"
+import { ActionButton } from "components/ActionButtton"
 import { headerHeight } from "components/Layout"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import React, { useEffect, useRef } from "react"
+import { FaExternalLinkAlt } from "react-icons/fa"
+import { TbEyeCheck, TbEyeOff } from "react-icons/tb"
 import { Enclosure } from "./Enclosure"
 import { FeedEntryContent } from "./FeedEntryContent"
 import { Media } from "./Media"
@@ -83,28 +86,7 @@ export const FeedEntry: React.FC<FeedEntryProps> = props => {
                         <Image src={props.entry.iconUrl} alt="feed icon" width={18} height={18} />
                     </Box>
                     <Box>{props.entry.feedName}</Box>
-                    <Box>&nbsp;·&nbsp;</Box>
-                    <Box>
-                        <Anchor
-                            className={classes.externalLink}
-                            href={props.entry.url}
-                            target="_blank"
-                            onClick={(e: React.MouseEvent) => {
-                                e.stopPropagation()
-                                props.onExternalLinkClick(props.entry)
-                            }}
-                            onAuxClick={(e: React.MouseEvent) => {
-                                // middle click
-                                if (e.button === 1) {
-                                    e.stopPropagation()
-                                    props.onExternalLinkClick(props.entry)
-                                }
-                            }}
-                            rel="noreferrer"
-                        >
-                            {dayjs(props.entry.date).fromNow()}
-                        </Anchor>
-                    </Box>
+                    <Box>&nbsp;·&nbsp;{dayjs(props.entry.date).fromNow()}</Box>
                 </Box>
                 {props.expanded && (
                     <>
@@ -134,12 +116,15 @@ export const FeedEntry: React.FC<FeedEntryProps> = props => {
                             <Divider variant="dashed" mt="md" mb="md" />
                             <Group>
                                 {props.entry.markable && (
-                                    <Checkbox
-                                        checked={!props.entry.read}
-                                        onChange={() => props.onReadStatusCheckboxClick(props.entry)}
-                                        label="Keep unread"
+                                    <ActionButton
+                                        icon={props.entry.read ? <TbEyeCheck size={18} /> : <TbEyeOff size={18} />}
+                                        label={props.entry.read ? "Read" : "Unread"}
+                                        onClick={() => props.onReadStatusCheckboxClick(props.entry)}
                                     />
                                 )}
+                                <a href={props.entry.url} target="_blank" rel="noreferrer">
+                                    <ActionButton icon={<FaExternalLinkAlt />} label="Open link" />
+                                </a>
                             </Group>
                         </Box>
                     </>
