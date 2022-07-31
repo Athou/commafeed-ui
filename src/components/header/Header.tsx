@@ -8,7 +8,9 @@ import { Loader } from "components/Loader"
 import { TbArrowDown, TbArrowUp, TbChecks, TbEyeCheck, TbEyeOff, TbRefresh, TbUser } from "react-icons/tb"
 import { ProfileMenu } from "./ProfileMenu"
 
-const HeaderDivider = () => <Divider sx={{ height: "28px" }} orientation="vertical" />
+function HeaderDivider() {
+    return <Divider sx={{ height: "28px" }} orientation="vertical" />
+}
 
 const useStyles = createStyles(() => ({
     button: {
@@ -16,7 +18,7 @@ const useStyles = createStyles(() => ({
     },
 }))
 
-export const Header = () => {
+export function Header() {
     const { classes } = useStyles()
     const source = useAppSelector(state => state.entries.source)
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
@@ -51,22 +53,22 @@ export const Header = () => {
     return (
         <Center>
             <Group>
-                <ActionButton icon={<TbRefresh size={iconSize} />} label="Refresh" onClick={() => dispatch(reloadEntries())}></ActionButton>
+                <ActionButton icon={<TbRefresh size={iconSize} />} label="Refresh" onClick={() => dispatch(reloadEntries())} />
                 <HeaderDivider />
-                <ActionButton icon={<TbChecks size={iconSize} />} label="Mark all as read" onClick={openMarkAllEntriesModal}></ActionButton>
+                <ActionButton icon={<TbChecks size={iconSize} />} label="Mark all as read" onClick={openMarkAllEntriesModal} />
                 <HeaderDivider />
                 <ActionButton
                     className={classes.button}
                     icon={settings.readingMode === "all" ? <TbEyeCheck size={iconSize} /> : <TbEyeOff size={iconSize} />}
                     label={settings.readingMode}
                     onClick={() => dispatch(changeReadingMode(settings.readingMode === "all" ? "unread" : "all"))}
-                ></ActionButton>
+                />
                 <ActionButton
                     className={classes.button}
                     icon={settings.readingOrder === "asc" ? <TbArrowUp size={iconSize} /> : <TbArrowDown size={iconSize} />}
                     label={settings.readingOrder}
                     onClick={() => dispatch(changeReadingOrder(settings.readingOrder === "asc" ? "desc" : "asc"))}
-                ></ActionButton>
+                />
                 <HeaderDivider />
                 <ProfileMenu control={<ActionButton icon={<TbUser size={iconSize} />} label={profile?.name} />} />
             </Group>

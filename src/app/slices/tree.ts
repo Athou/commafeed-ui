@@ -42,18 +42,28 @@ export const treeSlice = createSlice({
             visitCategoryTree(state.rootCategory, c =>
                 c.feeds
                     .filter(f => f.id === +action.meta.arg.entry.feedId)
-                    .forEach(f => (f.unread = action.meta.arg.read ? f.unread - 1 : f.unread + 1))
+                    .forEach(f => {
+                        f.unread = action.meta.arg.read ? f.unread - 1 : f.unread + 1
+                    })
             )
         })
         builder.addCase(markAllEntries.pending, (state, action) => {
             if (!state.rootCategory) return
-            const sourceType = action.meta.arg.sourceType
+            const { sourceType } = action.meta.arg
             const sourceId = action.meta.arg.req.id
             visitCategoryTree(state.rootCategory, c => {
                 if (sourceType === "category" && c.id === sourceId) {
-                    visitCategoryTree(c, c2 => c2.feeds.forEach(f => (f.unread = 0)))
+                    visitCategoryTree(c, c2 =>
+                        c2.feeds.forEach(f => {
+                            f.unread = 0
+                        })
+                    )
                 } else if (sourceType === "feed") {
-                    c.feeds.filter(f => f.id === +sourceId).forEach(f => (f.unread = 0))
+                    c.feeds
+                        .filter(f => f.id === +sourceId)
+                        .forEach(f => {
+                            f.unread = 0
+                        })
                 }
             })
         })

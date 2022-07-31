@@ -19,7 +19,7 @@ const useStyles = createStyles(theme => ({
     },
 }))
 
-export const FeedEntryContent = (props: FeedEntryContentProps) => {
+export function FeedEntryContent(props: FeedEntryContentProps) {
     const { classes } = useStyles()
     return <Text size="md" className={classes.content} dangerouslySetInnerHTML={{ __html: props.content }} />
 }

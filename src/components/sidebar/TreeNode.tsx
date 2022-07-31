@@ -14,24 +14,31 @@ interface TreeNodeProps {
     onIconClick?: (e: React.MouseEvent, id: string) => void
 }
 
-const useStyles = createStyles((theme, props: TreeNodeProps) => ({
-    node: {
-        display: "flex",
-        alignItems: "center",
-        cursor: "pointer",
-        color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-        backgroundColor: props.selected ? (theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]) : "inherit",
-        "&:hover": {
-            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
-        },
-    },
-    nodeText: {
-        flexGrow: 1,
-        textOverflow: "ellipsis",
-    },
-}))
+const useStyles = createStyles((theme, props: TreeNodeProps) => {
+    let backgroundColor = "inherit"
+    if (props.selected) {
+        backgroundColor = theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
+    }
 
-export const TreeNode: React.FC<TreeNodeProps> = props => {
+    return {
+        node: {
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+            color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+            backgroundColor,
+            "&:hover": {
+                backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+            },
+        },
+        nodeText: {
+            flexGrow: 1,
+            textOverflow: "ellipsis",
+        },
+    }
+})
+
+export function TreeNode(props: TreeNodeProps) {
     const { classes } = useStyles(props)
     return (
         <Box py={1} pl={props.level * 20} className={classes.node} onClick={() => props.onClick(props.id)}>

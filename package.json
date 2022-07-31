@@ -36,6 +36,7 @@
         "@types/tinycon": "^0.6.3",
         "@vitejs/plugin-react": "^2.0.0",
         "eslint": "^8.20.0",
+        "eslint-config-airbnb": "^19.0.4",
         "eslint-config-airbnb-typescript": "^17.0.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-config-react-app": "^7.0.1",

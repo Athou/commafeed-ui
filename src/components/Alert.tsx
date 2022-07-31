@@ -7,7 +7,7 @@ export interface ErrorsAlertProps {
     messages: string[]
 }
 
-export const Alert = (props: ErrorsAlertProps) => {
+export function Alert(props: ErrorsAlertProps) {
     const title = props.title ?? "Error!"
     const color = props.color ?? "red"
     return (

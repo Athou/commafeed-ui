@@ -15,7 +15,7 @@ export const reloadProfile = createAsyncThunk("profile/reload", () => client.use
 export const changeReadingMode = createAsyncThunk<void, ReadingMode, { state: RootState }>(
     "settings/readingMode",
     (readingMode, thunkApi) => {
-        const settings = thunkApi.getState().user.settings
+        const { settings } = thunkApi.getState().user
         if (!settings) return
         client.user.saveSettings({ ...settings, readingMode })
     }
@@ -23,7 +23,7 @@ export const changeReadingMode = createAsyncThunk<void, ReadingMode, { state: Ro
 export const changeReadingOrder = createAsyncThunk<void, ReadingOrder, { state: RootState }>(
     "settings/readingOrder",
     (readingOrder, thunkApi) => {
-        const settings = thunkApi.getState().user.settings
+        const { settings } = thunkApi.getState().user
         if (!settings) return
         client.user.saveSettings({ ...settings, readingOrder })
     }

@@ -18,7 +18,7 @@ import Tinycon from "tinycon"
 import { Header } from "./header/Header"
 import Layout from "./Layout"
 
-const RedirectHandler = () => {
+function RedirectHandler() {
     const target = useAppSelector(state => state.redirect.to)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -33,7 +33,7 @@ const RedirectHandler = () => {
     return null
 }
 
-const FaviconHandler = () => {
+function FaviconHandler() {
     const root = useAppSelector(state => state.tree.rootCategory)
     useEffect(() => {
         const unreadCount = categoryUnreadCount(root)
@@ -44,7 +44,7 @@ const FaviconHandler = () => {
     return null
 }
 
-export const App = () => {
+export function App() {
     const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
         key: "color-scheme",
         defaultValue: "light",

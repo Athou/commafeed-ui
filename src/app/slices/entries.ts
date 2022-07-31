@@ -53,7 +53,7 @@ export const loadMoreEntries = createAsyncThunk<Entries, void, { state: RootStat
         id: state.entries.source.id,
         readType: state.user.settings?.readingMode,
         order: state.user.settings?.readingOrder,
-        offset: offset,
+        offset,
         limit: 50,
     })
     return result.data
@@ -96,14 +96,24 @@ export const entriesSlice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder.addCase(markEntry.pending, (state, action) => {
-            state.entries.filter(e => e.id === action.meta.arg.entry.id).forEach(e => (e.read = action.meta.arg.read))
+            state.entries
+                .filter(e => e.id === action.meta.arg.entry.id)
+                .forEach(e => {
+                    e.read = action.meta.arg.read
+                })
         })
         builder.addCase(markAllEntries.pending, state => {
-            state.entries.forEach(e => (e.read = true))
+            state.entries.forEach(e => {
+                e.read = true
+            })
         })
         builder.addCase(selectEntry.pending, (state, action) => {
             const alreadySelected = state.selectedEntryId === action.meta.arg.id
-            state.entries.filter(e => e.id === action.meta.arg.id).forEach(e => (e.expanded = alreadySelected ? !e.expanded : true))
+            state.entries
+                .filter(e => e.id === action.meta.arg.id)
+                .forEach(e => {
+                    e.expanded = alreadySelected ? !e.expanded : true
+                })
             state.selectedEntryId = action.meta.arg.id
         })
         builder.addCase(loadEntries.pending, (state, action) => {

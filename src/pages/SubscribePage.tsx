@@ -7,7 +7,7 @@ import { Alert } from "components/Alert"
 import { useState } from "react"
 import useMutation from "use-mutation"
 
-export const SubscribePage = () => {
+export function SubscribePage() {
     const [activeStep, setActiveStep] = useState(0)
 
     const [url, setUrl] = useState("")
@@ -38,7 +38,7 @@ export const SubscribePage = () => {
     const nextStep = (e: React.FormEvent) => {
         e.preventDefault()
 
-        if (activeStep === 0) fetchFeed({ url: url })
+        if (activeStep === 0) fetchFeed({ url })
         else if (activeStep === 1 && fetchFeedResult.data)
             subscribe({
                 url: fetchFeedResult.data.data.url,

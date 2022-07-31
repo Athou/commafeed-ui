@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 import useMutation from "use-mutation"
 
-export const RegistrationPage = () => {
+export function RegistrationPage() {
     const dispatch = useAppDispatch()
     const [registerUser, registerResult] = useMutation(client.user.register, {
         onSuccess: () => {

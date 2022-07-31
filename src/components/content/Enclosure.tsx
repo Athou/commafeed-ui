@@ -7,10 +7,7 @@ const useStyles = createStyles(() => ({
     },
 }))
 
-export const Enclosure: React.FC<{
-    enclosureType?: string
-    enclosureUrl?: string
-}> = props => {
+export function Enclosure(props: { enclosureType?: string; enclosureUrl?: string }) {
     const { classes } = useStyles()
     const hasVideo = props.enclosureType && props.enclosureType.indexOf("video") === 0
     const hasAudio = props.enclosureType && props.enclosureType.indexOf("audio") === 0
@@ -18,11 +15,13 @@ export const Enclosure: React.FC<{
     return (
         <>
             {hasVideo && (
+                // eslint-disable-next-line jsx-a11y/media-has-caption
                 <video controls>
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </video>
             )}
             {hasAudio && (
+                // eslint-disable-next-line jsx-a11y/media-has-caption
                 <audio controls>
                     <source src={props.enclosureUrl} type={props.enclosureType} />
                 </audio>

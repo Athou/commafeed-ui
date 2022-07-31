@@ -6,7 +6,7 @@ import { useEffect } from "react"
 import InfiniteScroll from "react-infinite-scroller"
 import { FeedEntry } from "./FeedEntry"
 
-export const FeedEntries = () => {
+export function FeedEntries() {
     const source = useAppSelector(state => state.entries.source)
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const entries = useAppSelector(state => state.entries.entries)

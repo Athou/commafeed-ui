@@ -8,7 +8,7 @@ interface FeedEntriesPageProps {
     sourceType: EntrySourceType
 }
 
-export const FeedEntriesPage = (props: FeedEntriesPageProps) => {
+export function FeedEntriesPage(props: FeedEntriesPageProps) {
     const location = useLocation()
     const { id = "all" } = useParams()
     const readType = useAppSelector(state => state.user.settings?.readingMode)

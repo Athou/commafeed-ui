@@ -15,7 +15,7 @@ const useStyles = createStyles(() => ({
     },
 }))
 
-export const Media = (props: MediaProps) => {
+export function Media(props: MediaProps) {
     const { classes } = useStyles()
     return (
         <>
@@ -28,7 +28,7 @@ export const Media = (props: MediaProps) => {
             />
             {props.description && (
                 <Box pt="md">
-                    <FeedEntryContent content={props.description}></FeedEntryContent>
+                    <FeedEntryContent content={props.description} />
                 </Box>
             )}
         </>

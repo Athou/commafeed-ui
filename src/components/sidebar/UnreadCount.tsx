@@ -1,5 +1,4 @@
 import { Badge, createStyles } from "@mantine/core"
-import React from "react"
 
 const useStyles = createStyles(() => ({
     badge: {
@@ -9,7 +8,7 @@ const useStyles = createStyles(() => ({
     },
 }))
 
-export const UnreadCount: React.FC<{ unreadCount: number }> = props => {
+export function UnreadCount(props: { unreadCount: number }) {
     const { classes } = useStyles()
 
     if (props.unreadCount <= 0) return null

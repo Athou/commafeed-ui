@@ -1,5 +1,5 @@
 {
-    "extends": ["plugin:react/recommended", "react-app", "airbnb-typescript", "prettier"],
+    "extends": ["plugin:react/recommended", "react-app", "airbnb", "airbnb-typescript", "prettier"],
     "plugins": ["prettier", "hooks"],
     "parserOptions": {
         "project": "./tsconfig.json"
@@ -8,8 +8,14 @@
         // make eslint check prettier rules
         "prettier/prettier": "error",
 
+        // set "props" to false because it cases false positives with immer
+        "no-param-reassign": ["error", { "props": false }],
+
         // make sure the key prop is filled when required
         "react/jsx-key": ["error", { "checkFragmentShorthand": true }],
+
+        // trigger even if props is used only in createStyles()
+        "react/no-unused-prop-types": "off",
 
         // no longer required with modern react versions
         "react/react-in-jsx-scope": "off",

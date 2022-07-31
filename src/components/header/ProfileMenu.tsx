@@ -5,9 +5,13 @@ interface ProfileMenuProps {
     control: React.ReactElement
 }
 
-export const ProfileMenu = (props: ProfileMenuProps) => {
+export function ProfileMenu(props: ProfileMenuProps) {
     const { colorScheme, toggleColorScheme } = useMantineColorScheme()
     const dark = colorScheme === "dark"
+
+    const logout = () => {
+        window.location.href = "logout"
+    }
 
     return (
         <Menu position="bottom-end" closeOnItemClick={false}>
@@ -20,7 +24,7 @@ export const ProfileMenu = (props: ProfileMenuProps) => {
 
                 <Divider />
 
-                <Menu.Item icon={<TbPower />} onClick={() => (window.location.href = "logout")}>
+                <Menu.Item icon={<TbPower />} onClick={logout}>
                     Logout
                 </Menu.Item>
             </Menu.Dropdown>

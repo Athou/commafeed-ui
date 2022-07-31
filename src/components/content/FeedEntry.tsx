@@ -17,43 +17,42 @@ interface FeedEntryProps {
     expanded: boolean
 }
 
-const useStyles = createStyles((theme, props: FeedEntryProps) => ({
-    paper: {
-        backgroundColor:
-            theme.colorScheme === "dark"
-                ? props.entry.read
-                    ? "inherit"
-                    : theme.colors.dark[5]
-                : props.entry.read && !props.expanded
-                ? theme.colors.gray[0]
-                : "inherit",
-    },
-    header: {
-        color: "inherit",
-        textDecoration: "inherit",
-        cursor: "pointer",
-    },
-    headerText: {
-        fontWeight: theme.colorScheme === "light" && !props.entry.read ? "bold" : "inherit",
-        whiteSpace: props.expanded ? "inherit" : "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-    },
-    headerSubtext: {
-        display: "flex",
-        alignItems: "center",
-        fontSize: "90%",
-        whiteSpace: props.expanded ? "inherit" : "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-    },
-    subtitle: {
-        fontSize: "90%",
-    },
-    content: {
-        maxWidth: "960px",
-    },
-}))
+const useStyles = createStyles((theme, props: FeedEntryProps) => {
+    let backgroundColor
+    if (theme.colorScheme === "dark") backgroundColor = props.entry.read ? "inherit" : theme.colors.dark[5]
+    else backgroundColor = props.entry.read && !props.expanded ? theme.colors.gray[0] : "inherit"
+
+    return {
+        paper: {
+            backgroundColor,
+        },
+        header: {
+            color: "inherit",
+            textDecoration: "inherit",
+            cursor: "pointer",
+        },
+        headerText: {
+            fontWeight: theme.colorScheme === "light" && !props.entry.read ? "bold" : "inherit",
+            whiteSpace: props.expanded ? "inherit" : "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+        },
+        headerSubtext: {
+            display: "flex",
+            alignItems: "center",
+            fontSize: "90%",
+            whiteSpace: props.expanded ? "inherit" : "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+        },
+        subtitle: {
+            fontSize: "90%",
+        },
+        content: {
+            maxWidth: "960px",
+        },
+    }
+})
 
 dayjs.extend(relativeTime)
 export function FeedEntry(props: FeedEntryProps) {

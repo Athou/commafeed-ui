@@ -12,14 +12,16 @@ interface LayoutProps {
     header: ReactNode
 }
 
-const LogoAndTitle = () => (
-    <Center inline>
-        <Logo size={24} />
-        <Title order={3} pl="md">
-            CommaFeed
-        </Title>
-    </Center>
-)
+function LogoAndTitle() {
+    return (
+        <Center inline>
+            <Logo size={24} />
+            <Title order={3} pl="md">
+                CommaFeed
+            </Title>
+        </Center>
+    )
+}
 
 export const mobileBreakpoint = "md"
 export const headerHeight = 60
