@@ -3,6 +3,8 @@ import { useLocalStorage } from "@mantine/hooks"
 import { ModalsProvider } from "@mantine/modals"
 import { NotificationsProvider } from "@mantine/notifications"
 import { redirectTo } from "app/slices/redirect"
+import { reloadTree } from "app/slices/tree"
+import { reloadProfile, reloadSettings } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { categoryUnreadCount } from "app/utils"
 import { Tree } from "components/sidebar/Tree"
@@ -49,6 +51,18 @@ export const App = () => {
         getInitialValueInEffect: true,
     })
     const toggleColorScheme = (value?: ColorScheme) => setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"))
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(reloadSettings())
+        dispatch(reloadProfile())
+        dispatch(reloadTree())
+
+        // reload tree periodically
+        const id = setInterval(() => dispatch(reloadTree()), 30000)
+        return () => clearInterval(id)
+    }, [dispatch])
 
     return (
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>

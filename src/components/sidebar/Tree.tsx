@@ -1,11 +1,11 @@
 import { Box } from "@mantine/core"
 import { redirectTo } from "app/slices/redirect"
-import { collapseTreeCategory, reloadTree } from "app/slices/tree"
+import { collapseTreeCategory } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Category, Subscription } from "app/types"
 import { categoryUnreadCount } from "app/utils"
 import { Loader } from "components/Loader"
-import React, { useEffect } from "react"
+import React from "react"
 import { FaChevronDown, FaChevronRight, FaInbox } from "react-icons/fa"
 import { TreeNode } from "./TreeNode"
 
@@ -17,14 +17,6 @@ export const Tree: React.FC = () => {
     const root = useAppSelector(state => state.tree.rootCategory)
     const source = useAppSelector(state => state.entries.source)
     const dispatch = useAppDispatch()
-
-    // load initial tree and refresh periodically
-    useEffect(() => {
-        dispatch(reloadTree())
-
-        const id = setInterval(() => dispatch(reloadTree()), 30000)
-        return () => clearInterval(id)
-    }, [dispatch])
 
     const feedClicked = (id: string) => dispatch(redirectTo(`app/feed/${id}`))
     const categoryClicked = (id: string) => dispatch(redirectTo(`app/category/${id}`))
