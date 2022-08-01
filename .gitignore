@@ -25,3 +25,6 @@ dist-ssr
 
 # rollup-plugin-visualizer
 /stats.html
+
+# vite
+vite.config.ts.timestamp-*.mjs
