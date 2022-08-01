@@ -25,6 +25,9 @@
             }
         ],
 
+        // causes issues in thunks when we want to dispatch an action that is defined in the reducer
+        "@typescript-eslint/no-use-before-define": "off",
+
         // make sure the key prop is filled when required
         "react/jsx-key": ["error", { "checkFragmentShorthand": true }],
 

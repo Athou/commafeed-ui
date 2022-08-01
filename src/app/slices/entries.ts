@@ -70,29 +70,77 @@ export const reloadEntries = createAsyncThunk<Entries, void, { state: RootState 
     })
     return result.data
 })
-export const markEntry = createAsyncThunk("entries/entry/mark", (arg: { entry: Entry; read: boolean }) => {
-    client.entry.mark({
-        id: arg.entry.id,
-        read: arg.read,
-    })
-})
+export const markEntry = createAsyncThunk(
+    "entries/entry/mark",
+    (arg: { entry: Entry; read: boolean }) => {
+        client.entry.mark({
+            id: arg.entry.id,
+            read: arg.read,
+        })
+    },
+    {
+        condition: arg => arg.entry.read !== arg.read,
+    }
+)
 export const markAllEntries = createAsyncThunk("entries/entry/markAll", (arg: { sourceType: EntrySourceType; req: MarkRequest }) => {
     const endpoint = arg.sourceType === "category" ? client.category.markEntries : client.feed.markEntries
     endpoint(arg.req)
+})
+export const selectEntry = createAsyncThunk<void, Entry, { state: RootState }>("entries/entry/select", (arg, thunkApi) => {
+    const state = thunkApi.getState()
+    const entry = state.entries.entries.find(e => e.id === arg.id)
+    if (!entry) return
+
+    // only mark entry as read if we're expanding
+    if (!entry.expanded) {
+        thunkApi.dispatch(markEntry({ entry, read: true }))
+    }
+
+    // set entry as selected
+    thunkApi.dispatch(entriesSlice.actions.setSelectedEntry(entry))
+
+    // collapse or expand entry if needed
+    const previouslySelectedEntry = state.entries.entries.find(e => e.id === state.entries.selectedEntryId)
+    if (entry === previouslySelectedEntry) {
+        // selecting an entry already selected toggles expanded status
+        thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry, expanded: !entry.expanded }))
+    } else {
+        if (previouslySelectedEntry) {
+            thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry: previouslySelectedEntry, expanded: false }))
+        }
+        thunkApi.dispatch(entriesSlice.actions.setEntryExpanded({ entry, expanded: true }))
+    }
+})
+export const selectPreviousEntry = createAsyncThunk<void, void, { state: RootState }>("entries/entry/selectPrevious", (_, thunkApi) => {
+    const state = thunkApi.getState()
+    const { entries } = state.entries
+    const previousIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) - 1
+    if (previousIndex >= 0) {
+        thunkApi.dispatch(selectEntry(entries[previousIndex]))
+    }
+})
+export const selectNextEntry = createAsyncThunk<void, void, { state: RootState }>("entries/entry/selectNext", (_, thunkApi) => {
+    const state = thunkApi.getState()
+    const { entries } = state.entries
+    const nextIndex = entries.findIndex(e => e.id === state.entries.selectedEntryId) + 1
+    if (nextIndex < entries.length) {
+        thunkApi.dispatch(selectEntry(entries[nextIndex]))
+    }
 })
 
 export const entriesSlice = createSlice({
     name: "entries",
     initialState,
     reducers: {
-        selectEntry: (state, action: PayloadAction<Entry>) => {
-            const alreadySelected = state.selectedEntryId === action.payload.id
-            state.entries
-                .filter(e => e.id === action.payload.id)
-                .forEach(e => {
-                    e.expanded = alreadySelected ? !e.expanded : true
-                })
+        setSelectedEntry: (state, action: PayloadAction<Entry>) => {
             state.selectedEntryId = action.payload.id
+        },
+        setEntryExpanded: (state, action: PayloadAction<{ entry: Entry; expanded: boolean }>) => {
+            state.entries
+                .filter(e => e.id === action.payload.entry.id)
+                .forEach(e => {
+                    e.expanded = action.payload.expanded
+                })
         },
     },
     extraReducers: builder => {
@@ -145,5 +193,4 @@ export const entriesSlice = createSlice({
     },
 })
 
-export const { selectEntry } = entriesSlice.actions
 export default entriesSlice.reducer
