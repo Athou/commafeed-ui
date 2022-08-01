@@ -1,5 +1,13 @@
 import { Title } from "@mantine/core"
-import { loadMoreEntries, selectNextEntry, selectPreviousEntry } from "app/slices/entries"
+import {
+    loadMoreEntries,
+    markAllEntries,
+    markEntry,
+    reloadEntries,
+    selectEntry,
+    selectNextEntry,
+    selectPreviousEntry,
+} from "app/slices/entries"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { headerHeight } from "components/Layout"
 import { Loader } from "components/Loader"
@@ -12,6 +20,7 @@ export function FeedEntries() {
     const source = useAppSelector(state => state.entries.source)
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const entries = useAppSelector(state => state.entries.entries)
+    const entriesTimestamp = useAppSelector(state => state.entries.timestamp)
     const selectedEntryId = useAppSelector(state => state.entries.selectedEntryId)
     const hasMore = useAppSelector(state => state.entries.hasMore)
     const dispatch = useAppDispatch()
@@ -33,6 +42,15 @@ export function FeedEntries() {
         })
     }, [entries])
 
+    useHotkeys("r", () => {
+        dispatch(reloadEntries())
+    })
+    useHotkeys("j", () => {
+        dispatch(selectNextEntry())
+    })
+    useHotkeys("k", () => {
+        dispatch(selectPreviousEntry())
+    })
     useHotkeys(
         "space",
         () => {
@@ -58,6 +76,67 @@ export function FeedEntries() {
             dispatch(selectPreviousEntry())
         },
         [selectedEntry]
+    )
+    useHotkeys(
+        "o, enter",
+        () => {
+            // toggle expanded status
+            if (!selectedEntry) return
+            dispatch(selectEntry(selectedEntry))
+        },
+        [selectedEntry]
+    )
+    useHotkeys(
+        "v",
+        () => {
+            // open tab in foreground
+            if (!selectedEntry) return
+            window.open(selectedEntry.url, "_blank", "noreferrer")
+        },
+        [selectedEntry]
+    )
+    useHotkeys(
+        "b",
+        () => {
+            // simulate ctrl+click to open tab in background
+            if (!selectedEntry) return
+            const a = document.createElement("a")
+            a.href = selectedEntry.url
+            a.rel = "noreferrer"
+            a.dispatchEvent(
+                new MouseEvent("click", {
+                    ctrlKey: true,
+                    metaKey: true,
+                })
+            )
+        },
+        [selectedEntry]
+    )
+    useHotkeys(
+        "m",
+        () => {
+            // toggle read status
+            if (!selectedEntry) return
+            dispatch(markEntry({ entry: selectedEntry, read: !selectedEntry.read }))
+        },
+        [selectedEntry]
+    )
+    useHotkeys(
+        "shift+a",
+        () => {
+            // mark all entries as read
+            dispatch(
+                markAllEntries({
+                    sourceType: source.type,
+                    req: {
+                        id: source.id,
+                        read: true,
+                        olderThan: entriesTimestamp,
+                    },
+                })
+            )
+        },
+        [selectedEntry, source.type, source.id, entriesTimestamp]
     )
 
     if (!entries) return <Loader />
