@@ -5,7 +5,7 @@ import { changeReadingMode, changeReadingOrder } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { ActionButton } from "components/ActionButtton"
 import { Loader } from "components/Loader"
-import { TbArrowDown, TbArrowUp, TbChecks, TbEyeCheck, TbEyeOff, TbRefresh, TbUser } from "react-icons/tb"
+import { TbArrowDown, TbArrowUp, TbChecks, TbEye, TbEyeOff, TbRefresh, TbUser } from "react-icons/tb"
 import { ProfileMenu } from "./ProfileMenu"
 
 function HeaderDivider() {
@@ -56,7 +56,7 @@ export function Header() {
                 <ActionButton icon={<TbRefresh size={iconSize} />} label="Refresh" onClick={() => dispatch(reloadEntries())} />
                 <ActionButton
                     className={classes.button}
-                    icon={settings.readingMode === "all" ? <TbEyeCheck size={iconSize} /> : <TbEyeOff size={iconSize} />}
+                    icon={settings.readingMode === "all" ? <TbEye size={iconSize} /> : <TbEyeOff size={iconSize} />}
                     label={settings.readingMode}
                     onClick={() => dispatch(changeReadingMode(settings.readingMode === "all" ? "unread" : "all"))}
                 />
