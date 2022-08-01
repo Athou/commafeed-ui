@@ -19,8 +19,10 @@ const useStyles = createStyles((theme, props: TreeNodeProps) => {
     let backgroundColor = "inherit"
     if (props.selected) backgroundColor = theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
 
-    let color = theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black
+    let color
     if (props.hasError) color = theme.colors.red[6]
+    else if (theme.colorScheme === "dark") color = props.unread > 0 ? theme.colors.dark[0] : theme.colors.dark[3]
+    else color = props.unread > 0 ? theme.black : theme.colors.gray[6]
 
     return {
         node: {
