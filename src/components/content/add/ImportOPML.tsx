@@ -2,6 +2,7 @@ import { Box, Button, FileInput, Group, Stack } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { redirectTo } from "app/slices/redirect"
+import { reloadTree } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Alert } from "components/Alert"
 import useMutation from "use-mutation"
@@ -18,6 +19,7 @@ export function ImportOPML() {
 
     const [importOpml, importOpmlResult] = useMutation(client.feed.importOpml, {
         onSuccess: () => {
+            dispatch(reloadTree())
             dispatch(redirectTo(`/app/${source.type}/${source.id}`))
         },
     })
