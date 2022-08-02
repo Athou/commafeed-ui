@@ -1,11 +1,11 @@
 import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, Stack, TextInput, Title } from "@mantine/core"
+import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { redirectTo } from "app/slices/redirect"
 import { useAppDispatch } from "app/store"
 import { LoginRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { Logo } from "components/Logo"
-import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
 import useMutation from "use-mutation"
 
@@ -17,8 +17,12 @@ export function LoginPage() {
         },
     })
     const errors = errorToStrings(loginResult.error)
-    const { register, handleSubmit } = useForm<LoginRequest>()
-    const onSubmit = handleSubmit(login)
+    const form = useForm<LoginRequest>({
+        initialValues: {
+            name: "",
+            password: "",
+        },
+    })
 
     return (
         <Container size="xs">
@@ -37,10 +41,16 @@ export function LoginPage() {
                         <Alert messages={errors} />
                     </Box>
                 )}
-                <form onSubmit={onSubmit}>
+                <form onSubmit={form.onSubmit(login)}>
                     <Stack>
-                        <TextInput label="User Name or E-mail" placeholder="User Name or E-mail" {...register("name")} size="md" required />
-                        <PasswordInput label="Password" placeholder="Password" {...register("password")} size="md" required />
+                        <TextInput
+                            label="User Name or E-mail"
+                            placeholder="User Name or E-mail"
+                            {...form.getInputProps("name")}
+                            size="md"
+                            required
+                        />
+                        <PasswordInput label="Password" placeholder="Password" {...form.getInputProps("password")} size="md" required />
                         <Button type="submit" loading={loginResult.status === "running"}>
                             Log in
                         </Button>
