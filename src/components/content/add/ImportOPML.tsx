@@ -1,4 +1,5 @@
-import { Box, Button, Center, FileButton, Stack } from "@mantine/core"
+import { Box, Button, FileInput, Group, Stack } from "@mantine/core"
+import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { redirectTo } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -8,6 +9,13 @@ import useMutation from "use-mutation"
 export function ImportOPML() {
     const source = useAppSelector(state => state.entries.source)
     const dispatch = useAppDispatch()
+
+    const form = useForm<{ file: File }>({
+        validate: {
+            file: v => (v ? null : "file is required"),
+        },
+    })
+
     const [importOpml, importOpmlResult] = useMutation(client.feed.importOpml, {
         onSuccess: () => {
             dispatch(redirectTo(`/app/${source.type}/${source.id}`))
@@ -15,19 +23,27 @@ export function ImportOPML() {
     })
     const errors = errorToStrings(importOpmlResult.error)
 
-    return (
-        <Stack>
-            <Center>
-                <FileButton onChange={file => file && importOpml(file)} accept="application/xml">
-                    {props => <Button {...props}>Import OPML File</Button>}
-                </FileButton>
-            </Center>
+    const returnToApp = () => dispatch(redirectTo(`/app/${source.type}/${source.id}`))
 
-            {errors && errors.length > 0 && (
-                <Box mt="md">
-                    <Alert messages={errors} />
-                </Box>
-            )}
-        </Stack>
+    return (
+        <form onSubmit={form.onSubmit(v => importOpml(v.file))}>
+            <Stack>
+                <FileInput label="OPML file" placeholder="OPML file" {...form.getInputProps("file")} required accept="application/xml" />
+                <Group position="center">
+                    <Button variant="default" onClick={() => returnToApp()}>
+                        Cancel
+                    </Button>
+                    <Button type="submit" loading={importOpmlResult.status === "running"}>
+                        Import
+                    </Button>
+                </Group>
+
+                {errors && errors.length > 0 && (
+                    <Box mt="md">
+                        <Alert messages={errors} />
+                    </Box>
+                )}
+            </Stack>
+        </form>
     )
 }
