@@ -38,7 +38,7 @@ export function LoginPage() {
                 <Title order={2} mb="md">
                     Log in
                 </Title>
-                {errors && errors.length > 0 && (
+                {errors.length > 0 && (
                     <Box mb="md">
                         <Alert messages={errors} />
                     </Box>

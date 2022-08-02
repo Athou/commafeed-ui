@@ -40,7 +40,7 @@ export function ImportOpml() {
                     </Button>
                 </Group>
 
-                {errors && errors.length > 0 && (
+                {errors.length > 0 && (
                     <Box mt="md">
                         <Alert messages={errors} />
                     </Box>
