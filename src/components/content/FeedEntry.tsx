@@ -1,4 +1,4 @@
-import { Box, createStyles, Divider, Group, Image, Paper } from "@mantine/core"
+import { Box, createStyles, Divider, Group, Image, Paper, Text } from "@mantine/core"
 import { markEntry, selectEntry } from "app/slices/entries"
 import { useAppDispatch } from "app/store"
 import { Entry } from "app/types"
@@ -106,15 +106,21 @@ export function FeedEntry(props: FeedEntryProps) {
                         <Box mr={6}>
                             <Image src={props.entry.iconUrl} alt="feed icon" width={18} height={18} />
                         </Box>
-                        <Box>{props.entry.feedName}</Box>
-                        <Box>&nbsp;·&nbsp;{dayjs(props.entry.date).fromNow()}</Box>
+                        <Box>
+                            <Text color="dimmed">{props.entry.feedName}</Text>
+                        </Box>
+                        <Box>
+                            <Text color="dimmed">&nbsp;·&nbsp;{dayjs(props.entry.date).fromNow()}</Text>
+                        </Box>
                     </Box>
                 </a>
                 {props.expanded && (
                     <>
                         <Box className={classes.subtitle}>
-                            {props.entry.author && <span>by {props.entry.author}</span>}
-                            {props.entry.categories && <span>&nbsp;·&nbsp;{props.entry.categories}</span>}
+                            <Text color="dimmed">
+                                {props.entry.author && <span>by {props.entry.author}</span>}
+                                {props.entry.categories && <span>&nbsp;·&nbsp;{props.entry.categories}</span>}
+                            </Text>
                         </Box>
                         <Box className={classes.content}>
                             <Box mt="md">
