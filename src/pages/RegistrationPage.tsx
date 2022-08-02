@@ -11,12 +11,7 @@ import useMutation from "use-mutation"
 
 export function RegistrationPage() {
     const dispatch = useAppDispatch()
-    const [register, registerResult] = useMutation(client.user.register, {
-        onSuccess: () => {
-            dispatch(redirectTo("/"))
-        },
-    })
-    const errors = errorToStrings(registerResult.error)
+
     const form = useForm<RegistrationRequest>({
         initialValues: {
             name: "",
@@ -24,6 +19,13 @@ export function RegistrationPage() {
             email: "",
         },
     })
+
+    const [register, registerResult] = useMutation(client.user.register, {
+        onSuccess: () => {
+            dispatch(redirectTo("/"))
+        },
+    })
+    const errors = errorToStrings(registerResult.error)
 
     return (
         <Container size="xs">

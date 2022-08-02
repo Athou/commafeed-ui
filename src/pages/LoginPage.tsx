@@ -11,18 +11,20 @@ import useMutation from "use-mutation"
 
 export function LoginPage() {
     const dispatch = useAppDispatch()
-    const [login, loginResult] = useMutation(client.user.login, {
-        onSuccess: () => {
-            dispatch(redirectTo("/"))
-        },
-    })
-    const errors = errorToStrings(loginResult.error)
+
     const form = useForm<LoginRequest>({
         initialValues: {
             name: "",
             password: "",
         },
     })
+
+    const [login, loginResult] = useMutation(client.user.login, {
+        onSuccess: () => {
+            dispatch(redirectTo("/"))
+        },
+    })
+    const errors = errorToStrings(loginResult.error)
 
     return (
         <Container size="xs">
