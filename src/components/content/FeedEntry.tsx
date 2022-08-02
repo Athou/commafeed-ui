@@ -1,4 +1,4 @@
-import { Box, createStyles, Divider, Group, Image, Paper, Text } from "@mantine/core"
+import { Box, Checkbox, createStyles, Divider, Group, Image, Paper, Text } from "@mantine/core"
 import { markEntry, selectEntry } from "app/slices/entries"
 import { useAppDispatch } from "app/store"
 import { Entry } from "app/types"
@@ -7,7 +7,7 @@ import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { useAppTheme } from "hooks/useAppTheme"
 import React, { useEffect, useRef } from "react"
-import { TbExternalLink, TbEyeCheck, TbEyeOff } from "react-icons/tb"
+import { TbExternalLink } from "react-icons/tb"
 import { Enclosure } from "./Enclosure"
 import { FeedEntryContent } from "./FeedEntryContent"
 import { Media } from "./Media"
@@ -55,6 +55,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
 })
 
 dayjs.extend(relativeTime)
+
 export function FeedEntry(props: FeedEntryProps) {
     const { classes } = useStyles(props)
     const theme = useAppTheme()
@@ -73,7 +74,7 @@ export function FeedEntry(props: FeedEntryProps) {
         }
     }
 
-    const readStatusButtonClicked = () => dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))
+    const readStatusCheckboxClicked = () => dispatch(markEntry({ entry: props.entry, read: !props.entry.read }))
 
     // scroll to entry when expanded
     const ref = useRef<HTMLDivElement>(null)
@@ -144,10 +145,14 @@ export function FeedEntry(props: FeedEntryProps) {
                             <Divider variant="dashed" mt="md" mb="md" />
                             <Group>
                                 {props.entry.markable && (
-                                    <ActionButton
-                                        icon={props.entry.read ? <TbEyeCheck size={18} /> : <TbEyeOff size={18} />}
-                                        label={props.entry.read ? "Read" : "Unread"}
-                                        onClick={readStatusButtonClicked}
+                                    <Checkbox
+                                        label="Keep unread"
+                                        checked={!props.entry.read}
+                                        onClick={readStatusCheckboxClicked}
+                                        styles={{
+                                            label: { cursor: "pointer" },
+                                            input: { cursor: "pointer" },
+                                        }}
                                     />
                                 )}
                                 <a href={props.entry.url} target="_blank" rel="noreferrer">
