@@ -65,7 +65,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                                         <LogoAndTitle />
                                     </Box>
                                     <Box>
-                                        <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectTo("/app/subscribe"))}>
+                                        <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectTo("/app/add"))}>
                                             <TbPlus size={18} />
                                         </ActionIcon>
                                     </Box>

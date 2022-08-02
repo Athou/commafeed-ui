@@ -8,10 +8,10 @@ import { reloadProfile, reloadSettings } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { categoryUnreadCount } from "app/utils"
 import { Tree } from "components/sidebar/Tree"
+import { AddPage } from "pages/AddPage"
 import { FeedEntriesPage } from "pages/FeedEntriesPage"
 import { LoginPage } from "pages/LoginPage"
 import { RegistrationPage } from "pages/RegistrationPage"
-import { SubscribePage } from "pages/SubscribePage"
 import { useEffect } from "react"
 import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
@@ -91,7 +91,7 @@ export function App() {
                                     <Route path="feed">
                                         <Route path=":id" element={<FeedEntriesPage sourceType="feed" />} />
                                     </Route>
-                                    <Route path="subscribe" element={<SubscribePage />} />
+                                    <Route path="add" element={<AddPage />} />
                                 </Route>
                                 <Route path="*" element={<Navigate to="/" replace />} />
                             </Routes>
