@@ -55,6 +55,7 @@
                     "useLocation",
                     "useParams",
                     "useStyles",
+                    "useAppTheme",
                     "useState",
                     "useAppSelector",
                     "useAppDispatch",

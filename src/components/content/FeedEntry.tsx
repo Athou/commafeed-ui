@@ -3,9 +3,9 @@ import { markEntry, selectEntry } from "app/slices/entries"
 import { useAppDispatch } from "app/store"
 import { Entry } from "app/types"
 import { ActionButton } from "components/ActionButtton"
-import { headerHeight } from "components/Layout"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { useAppTheme } from "hooks/useAppTheme"
 import React, { useEffect, useRef } from "react"
 import { TbExternalLink, TbEyeCheck, TbEyeOff } from "react-icons/tb"
 import { Enclosure } from "./Enclosure"
@@ -57,6 +57,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
 dayjs.extend(relativeTime)
 export function FeedEntry(props: FeedEntryProps) {
     const { classes } = useStyles(props)
+    const theme = useAppTheme()
     const dispatch = useAppDispatch()
 
     const headerClicked = (e: React.MouseEvent) => {
@@ -83,11 +84,11 @@ export function FeedEntry(props: FeedEntryProps) {
 
             window.scrollTo({
                 // having a small gap between the top of the content and the top of the page is sexier
-                top: ref.current.offsetTop - headerHeight - 3,
+                top: ref.current.offsetTop - theme.layout.headerHeight - 3,
                 behavior: "smooth",
             })
         })
-    }, [props.expanded])
+    }, [props.expanded, theme.layout.headerHeight])
 
     return (
         <div ref={ref}>

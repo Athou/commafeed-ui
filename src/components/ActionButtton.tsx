@@ -1,5 +1,6 @@
-import { ActionIcon, Button, useMantineTheme } from "@mantine/core"
+import { ActionIcon, Button } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
+import { useAppTheme } from "hooks/useAppTheme"
 import { forwardRef } from "react"
 
 interface ActionButtonProps {
@@ -13,7 +14,7 @@ interface ActionButtonProps {
  * Switches between Button with label (desktop) and ActionIcon (mobile)
  */
 export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>((props: ActionButtonProps, ref) => {
-    const theme = useMantineTheme()
+    const theme = useAppTheme()
     const mobile = !useMediaQuery(`(min-width: ${theme.breakpoints.lg}px)`)
     return mobile ? (
         <ActionIcon ref={ref} color={theme.primaryColor} variant="subtle" className={props.className} onClick={props.onClick}>

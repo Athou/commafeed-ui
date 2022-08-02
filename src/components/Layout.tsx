@@ -1,7 +1,8 @@
-import { ActionIcon, AppShell, Box, Burger, Center, Header, MediaQuery, Navbar, ScrollArea, Title, useMantineTheme } from "@mantine/core"
+import { ActionIcon, AppShell, Box, Burger, Center, Header, MediaQuery, Navbar, ScrollArea, Title } from "@mantine/core"
 import { redirectTo } from "app/slices/redirect"
 import { setMobileMenuOpen } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { useAppTheme } from "hooks/useAppTheme"
 import { ReactNode } from "react"
 import { TbPlus } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
@@ -23,13 +24,9 @@ function LogoAndTitle() {
     )
 }
 
-export const mobileBreakpoint = "md"
-export const headerHeight = 60
-const navbarWidth = 350
-
 export default function Layout({ sidebar, header }: LayoutProps) {
+    const theme = useAppTheme()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
-    const theme = useMantineTheme()
     const dispatch = useAppDispatch()
 
     const burger = (
@@ -43,18 +40,23 @@ export default function Layout({ sidebar, header }: LayoutProps) {
     return (
         <AppShell
             fixed
-            navbarOffsetBreakpoint={mobileBreakpoint}
+            navbarOffsetBreakpoint={theme.layout.mobileBreakpoint}
             navbar={
-                <Navbar p="xs" hiddenBreakpoint={mobileBreakpoint} hidden={!mobileMenuOpen} width={{ sm: navbarWidth }}>
+                <Navbar
+                    p="xs"
+                    hiddenBreakpoint={theme.layout.mobileBreakpoint}
+                    hidden={!mobileMenuOpen}
+                    width={{ sm: theme.layout.sidebarWidth }}
+                >
                     <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
                         {sidebar}
                     </Navbar.Section>
                 </Navbar>
             }
             header={
-                <Header height={headerHeight} p="md">
+                <Header height={theme.layout.headerHeight} p="md">
                     {/* mobile */}
-                    <MediaQuery largerThan={mobileBreakpoint} styles={{ display: "none" }}>
+                    <MediaQuery largerThan={theme.layout.mobileBreakpoint} styles={{ display: "none" }}>
                         <Box>
                             {mobileMenuOpen && (
                                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -79,9 +81,9 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                         </Box>
                     </MediaQuery>
                     {/* desktop */}
-                    <MediaQuery smallerThan={mobileBreakpoint} styles={{ display: "none" }}>
+                    <MediaQuery smallerThan={theme.layout.mobileBreakpoint} styles={{ display: "none" }}>
                         <Box sx={{ display: "flex" }}>
-                            <Box sx={{ display: "flex", alignItems: "center", width: navbarWidth - 16 }}>
+                            <Box sx={{ display: "flex", alignItems: "center", width: theme.layout.sidebarWidth - 16 }}>
                                 <Box sx={{ flexGrow: 1 }}>
                                     <LogoAndTitle />
                                 </Box>
