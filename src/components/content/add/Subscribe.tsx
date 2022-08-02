@@ -39,7 +39,7 @@ export function Subscribe() {
     const [subscribe, subscribeResult] = useMutation(client.feed.subscribe, {
         onSuccess: () => {
             dispatch(reloadTree())
-            setActiveStep(step => step + 1)
+            returnToApp()
         },
     })
     const errors = [...errorToStrings(fetchFeedResult.error), ...errorToStrings(subscribeResult.error)]
@@ -54,9 +54,6 @@ export function Subscribe() {
             step0Form.onSubmit(fetchFeed)(e)
         } else if (activeStep === 1) {
             step1Form.onSubmit(subscribe)(e)
-        } else {
-            e.preventDefault()
-            returnToApp()
         }
     }
 
@@ -83,15 +80,12 @@ export function Subscribe() {
                 </Stepper>
 
                 <Group position="center" mt="xl">
-                    {activeStep !== 2 && (
-                        <Button variant="default" onClick={previousStep}>
-                            Back
-                        </Button>
-                    )}
+                    <Button variant="default" onClick={previousStep}>
+                        Back
+                    </Button>
                     <Button type="submit" loading={fetchFeedResult.status === "running" || subscribeResult.status === "running"}>
                         {activeStep === 0 && "Next"}
                         {activeStep === 1 && "Subscribe"}
-                        {activeStep === 2 && "Done"}
                     </Button>
                 </Group>
             </form>
