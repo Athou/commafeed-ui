@@ -1,24 +1,38 @@
-import { Box, Button, Group, Paper, Stepper, TextInput } from "@mantine/core"
+import { Box, Button, Group, Paper, Stack, Stepper, TextInput } from "@mantine/core"
+import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { redirectTo } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { FeedInfoRequest, SubscribeRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { useState } from "react"
 import useMutation from "use-mutation"
+import { CategorySelect } from "./CategorySelect"
 
 export function Subscribe() {
     const [activeStep, setActiveStep] = useState(0)
-
-    const [url, setUrl] = useState("")
-    const [feedName, setFeedName] = useState("")
-
     const source = useAppSelector(state => state.entries.source)
     const dispatch = useAppDispatch()
 
+    const step0Form = useForm<FeedInfoRequest>({
+        initialValues: {
+            url: "",
+        },
+    })
+
+    const step1Form = useForm<SubscribeRequest>({
+        initialValues: {
+            url: "",
+            title: "",
+            categoryId: "all",
+        },
+    })
+
     const [fetchFeed, fetchFeedResult] = useMutation(client.feed.fetchFeed, {
         onSuccess: ({ data }) => {
-            setFeedName(data.data.title)
+            step1Form.setFieldValue("url", data.data.url)
+            step1Form.setFieldValue("title", data.data.title)
             setActiveStep(step => step + 1)
         },
     })
@@ -35,17 +49,13 @@ export function Subscribe() {
         if (activeStep === 0) returnToApp()
         else setActiveStep(activeStep - 1)
     }
-    const nextStep = (e: React.FormEvent) => {
-        e.preventDefault()
-
+    const nextStep = (e: React.FormEvent<HTMLFormElement>) => {
         if (activeStep === 0) {
-            fetchFeed({ url })
-        } else if (activeStep === 1 && fetchFeedResult.data) {
-            subscribe({
-                url: fetchFeedResult.data.data.url,
-                title: feedName,
-            })
+            step0Form.onSubmit(fetchFeed)(e)
+        } else if (activeStep === 1) {
+            step1Form.onSubmit(subscribe)(e)
         } else {
+            e.preventDefault()
             returnToApp()
         }
     }
@@ -60,13 +70,15 @@ export function Subscribe() {
                             placeholder="http://www.mysite.com/rss"
                             required
                             autoFocus
-                            value={url}
-                            onChange={e => setUrl(e.target.value)}
+                            {...step0Form.getInputProps("url")}
                         />
                     </Stepper.Step>
                     <Stepper.Step label="Subscribe" description="Subscribe to the feed" allowStepSelect={false}>
-                        <TextInput label="Feed URL" value={fetchFeedResult.data?.data.url} onChange={() => {}} disabled />
-                        <TextInput label="Feed name" value={feedName} onChange={e => setFeedName(e.target.value)} required autoFocus />
+                        <Stack>
+                            <TextInput label="Feed URL" {...step1Form.getInputProps("url")} disabled />
+                            <TextInput label="Feed name" {...step1Form.getInputProps("title")} required autoFocus />
+                            <CategorySelect label="Category" required {...step1Form.getInputProps("categoryId")} />
+                        </Stack>
                     </Stepper.Step>
                 </Stepper>
 
