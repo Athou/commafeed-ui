@@ -2,11 +2,11 @@ import { ActionIcon, AppShell, Box, Burger, Center, Header, MediaQuery, Navbar, 
 import { redirectTo } from "app/slices/redirect"
 import { setMobileMenuOpen } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
+import { Logo } from "components/Logo"
 import { useAppTheme } from "hooks/useAppTheme"
 import { ReactNode } from "react"
 import { TbPlus } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
-import { Logo } from "./Logo"
 
 interface LayoutProps {
     sidebar: ReactNode
