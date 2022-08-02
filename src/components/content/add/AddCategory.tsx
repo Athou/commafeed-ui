@@ -33,7 +33,7 @@ export function AddCategory() {
     return (
         <form onSubmit={form.onSubmit(addCategory)}>
             <Stack>
-                <TextInput label="Category" placeholder="Category" {...form.getInputProps("name")} size="md" required />
+                <TextInput label="Category" placeholder="Category" {...form.getInputProps("name")} required />
                 <CategorySelect label="Parent" required {...form.getInputProps("parentId")} />
                 <Group position="center">
                     <Button variant="default" onClick={() => returnToApp()}>
