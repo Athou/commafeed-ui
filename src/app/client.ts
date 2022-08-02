@@ -1,5 +1,6 @@
 import axios from "axios"
 import {
+    AddCategoryRequest,
     Category,
     CollapseRequest,
     Entries,
@@ -29,6 +30,7 @@ export const client = {
         collapse: (req: CollapseRequest) => axiosInstance.post("category/collapse", req),
         getEntries: (req: GetEntriesPaginatedRequest) => axiosInstance.get<Entries>("category/entries", { params: req }),
         markEntries: (req: MarkRequest) => axiosInstance.post("category/mark", req),
+        add: (req: AddCategoryRequest) => axiosInstance.post("category/add", req),
     },
     entry: {
         mark: (req: MarkRequest) => axiosInstance.post("entry/mark", req),

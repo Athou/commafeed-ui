@@ -13,6 +13,7 @@
         "@emotion/react": "^11.9.3",
         "@fontsource/open-sans": "^4.5.10",
         "@mantine/core": "^5.0.2",
+        "@mantine/form": "^5.0.2",
         "@mantine/hooks": "^5.0.2",
         "@mantine/modals": "^5.0.2",
         "@mantine/notifications": "^5.0.2",
