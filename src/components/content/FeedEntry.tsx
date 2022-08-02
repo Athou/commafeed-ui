@@ -120,7 +120,8 @@ export function FeedEntry(props: FeedEntryProps) {
                         <Box className={classes.subtitle}>
                             <Text color="dimmed">
                                 {props.entry.author && <span>by {props.entry.author}</span>}
-                                {props.entry.categories && <span>&nbsp;·&nbsp;{props.entry.categories}</span>}
+                                {props.entry.author && props.entry.categories && <span>&nbsp;·&nbsp;</span>}
+                                {props.entry.categories && <span>{props.entry.categories}</span>}
                             </Text>
                         </Box>
                         <Box className={classes.content}>
