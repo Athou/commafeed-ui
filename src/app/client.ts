@@ -38,6 +38,17 @@ export const client = {
         markEntries: (req: MarkRequest) => axiosInstance.post("feed/mark", req),
         fetchFeed: (req: FeedInfoRequest) => axiosInstance.post<FeedInfo>("feed/fetch", req),
         subscribe: (req: SubscribeRequest) => axiosInstance.post("feed/subscribe", req),
+        importOpml: (req: File) => {
+            const formData = new FormData()
+            formData.append("file", req)
+            return axiosInstance.post("feed/import", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+                // TODO remove redirect from backend method then remove this
+                validateStatus: () => true,
+            })
+        },
     },
     user: {
         login: (req: LoginRequest) => axiosInstance.post("user/login", req),

@@ -1,4 +1,5 @@
 import { Container, Tabs } from "@mantine/core"
+import { ImportOPML } from "components/content/add/ImportOPML"
 import { Subscribe } from "components/content/add/Subscribe"
 import { TbFileImport, TbFolderPlus, TbRss } from "react-icons/tb"
 
@@ -18,16 +19,16 @@ export function AddPage() {
                     </Tabs.Tab>
                 </Tabs.List>
 
-                <Tabs.Panel value="subscribe" pt="md">
+                <Tabs.Panel value="subscribe" pt="xl">
                     <Subscribe />
                 </Tabs.Panel>
 
-                <Tabs.Panel value="category" pt="md">
+                <Tabs.Panel value="category" pt="xl">
                     TODO
                 </Tabs.Panel>
 
-                <Tabs.Panel value="opml" pt="md">
-                    TODO
+                <Tabs.Panel value="opml" pt="xl">
+                    <ImportOPML />
                 </Tabs.Panel>
             </Tabs>
         </Container>
