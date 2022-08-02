@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { Alert } from "components/Alert"
 import useMutation from "use-mutation"
 
-export function ImportOPML() {
+export function ImportOpml() {
     const source = useAppSelector(state => state.entries.source)
     const dispatch = useAppDispatch()
 
