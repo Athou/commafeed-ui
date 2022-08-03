@@ -1,8 +1,10 @@
-import { ActionIcon, AppShell, Box, Burger, Center, Header, MediaQuery, Navbar, ScrollArea, Title } from "@mantine/core"
+import { ActionIcon, AppShell, Box, Burger, Center, Header, Navbar, ScrollArea, Title } from "@mantine/core"
 import { redirectTo } from "app/slices/redirect"
 import { setMobileMenuOpen } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Logo } from "components/Logo"
+import { OnDesktop } from "components/responsive/OnDesktop"
+import { OnMobile } from "components/responsive/OnMobile"
 import { useAppTheme } from "hooks/useAppTheme"
 import { ReactNode } from "react"
 import { TbPlus } from "react-icons/tb"
@@ -55,33 +57,29 @@ export default function Layout({ sidebar, header }: LayoutProps) {
             }
             header={
                 <Header height={theme.layout.headerHeight} p="md">
-                    {/* mobile */}
-                    <MediaQuery largerThan={theme.layout.mobileBreakpoint} styles={{ display: "none" }}>
-                        <Box>
-                            {mobileMenuOpen && (
-                                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                                    <Box>{burger}</Box>
-                                    <Box>
-                                        <LogoAndTitle />
-                                    </Box>
-                                    <Box>
-                                        <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectTo("/app/add"))}>
-                                            <TbPlus size={18} />
-                                        </ActionIcon>
-                                    </Box>
-                                    {!mobileMenuOpen && <Box>{header}</Box>}
+                    <OnMobile>
+                        {mobileMenuOpen && (
+                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                <Box>{burger}</Box>
+                                <Box>
+                                    <LogoAndTitle />
                                 </Box>
-                            )}
-                            {!mobileMenuOpen && (
-                                <Box sx={{ display: "flex", alignItems: "center" }}>
-                                    <Box mr="sm">{burger}</Box>
-                                    <Box sx={{ flexGrow: 1 }}>{header}</Box>
+                                <Box>
+                                    <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectTo("/app/add"))}>
+                                        <TbPlus size={18} />
+                                    </ActionIcon>
                                 </Box>
-                            )}
-                        </Box>
-                    </MediaQuery>
-                    {/* desktop */}
-                    <MediaQuery smallerThan={theme.layout.mobileBreakpoint} styles={{ display: "none" }}>
+                                {!mobileMenuOpen && <Box>{header}</Box>}
+                            </Box>
+                        )}
+                        {!mobileMenuOpen && (
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                                <Box mr="sm">{burger}</Box>
+                                <Box sx={{ flexGrow: 1 }}>{header}</Box>
+                            </Box>
+                        )}
+                    </OnMobile>
+                    <OnDesktop>
                         <Box sx={{ display: "flex" }}>
                             <Box sx={{ display: "flex", alignItems: "center", width: theme.layout.sidebarWidth - 16 }}>
                                 <Box sx={{ flexGrow: 1 }}>
@@ -97,7 +95,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                                 {header}
                             </Box>
                         </Box>
-                    </MediaQuery>
+                    </OnDesktop>
                 </Header>
             }
         >

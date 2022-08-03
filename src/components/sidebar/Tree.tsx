@@ -1,11 +1,11 @@
-import { Box, MediaQuery, Stack } from "@mantine/core"
+import { Box, Stack } from "@mantine/core"
 import { redirectTo } from "app/slices/redirect"
 import { collapseTreeCategory } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Category, Subscription } from "app/types"
 import { categoryUnreadCount, flattenCategoryTree } from "app/utils"
 import { Loader } from "components/Loader"
-import { useAppTheme } from "hooks/useAppTheme"
+import { OnDesktop } from "components/responsive/OnDesktop"
 import React from "react"
 import { FaChevronDown, FaChevronRight, FaInbox } from "react-icons/fa"
 import { TreeNode } from "./TreeNode"
@@ -17,7 +17,6 @@ const collapsedIcon = <FaChevronRight size={14} />
 
 const errorThreshold = 9
 export function Tree() {
-    const theme = useAppTheme()
     const root = useAppSelector(state => state.tree.rootCategory)
     const source = useAppSelector(state => state.entries.source)
     const dispatch = useAppDispatch()
@@ -94,11 +93,9 @@ export function Tree() {
     const feeds = flattenCategoryTree(root).flatMap(c => c.feeds)
     return (
         <Stack>
-            <MediaQuery smallerThan={theme.layout.mobileBreakpoint} styles={{ display: "none" }}>
-                <Box>
-                    <TreeSearch feeds={feeds} />
-                </Box>
-            </MediaQuery>
+            <OnDesktop>
+                <TreeSearch feeds={feeds} />
+            </OnDesktop>
             <Box>
                 {allCategoryNode()}
                 {root.children.map(c => recursiveCategoryNode(c))}
