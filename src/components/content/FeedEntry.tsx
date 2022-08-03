@@ -3,8 +3,7 @@ import { markEntry, selectEntry } from "app/slices/entries"
 import { useAppDispatch } from "app/store"
 import { Entry } from "app/types"
 import { ActionButton } from "components/ActionButtton"
-import dayjs from "dayjs"
-import relativeTime from "dayjs/plugin/relativeTime"
+import { RelativeDate } from "components/RelativeDate"
 import { useAppTheme } from "hooks/useAppTheme"
 import React, { useEffect, useRef } from "react"
 import { TbExternalLink } from "react-icons/tb"
@@ -53,8 +52,6 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
         },
     }
 })
-
-dayjs.extend(relativeTime)
 
 export function FeedEntry(props: FeedEntryProps) {
     const { classes } = useStyles(props)
@@ -111,7 +108,10 @@ export function FeedEntry(props: FeedEntryProps) {
                             <Text color="dimmed">{props.entry.feedName}</Text>
                         </Box>
                         <Box>
-                            <Text color="dimmed">&nbsp;·&nbsp;{dayjs(props.entry.date).fromNow()}</Text>
+                            <Text color="dimmed">
+                                <span>&nbsp;·&nbsp;</span>
+                                <RelativeDate date={props.entry.date} />
+                            </Text>
                         </Box>
                     </Box>
                 </a>

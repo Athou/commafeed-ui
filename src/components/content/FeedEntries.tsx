@@ -1,4 +1,3 @@
-import { Title } from "@mantine/core"
 import {
     loadMoreEntries,
     markAllEntries,
@@ -8,7 +7,7 @@ import {
     selectNextEntry,
     selectPreviousEntry,
 } from "app/slices/entries"
-import { redirectTo } from "app/slices/redirect"
+import { redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Loader } from "components/Loader"
 import { useAppTheme } from "hooks/useAppTheme"
@@ -20,7 +19,6 @@ import { FeedEntry } from "./FeedEntry"
 export function FeedEntries() {
     const theme = useAppTheme()
     const source = useAppSelector(state => state.entries.source)
-    const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const entries = useAppSelector(state => state.entries.entries)
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp)
     const selectedEntryId = useAppSelector(state => state.entries.selectedEntryId)
@@ -113,25 +111,22 @@ export function FeedEntries() {
         )
     })
     useMousetrap("g a", () => {
-        dispatch(redirectTo("/app/category/all"))
+        dispatch(redirectToRootCategory())
     })
 
     if (!entries) return <Loader />
     return (
-        <>
-            <Title order={3}>{sourceLabel}</Title>
-            <InfiniteScroll initialLoad={false} loadMore={() => dispatch(loadMoreEntries())} hasMore={hasMore} loader={<Loader key={0} />}>
-                {entries.map(e => (
-                    <div
-                        key={e.id}
-                        ref={el => {
-                            refs.current[e.id] = el!
-                        }}
-                    >
-                        <FeedEntry entry={e} expanded={!!e.expanded} />
-                    </div>
-                ))}
-            </InfiniteScroll>
-        </>
+        <InfiniteScroll initialLoad={false} loadMore={() => dispatch(loadMoreEntries())} hasMore={hasMore} loader={<Loader key={0} />}>
+            {entries.map(e => (
+                <div
+                    key={e.id}
+                    ref={el => {
+                        refs.current[e.id] = el!
+                    }}
+                >
+                    <FeedEntry entry={e} expanded={!!e.expanded} />
+                </div>
+            ))}
+        </InfiniteScroll>
     )
 }

@@ -1,7 +1,7 @@
 import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, Stack, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
-import { redirectTo } from "app/slices/redirect"
+import { redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch } from "app/store"
 import { LoginRequest } from "app/types"
 import { Alert } from "components/Alert"
@@ -21,7 +21,7 @@ export function LoginPage() {
 
     const [login, loginResult] = useMutation(client.user.login, {
         onSuccess: () => {
-            dispatch(redirectTo("/"))
+            dispatch(redirectToRootCategory())
         },
     })
     const errors = errorToStrings(loginResult.error)

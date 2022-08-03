@@ -1,9 +1,9 @@
 import { Box, Button, Group, Paper, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
-import { redirectTo } from "app/slices/redirect"
+import { redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
-import { useAppDispatch, useAppSelector } from "app/store"
+import { useAppDispatch } from "app/store"
 import { FeedInfoRequest, SubscribeRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { useState } from "react"
@@ -12,7 +12,6 @@ import { CategorySelect } from "./CategorySelect"
 
 export function Subscribe() {
     const [activeStep, setActiveStep] = useState(0)
-    const source = useAppSelector(state => state.entries.source)
     const dispatch = useAppDispatch()
 
     const step0Form = useForm<FeedInfoRequest>({
@@ -39,14 +38,13 @@ export function Subscribe() {
     const [subscribe, subscribeResult] = useMutation(client.feed.subscribe, {
         onSuccess: () => {
             dispatch(reloadTree())
-            returnToApp()
+            dispatch(redirectToSelectedSource())
         },
     })
     const errors = [...errorToStrings(fetchFeedResult.error), ...errorToStrings(subscribeResult.error)]
 
-    const returnToApp = () => dispatch(redirectTo(`/app/${source.type}/${source.id}`))
     const previousStep = () => {
-        if (activeStep === 0) returnToApp()
+        if (activeStep === 0) dispatch(redirectToSelectedSource())
         else setActiveStep(activeStep - 1)
     }
     const nextStep = (e: React.FormEvent<HTMLFormElement>) => {

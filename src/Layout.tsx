@@ -1,5 +1,5 @@
-import { ActionIcon, AppShell, Box, Burger, Center, Header, Navbar, ScrollArea, Title } from "@mantine/core"
-import { redirectTo } from "app/slices/redirect"
+import { ActionIcon, Anchor, AppShell, Box, Burger, Center, Header, Navbar, ScrollArea, Title } from "@mantine/core"
+import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
 import { setMobileMenuOpen } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Logo } from "components/Logo"
@@ -16,13 +16,16 @@ interface LayoutProps {
 }
 
 function LogoAndTitle() {
+    const dispatch = useAppDispatch()
     return (
-        <Center inline>
-            <Logo size={24} />
-            <Title order={3} pl="md">
-                CommaFeed
-            </Title>
-        </Center>
+        <Anchor onClick={() => dispatch(redirectToRootCategory())} variant="text">
+            <Center inline>
+                <Logo size={24} />
+                <Title order={3} pl="md">
+                    CommaFeed
+                </Title>
+            </Center>
+        </Anchor>
     )
 }
 
@@ -65,7 +68,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                                     <LogoAndTitle />
                                 </Box>
                                 <Box>
-                                    <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectTo("/app/add"))}>
+                                    <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectToAdd())}>
                                         <TbPlus size={18} />
                                     </ActionIcon>
                                 </Box>
@@ -86,7 +89,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                                     <LogoAndTitle />
                                 </Box>
                                 <Box>
-                                    <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectTo("/app/add"))}>
+                                    <ActionIcon color={theme.primaryColor} onClick={() => dispatch(redirectToAdd())}>
                                         <TbPlus size={18} />
                                     </ActionIcon>
                                 </Box>

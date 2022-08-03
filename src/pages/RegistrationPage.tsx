@@ -1,7 +1,7 @@
 import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, Stack, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
-import { redirectTo } from "app/slices/redirect"
+import { redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch } from "app/store"
 import { RegistrationRequest } from "app/types"
 import { Alert } from "components/Alert"
@@ -22,7 +22,7 @@ export function RegistrationPage() {
 
     const [register, registerResult] = useMutation(client.user.register, {
         onSuccess: () => {
-            dispatch(redirectTo("/"))
+            dispatch(redirectToRootCategory())
         },
     })
     const errors = errorToStrings(registerResult.error)

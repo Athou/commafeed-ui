@@ -2,16 +2,20 @@ import axios from "axios"
 import {
     AddCategoryRequest,
     Category,
+    CategoryModificationRequest,
     CollapseRequest,
     Entries,
     FeedInfo,
     FeedInfoRequest,
+    FeedModificationRequest,
     GetEntriesPaginatedRequest,
+    IDRequest,
     LoginRequest,
     MarkRequest,
     RegistrationRequest,
     Settings,
     SubscribeRequest,
+    Subscription,
     UserModel,
 } from "./types"
 
@@ -27,19 +31,24 @@ axiosInstance.interceptors.response.use(
 export const client = {
     category: {
         getRoot: () => axiosInstance.get<Category>("category/get"),
+        modify: (req: CategoryModificationRequest) => axiosInstance.post("category/modify", req),
         collapse: (req: CollapseRequest) => axiosInstance.post("category/collapse", req),
         getEntries: (req: GetEntriesPaginatedRequest) => axiosInstance.get<Entries>("category/entries", { params: req }),
         markEntries: (req: MarkRequest) => axiosInstance.post("category/mark", req),
         add: (req: AddCategoryRequest) => axiosInstance.post("category/add", req),
+        delete: (req: IDRequest) => axiosInstance.post("category/delete", req),
     },
     entry: {
         mark: (req: MarkRequest) => axiosInstance.post("entry/mark", req),
     },
     feed: {
+        get: (id: string) => axiosInstance.get<Subscription>(`feed/get/${id}`),
+        modify: (req: FeedModificationRequest) => axiosInstance.post("feed/modify", req),
         getEntries: (req: GetEntriesPaginatedRequest) => axiosInstance.get<Entries>("feed/entries", { params: req }),
         markEntries: (req: MarkRequest) => axiosInstance.post("feed/mark", req),
         fetchFeed: (req: FeedInfoRequest) => axiosInstance.post<FeedInfo>("feed/fetch", req),
         subscribe: (req: SubscribeRequest) => axiosInstance.post("feed/subscribe", req),
+        unsubscribe: (req: IDRequest) => axiosInstance.post("feed/unsubscribe", req),
         importOpml: (req: File) => {
             const formData = new FormData()
             formData.append("file", req)
@@ -73,7 +82,8 @@ export const errorToStrings = (err: any) => {
         if (err.response) {
             const data = err.response.data as any
             if (typeof data === "string") strings.push(data)
-            else if (typeof data === "object" && data.errors) strings = [...strings, ...data.errors]
+            if (typeof data === "object" && data.message) strings.push(data.message)
+            if (typeof data === "object" && data.errors) strings = [...strings, ...data.errors]
         }
     }
 

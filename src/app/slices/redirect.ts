@@ -1,10 +1,34 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { RootState } from "app/store"
 
 interface RedirectState {
     to?: string
 }
 
 const initialState: RedirectState = {}
+
+export const redirectToLogin = createAsyncThunk("redirect/login", (_, thunkApi) => thunkApi.dispatch(redirectTo("/login")))
+export const redirectToRegistration = createAsyncThunk("redirect/register", (_, thunkApi) => thunkApi.dispatch(redirectTo("/register")))
+export const redirectToSelectedSource = createAsyncThunk<void, void, { state: RootState }>("redirect/selectedSource", (_, thunkApi) => {
+    const { source } = thunkApi.getState().entries
+    thunkApi.dispatch(redirectTo(`/app/${source.type}/${source.id}`))
+})
+export const redirectToCategory = createAsyncThunk("redirect/category", (id: string, thunkApi) =>
+    thunkApi.dispatch(redirectTo(`/app/category/${id}`))
+)
+export const redirectToRootCategory = createAsyncThunk("redirect/category/root", (_, thunkApi) =>
+    thunkApi.dispatch(redirectToCategory("all"))
+)
+export const redirectToCategoryDetails = createAsyncThunk("redirect/category/details", (id: string, thunkApi) =>
+    thunkApi.dispatch(redirectTo(`/app/category/${id}/details`))
+)
+export const redirectToFeed = createAsyncThunk("redirect/feed", (id: string | number, thunkApi) =>
+    thunkApi.dispatch(redirectTo(`/app/feed/${id}`))
+)
+export const redirectToFeedDetails = createAsyncThunk("redirect/feed/details", (id: string, thunkApi) =>
+    thunkApi.dispatch(redirectTo(`/app/feed/${id}/details`))
+)
+export const redirectToAdd = createAsyncThunk("redirect/add", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/add")))
 
 export const redirectSlice = createSlice({
     name: "redirect",

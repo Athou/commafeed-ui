@@ -31,6 +31,14 @@
         // make sure the key prop is filled when required
         "react/jsx-key": ["error", { "checkFragmentShorthand": true }],
 
+        // configure additional hooks
+        "react-hooks/exhaustive-deps": [
+            "warn",
+            {
+                "additionalHooks": "useAsync"
+            }
+        ],
+
         // trigger even if props is used only in createStyles()
         "react/no-unused-prop-types": "off",
 

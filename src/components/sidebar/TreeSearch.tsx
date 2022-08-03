@@ -1,6 +1,6 @@
 import { Box, Center, Image, Kbd, TextInput } from "@mantine/core"
 import { openSpotlight, SpotlightAction, SpotlightProvider } from "@mantine/spotlight"
-import { redirectTo } from "app/slices/redirect"
+import { redirectToFeed } from "app/slices/redirect"
 import { useAppDispatch } from "app/store"
 import { Subscription } from "app/types"
 import { useMousetrap } from "hooks/useMousetrap"
@@ -17,7 +17,7 @@ export function TreeSearch(props: TreeSearchProps) {
         .map(f => ({
             title: f.name,
             icon: <Image src={f.iconUrl} alt="" width={18} height={18} />,
-            onTrigger: () => dispatch(redirectTo(`app/feed/${f.id}`)),
+            onTrigger: () => dispatch(redirectToFeed(f.id)),
         }))
 
     const searchIcon = <TbSearch size={18} />

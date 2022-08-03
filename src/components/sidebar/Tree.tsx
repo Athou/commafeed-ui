@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mantine/core"
-import { redirectTo } from "app/slices/redirect"
+import { redirectToCategory, redirectToCategoryDetails, redirectToFeed, redirectToFeedDetails } from "app/slices/redirect"
 import { collapseTreeCategory } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Category, Subscription } from "app/types"
@@ -21,8 +21,18 @@ export function Tree() {
     const source = useAppSelector(state => state.entries.source)
     const dispatch = useAppDispatch()
 
-    const feedClicked = (id: string) => dispatch(redirectTo(`app/feed/${id}`))
-    const categoryClicked = (id: string) => dispatch(redirectTo(`app/category/${id}`))
+    const feedClicked = (e: React.MouseEvent, id: string) => {
+        if (e.detail === 2) dispatch(redirectToFeedDetails(id))
+        else dispatch(redirectToFeed(id))
+    }
+    const categoryClicked = (e: React.MouseEvent, id: string) => {
+        if (e.detail === 2) {
+            if (id === "all") return
+            dispatch(redirectToCategoryDetails(id))
+        } else {
+            dispatch(redirectToCategory(id))
+        }
+    }
     const categoryIconClicked = (e: React.MouseEvent, category: Category) => {
         e.stopPropagation()
 

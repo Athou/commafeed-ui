@@ -11,7 +11,7 @@ interface TreeNodeProps {
     expanded?: boolean
     level: number
     hasError: boolean
-    onClick: (id: string) => void
+    onClick: (e: React.MouseEvent, id: string) => void
     onIconClick?: (e: React.MouseEvent, id: string) => void
 }
 
@@ -45,7 +45,7 @@ const useStyles = createStyles((theme, props: TreeNodeProps) => {
 export function TreeNode(props: TreeNodeProps) {
     const { classes } = useStyles(props)
     return (
-        <Box py={1} pl={props.level * 20} className={classes.node} onClick={() => props.onClick(props.id)}>
+        <Box py={1} pl={props.level * 20} className={classes.node} onClick={(e: React.MouseEvent) => props.onClick(e, props.id)}>
             <Box mr={6} onClick={(e: React.MouseEvent) => props.onIconClick && props.onIconClick(e, props.id)}>
                 {typeof props.icon === "string" ? <Image src={props.icon} alt="" width={18} height={18} /> : props.icon}
             </Box>

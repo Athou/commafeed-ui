@@ -10,6 +10,8 @@ import { categoryUnreadCount } from "app/utils"
 import { Header } from "components/header/Header"
 import { Tree } from "components/sidebar/Tree"
 import { AddPage } from "pages/AddPage"
+import { CategoryDetailsPage } from "pages/CategoryDetailsPage"
+import { FeedDetailsPage } from "pages/FeedDetailsPage"
 import { FeedEntriesPage } from "pages/FeedEntriesPage"
 import { LoginPage } from "pages/LoginPage"
 import { RegistrationPage } from "pages/RegistrationPage"
@@ -87,9 +89,11 @@ export function App() {
                                 <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} />}>
                                     <Route path="category">
                                         <Route path=":id" element={<FeedEntriesPage sourceType="category" />} />
+                                        <Route path=":id/details" element={<CategoryDetailsPage />} />
                                     </Route>
                                     <Route path="feed">
                                         <Route path=":id" element={<FeedEntriesPage sourceType="feed" />} />
+                                        <Route path=":id/details" element={<FeedDetailsPage />} />
                                     </Route>
                                     <Route path="add" element={<AddPage />} />
                                 </Route>
