@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/macro"
 import { Container, Tabs } from "@mantine/core"
 import { AddCategory } from "components/content/add/AddCategory"
 import { ImportOpml } from "components/content/add/ImportOpml"
@@ -10,13 +11,13 @@ export function AddPage() {
             <Tabs defaultValue="subscribe">
                 <Tabs.List>
                     <Tabs.Tab value="subscribe" icon={<TbRss />}>
-                        Subscribe
+                        <Trans>Subscribe</Trans>
                     </Tabs.Tab>
                     <Tabs.Tab value="category" icon={<TbFolderPlus />}>
-                        Add category
+                        <Trans>Add category</Trans>
                     </Tabs.Tab>
                     <Tabs.Tab value="opml" icon={<TbFileImport />}>
-                        OPML
+                        <Trans>OPML</Trans>
                     </Tabs.Tab>
                 </Tabs.List>
 

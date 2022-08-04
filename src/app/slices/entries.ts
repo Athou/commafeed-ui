@@ -27,7 +27,7 @@ const initialState: EntriesState = {
         id: "all",
     },
     entries: [],
-    sourceLabel: "All",
+    sourceLabel: "",
     hasMore: true,
 }
 

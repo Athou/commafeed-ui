@@ -28,3 +28,6 @@ dist-ssr
 
 # vite
 vite.config.ts.timestamp-*.mjs
+
+# compiled locales
+src/locales/**/*.ts

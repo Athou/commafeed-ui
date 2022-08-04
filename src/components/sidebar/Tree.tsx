@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro"
 import { Box, Stack } from "@mantine/core"
 import { redirectToCategory, redirectToCategoryDetails, redirectToFeed, redirectToFeedDetails } from "app/slices/redirect"
 import { collapseTreeCategory } from "app/slices/tree"
@@ -47,7 +48,7 @@ export function Tree() {
     const allCategoryNode = () => (
         <TreeNode
             id="all"
-            name="All"
+            name={t`All`}
             icon={allIcon}
             unread={categoryUnreadCount(root)}
             selected={source.type === "category" && source.id === "all"}

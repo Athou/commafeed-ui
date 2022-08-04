@@ -1,3 +1,4 @@
+import { t, Trans } from "@lingui/macro"
 import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
@@ -66,19 +67,23 @@ export function FeedDetailsPage() {
     })
     const errors = [...errorToStrings(modifyResult.error), ...errorToStrings(unsubscribeResult.error)]
 
-    const openUnsubscribeModal = () =>
-        openConfirmModal({
-            title: "Unsubscribe",
+    const openUnsubscribeModal = () => {
+        const feedName = feed?.name
+        return openConfirmModal({
+            title: t`Unsubscribe`,
             centered: true,
             children: (
                 <Text size="sm">
-                    Are you sure you want to unsubscribe from <Code>{feed?.name}</Code> ?
+                    <Trans>
+                        Are you sure you want to unsubscribe from <Code>{feedName}</Code>?
+                    </Trans>
                 </Text>
             ),
-            labels: { confirm: "Confirm", cancel: "Cancel" },
+            labels: { confirm: t`Confirm`, cancel: `Cancel` },
             confirmProps: { color: "red" },
             onConfirm: () => unsubscribe({ id: +id }),
         })
+    }
 
     useEffect(() => {
         if (!feed) return
@@ -91,51 +96,51 @@ export function FeedDetailsPage() {
             <form onSubmit={form.onSubmit(modify)}>
                 <Stack>
                     <Title order={3}>{feed.name}</Title>
-                    <Input.Wrapper label="Feed URL">
+                    <Input.Wrapper label={t`Feed URL`}>
                         <Box>
                             <Anchor href={feed.feedUrl}>{feed.feedUrl}</Anchor>
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label="Website">
+                    <Input.Wrapper label={t`Website`}>
                         <Box>
                             <Anchor href={feed.feedLink}>{feed.feedLink}</Anchor>
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label="Last refresh">
+                    <Input.Wrapper label={t`Last refresh`}>
                         <Box>
                             <RelativeDate date={feed.lastRefresh} />
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label="Last refresh message">
-                        <Box>{feed.message ?? "N/A"}</Box>
+                    <Input.Wrapper label={t`Last refresh message`}>
+                        <Box>{feed.message ?? t`N/A`}</Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label="Next refresh">
+                    <Input.Wrapper label={t`Next refresh`}>
                         <Box>
                             <RelativeDate date={feed.nextRefresh} />
                         </Box>
                     </Input.Wrapper>
-                    <Input.Wrapper label="Generated feed url">
+                    <Input.Wrapper label={t`Generated feed url`}>
                         <Box>
-                            {apiKey && <Anchor href={`rest/feed/entriesAsFeed?id=${feed.id}&apiKey=${apiKey}`}>Link</Anchor>}
-                            {!apiKey && <span>Generate an API key in your profile first.</span>}
+                            {apiKey && <Anchor href={`rest/feed/entriesAsFeed?id=${feed.id}&apiKey=${apiKey}`}>t`Link`</Anchor>}
+                            {!apiKey && <Trans>Generate an API key in your profile first.</Trans>}
                         </Box>
                     </Input.Wrapper>
 
-                    <TextInput label="Name" {...form.getInputProps("name")} required />
-                    <CategorySelect label="Category" {...form.getInputProps("categoryId")} clearable />
-                    <NumberInput label="Position" {...form.getInputProps("position")} required />
+                    <TextInput label={t`Name`} {...form.getInputProps("name")} required />
+                    <CategorySelect label={t`Category`} {...form.getInputProps("categoryId")} clearable />
+                    <NumberInput label={t`Position`} {...form.getInputProps("position")} required />
                     <TextInput
-                        label="Filtering expression"
+                        label={t`Filtering expression`}
                         description={<FilteringExpressionDescription />}
                         {...form.getInputProps("filter")}
                     />
 
                     <Group>
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
-                            Cancel
+                            <Trans>Cancel</Trans>
                         </Button>
                         <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyResult.status === "running"}>
-                            Save
+                            <Trans>Save</Trans>
                         </Button>
                         <Divider sx={{ height: "32px" }} orientation="vertical" />
                         <Button
@@ -144,7 +149,7 @@ export function FeedDetailsPage() {
                             onClick={() => openUnsubscribeModal()}
                             loading={unsubscribeResult.status === "running"}
                         >
-                            Unsubscribe
+                            <Trans>Unsubscribe</Trans>
                         </Button>
                     </Group>
 

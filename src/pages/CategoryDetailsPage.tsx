@@ -1,3 +1,4 @@
+import { t, Trans } from "@lingui/macro"
 import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
@@ -41,19 +42,23 @@ export function CategoryDetailsPage() {
     })
     const errors = [...errorToStrings(modifyResult.error), ...errorToStrings(deleteCategoryResult.error)]
 
-    const openDeleteCategoryModal = () =>
-        openConfirmModal({
-            title: "Delete Category",
+    const openDeleteCategoryModal = () => {
+        const categoryName = category?.name
+        return openConfirmModal({
+            title: t`Delete Category`,
             centered: true,
             children: (
                 <Text size="sm">
-                    Are you sure you want to delete category <Code>{category?.name}</Code> ?
+                    <Trans>
+                        Are you sure you want to delete category <Code>{categoryName}</Code>?
+                    </Trans>
                 </Text>
             ),
-            labels: { confirm: "Confirm", cancel: "Cancel" },
+            labels: { confirm: t`Confirm`, cancel: `Cancel` },
             confirmProps: { color: "red" },
             onConfirm: () => deleteCategory({ id: +id }),
         })
+    }
 
     useEffect(() => {
         if (!category) return
@@ -71,23 +76,27 @@ export function CategoryDetailsPage() {
             <form onSubmit={form.onSubmit(modify)}>
                 <Stack>
                     <Title order={3}>{category.name}</Title>
-                    <Input.Wrapper label="Generated feed url">
+                    <Input.Wrapper label={t`Generated feed url`}>
                         <Box>
-                            {apiKey && <Anchor href={`rest/category/entriesAsFeed?id=${category.id}&apiKey=${apiKey}`}>Link</Anchor>}
-                            {!apiKey && <span>Generate an API key in your profile first.</span>}
+                            {apiKey && (
+                                <Anchor href={`rest/category/entriesAsFeed?id=${category.id}&apiKey=${apiKey}`}>
+                                    <Trans>Link</Trans>
+                                </Anchor>
+                            )}
+                            {!apiKey && <Trans>Generate an API key in your profile first.</Trans>}
                         </Box>
                     </Input.Wrapper>
 
-                    <TextInput label="Name" {...form.getInputProps("name")} required />
-                    <CategorySelect label="Parent Category" {...form.getInputProps("parentId")} clearable />
-                    <NumberInput label="Position" {...form.getInputProps("position")} required />
+                    <TextInput label={t`Name`} {...form.getInputProps("name")} required />
+                    <CategorySelect label={t`Parent Category`} {...form.getInputProps("parentId")} clearable />
+                    <NumberInput label={t`Position`} {...form.getInputProps("position")} required />
 
                     <Group>
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
-                            Cancel
+                            <Trans>Cancel</Trans>
                         </Button>
                         <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyResult.status === "running"}>
-                            Save
+                            <Trans>Save</Trans>
                         </Button>
                         <Divider sx={{ height: "32px" }} orientation="vertical" />
                         <Button
@@ -96,7 +105,7 @@ export function CategoryDetailsPage() {
                             onClick={() => openDeleteCategoryModal()}
                             loading={deleteCategoryResult.status === "running"}
                         >
-                            Delete
+                            <Trans>Delete</Trans>
                         </Button>
                     </Group>
 

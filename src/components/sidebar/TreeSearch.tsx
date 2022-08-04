@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro"
 import { Box, Center, Image, Kbd, TextInput } from "@mantine/core"
 import { openSpotlight, SpotlightAction, SpotlightProvider } from "@mantine/spotlight"
 import { redirectToFeed } from "app/slices/redirect"
@@ -36,12 +37,12 @@ export function TreeSearch(props: TreeSearchProps) {
         <SpotlightProvider
             actions={actions}
             searchIcon={searchIcon}
-            searchPlaceholder="Search..."
+            searchPlaceholder={t`Search`}
             shortcut="ctrl+k"
-            nothingFoundMessage="Nothing found..."
+            nothingFoundMessage={t`Nothing found`}
         >
             <TextInput
-                placeholder="Search"
+                placeholder={t`Search`}
                 icon={searchIcon}
                 rightSectionWidth={100}
                 rightSection={rightSection}

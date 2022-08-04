@@ -1,4 +1,5 @@
-import { Center, Code, createStyles, Divider, Group, Text } from "@mantine/core"
+import { t, Trans } from "@lingui/macro"
+import { Center, Code, Divider, Group, Text } from "@mantine/core"
 import { openConfirmModal } from "@mantine/modals"
 import { markAllEntries, reloadEntries } from "app/slices/entries"
 import { changeReadingMode, changeReadingOrder } from "app/slices/user"
@@ -12,16 +13,9 @@ function HeaderDivider() {
     return <Divider sx={{ height: "28px" }} orientation="vertical" />
 }
 
-const useStyles = createStyles(() => ({
-    button: {
-        textTransform: "capitalize",
-    },
-}))
-
 const iconSize = 18
 
 export function Header() {
-    const { classes } = useStyles()
     const source = useAppSelector(state => state.entries.source)
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp)
@@ -31,14 +25,16 @@ export function Header() {
 
     const openMarkAllEntriesModal = () =>
         openConfirmModal({
-            title: "Mark all entries as read",
+            title: t`Mark all entries as read`,
             centered: true,
             children: (
                 <Text size="sm">
-                    Are you sure you want to mark all entries of <Code>{sourceLabel}</Code> as read?
+                    <Trans>
+                        Are you sure you want to mark all entries of <Code>{sourceLabel}</Code> as read?
+                    </Trans>
                 </Text>
             ),
-            labels: { confirm: "Confirm", cancel: "Cancel" },
+            labels: { confirm: t`Confirm`, cancel: t`Cancel` },
             confirmProps: { color: "red" },
             onConfirm: () =>
                 dispatch(
@@ -57,21 +53,19 @@ export function Header() {
     return (
         <Center>
             <Group>
-                <ActionButton icon={<TbRefresh size={iconSize} />} label="Refresh" onClick={() => dispatch(reloadEntries())} />
+                <ActionButton icon={<TbRefresh size={iconSize} />} label={t`Refresh`} onClick={() => dispatch(reloadEntries())} />
                 <ActionButton
-                    className={classes.button}
                     icon={settings.readingMode === "all" ? <TbEye size={iconSize} /> : <TbEyeOff size={iconSize} />}
-                    label={settings.readingMode}
+                    label={settings.readingMode === "all" ? t`All` : t`Unread`}
                     onClick={() => dispatch(changeReadingMode(settings.readingMode === "all" ? "unread" : "all"))}
                 />
                 <ActionButton
-                    className={classes.button}
                     icon={settings.readingOrder === "asc" ? <TbArrowUp size={iconSize} /> : <TbArrowDown size={iconSize} />}
-                    label={settings.readingOrder}
+                    label={settings.readingOrder === "asc" ? t`Asc` : t`Desc`}
                     onClick={() => dispatch(changeReadingOrder(settings.readingOrder === "asc" ? "desc" : "asc"))}
                 />
-                <HeaderDivider />{" "}
-                <ActionButton icon={<TbChecks size={iconSize} />} label="Mark all as read" onClick={openMarkAllEntriesModal} />
+                <HeaderDivider />
+                <ActionButton icon={<TbChecks size={iconSize} />} label={t`Mark all as read`} onClick={openMarkAllEntriesModal} />
                 <HeaderDivider />
                 <ProfileMenu control={<ActionButton icon={<TbUser size={iconSize} />} label={profile?.name} />} />
             </Group>

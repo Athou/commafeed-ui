@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro"
 import { Checkbox, Group } from "@mantine/core"
 import { markEntry } from "app/slices/entries"
 import { useAppDispatch } from "app/store"
@@ -17,7 +18,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
         <Group>
             {props.entry.markable && (
                 <Checkbox
-                    label="Keep unread"
+                    label={t`Keep unread`}
                     checked={!props.entry.read}
                     onChange={readStatusCheckboxClicked}
                     styles={{
@@ -27,7 +28,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 />
             )}
             <a href={props.entry.url} target="_blank" rel="noreferrer">
-                <ActionButton icon={<TbExternalLink size={18} />} label="Open link" />
+                <ActionButton icon={<TbExternalLink size={18} />} label={t`Open link`} />
             </a>
         </Group>
     )

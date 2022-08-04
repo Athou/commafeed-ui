@@ -1,0 +1,276 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2022-08-04 18:51+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/pages/RegistrationPage.tsx:70
+msgid "<0>Have an account?</0><1>Log in!</1>"
+msgstr "<0>Have an account?</0><1>Log in!</1>"
+
+#: src/pages/LoginPage.tsx:68
+msgid "<0>Need an account?</0><1>Sign up!</1>"
+msgstr "<0>Need an account?</0><1>Sign up!</1>"
+
+#: src/components/content/add/AddCategory.tsx:37
+msgid "Add"
+msgstr "Add"
+
+#: src/pages/AddPage.tsx:17
+msgid "Add category"
+msgstr "Add category"
+
+#: src/components/header/Header.tsx:59
+#: src/components/sidebar/Tree.tsx:51
+msgid "All"
+msgstr "All"
+
+#: src/components/content/add/Subscribe.tsx:65
+msgid "Analyze feed"
+msgstr "Analyze feed"
+
+#: src/pages/CategoryDetailsPage.tsx:52
+msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
+msgstr "Are you sure you want to delete category <0>{categoryName}</0>?"
+
+#: src/components/header/Header.tsx:32
+msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
+msgstr "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
+
+#: src/pages/FeedDetailsPage.tsx:77
+msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
+msgstr "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
+
+#: src/components/header/Header.tsx:64
+msgid "Asc"
+msgstr "Asc"
+
+#: src/components/content/add/Subscribe.tsx:88
+msgid "Back"
+msgstr "Back"
+
+#: src/components/content/add/AddCategory.tsx:34
+#: src/components/content/add/ImportOpml.tsx:41
+#: src/components/header/Header.tsx:37
+#: src/pages/CategoryDetailsPage.tsx:96
+#: src/pages/FeedDetailsPage.tsx:140
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/components/content/add/AddCategory.tsx:30
+#: src/components/content/add/AddCategory.tsx:30
+#: src/components/content/add/Subscribe.tsx:81
+#: src/pages/FeedDetailsPage.tsx:130
+msgid "Category"
+msgstr "Category"
+
+#: src/components/content/add/Subscribe.tsx:66
+msgid "Check that the feed is working"
+msgstr "Check that the feed is working"
+
+#: src/components/header/Header.tsx:37
+#: src/pages/CategoryDetailsPage.tsx:57
+#: src/pages/FeedDetailsPage.tsx:82
+msgid "Confirm"
+msgstr "Confirm"
+
+#: src/pages/CategoryDetailsPage.tsx:108
+msgid "Delete"
+msgstr "Delete"
+
+#: src/pages/CategoryDetailsPage.tsx:48
+msgid "Delete Category"
+msgstr "Delete Category"
+
+#: src/components/header/Header.tsx:64
+msgid "Desc"
+msgstr "Desc"
+
+#: src/pages/RegistrationPage.tsx:52
+#: src/pages/RegistrationPage.tsx:53
+msgid "E-mail address"
+msgstr "E-mail address"
+
+#: src/components/Alert.tsx:12
+msgid "Error!"
+msgstr "Error!"
+
+#: src/components/content/add/Subscribe.tsx:70
+#: src/components/content/add/Subscribe.tsx:79
+#: src/pages/FeedDetailsPage.tsx:99
+msgid "Feed URL"
+msgstr "Feed URL"
+
+#: src/components/content/add/Subscribe.tsx:80
+msgid "Feed name"
+msgstr "Feed name"
+
+#: src/pages/FeedDetailsPage.tsx:133
+msgid "Filtering expression"
+msgstr "Filtering expression"
+
+#: src/pages/CategoryDetailsPage.tsx:86
+#: src/pages/FeedDetailsPage.tsx:125
+msgid "Generate an API key in your profile first."
+msgstr "Generate an API key in your profile first."
+
+#: src/pages/CategoryDetailsPage.tsx:79
+#: src/pages/FeedDetailsPage.tsx:122
+msgid "Generated feed url"
+msgstr "Generated feed url"
+
+#: src/components/content/add/ImportOpml.tsx:44
+msgid "Import"
+msgstr "Import"
+
+#: src/components/content/FeedEntryFooter.tsx:21
+msgid "Keep unread"
+msgstr "Keep unread"
+
+#: src/pages/FeedDetailsPage.tsx:109
+msgid "Last refresh"
+msgstr "Last refresh"
+
+#: src/pages/FeedDetailsPage.tsx:114
+msgid "Last refresh message"
+msgstr "Last refresh message"
+
+#: src/pages/CategoryDetailsPage.tsx:83
+msgid "Link"
+msgstr "Link"
+
+#: src/pages/LoginPage.tsx:40
+#: src/pages/LoginPage.tsx:64
+msgid "Log in"
+msgstr "Log in"
+
+#: src/components/header/ProfileMenu.tsx:31
+msgid "Logout"
+msgstr "Logout"
+
+#: src/components/header/Header.tsx:68
+msgid "Mark all as read"
+msgstr "Mark all as read"
+
+#: src/components/header/Header.tsx:28
+msgid "Mark all entries as read"
+msgstr "Mark all entries as read"
+
+#: src/components/RelativeDate.tsx:10
+#: src/pages/FeedDetailsPage.tsx:115
+msgid "N/A"
+msgstr "N/A"
+
+#: src/pages/CategoryDetailsPage.tsx:90
+#: src/pages/FeedDetailsPage.tsx:129
+msgid "Name"
+msgstr "Name"
+
+#: src/components/content/add/Subscribe.tsx:92
+msgid "Next"
+msgstr "Next"
+
+#: src/pages/FeedDetailsPage.tsx:117
+msgid "Next refresh"
+msgstr "Next refresh"
+
+#: src/components/sidebar/TreeSearch.tsx:42
+msgid "Nothing found"
+msgstr "Nothing found"
+
+#: src/pages/AddPage.tsx:20
+msgid "OPML"
+msgstr "OPML"
+
+#: src/components/content/add/ImportOpml.tsx:33
+#: src/components/content/add/ImportOpml.tsx:34
+msgid "OPML file"
+msgstr "OPML file"
+
+#: src/components/content/FeedEntryFooter.tsx:31
+msgid "Open link"
+msgstr "Open link"
+
+#: src/components/content/add/AddCategory.tsx:31
+msgid "Parent"
+msgstr "Parent"
+
+#: src/pages/CategoryDetailsPage.tsx:91
+msgid "Parent Category"
+msgstr "Parent Category"
+
+#: src/pages/LoginPage.tsx:57
+#: src/pages/LoginPage.tsx:58
+#: src/pages/RegistrationPage.tsx:59
+#: src/pages/RegistrationPage.tsx:60
+msgid "Password"
+msgstr "Password"
+
+#: src/pages/CategoryDetailsPage.tsx:92
+#: src/pages/FeedDetailsPage.tsx:131
+msgid "Position"
+msgstr "Position"
+
+#: src/components/header/Header.tsx:56
+msgid "Refresh"
+msgstr "Refresh"
+
+#: src/pages/CategoryDetailsPage.tsx:99
+#: src/pages/FeedDetailsPage.tsx:143
+msgid "Save"
+msgstr "Save"
+
+#: src/components/sidebar/TreeSearch.tsx:40
+#: src/components/sidebar/TreeSearch.tsx:45
+msgid "Search"
+msgstr "Search"
+
+#: src/components/header/ProfileMenu.tsx:22
+msgid "Settings"
+msgstr "Settings"
+
+#: src/pages/RegistrationPage.tsx:41
+#: src/pages/RegistrationPage.tsx:66
+msgid "Sign up"
+msgstr "Sign up"
+
+#: src/components/content/add/Subscribe.tsx:77
+#: src/components/content/add/Subscribe.tsx:101
+#: src/pages/AddPage.tsx:14
+msgid "Subscribe"
+msgstr "Subscribe"
+
+#: src/components/content/add/Subscribe.tsx:77
+msgid "Subscribe to the feed"
+msgstr "Subscribe to the feed"
+
+#: src/components/header/ProfileMenu.tsx:25
+msgid "Theme"
+msgstr "Theme"
+
+#: src/components/header/Header.tsx:59
+msgid "Unread"
+msgstr "Unread"
+
+#: src/pages/FeedDetailsPage.tsx:73
+#: src/pages/FeedDetailsPage.tsx:152
+msgid "Unsubscribe"
+msgstr "Unsubscribe"
+
+#: src/pages/LoginPage.tsx:50
+#: src/pages/LoginPage.tsx:51
+msgid "User Name or E-mail"
+msgstr "User Name or E-mail"
+
+#: src/pages/FeedDetailsPage.tsx:104
+msgid "Website"
+msgstr "Website"

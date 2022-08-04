@@ -1,3 +1,4 @@
+import { t, Trans } from "@lingui/macro"
 import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, Stack, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
@@ -37,7 +38,7 @@ export function RegistrationPage() {
             </Center>
             <Paper>
                 <Title order={2} mb="md">
-                    Sign up
+                    <Trans>Sign up</Trans>
                 </Title>
                 {errors.length > 0 && (
                     <Box mb="md">
@@ -48,22 +49,30 @@ export function RegistrationPage() {
                     <Stack>
                         <TextInput label="User Name" placeholder="User Name" {...form.getInputProps("name")} size="md" required />
                         <TextInput
-                            label="E-mail address"
-                            placeholder="E-mail address"
+                            label={t`E-mail address`}
+                            placeholder={t`E-mail address`}
                             {...form.getInputProps("email")}
                             size="md"
                             required
                         />
-                        <PasswordInput label="Password" placeholder="Password" {...form.getInputProps("password")} size="md" required />
+                        <PasswordInput
+                            label={t`Password`}
+                            placeholder={t`Password`}
+                            {...form.getInputProps("password")}
+                            size="md"
+                            required
+                        />
                         <Button type="submit" loading={registerResult.status === "running"}>
-                            Sign up
+                            <Trans>Sign up</Trans>
                         </Button>
                         <Center>
                             <Group>
-                                <Box>Have an account?</Box>
-                                <Anchor component={Link} to="/login">
-                                    Log in!
-                                </Anchor>
+                                <Trans>
+                                    <Box>Have an account?</Box>
+                                    <Anchor component={Link} to="/login">
+                                        Log in!
+                                    </Anchor>
+                                </Trans>
                             </Group>
                         </Center>
                     </Stack>

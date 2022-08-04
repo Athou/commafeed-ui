@@ -1,3 +1,4 @@
+import { t } from "@lingui/macro"
 import { Alert as MantineAlert, Box, MantineColor } from "@mantine/core"
 import { Fragment } from "react"
 
@@ -8,7 +9,7 @@ export interface ErrorsAlertProps {
 }
 
 export function Alert(props: ErrorsAlertProps) {
-    const title = props.title ?? "Error!"
+    const title = props.title ?? t`Error!`
     const color = props.color ?? "red"
     return (
         <MantineAlert title={title} color={color}>

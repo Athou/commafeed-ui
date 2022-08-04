@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/macro"
 import { Divider, Menu, useMantineColorScheme } from "@mantine/core"
 import { TbMoon, TbPower, TbSettings, TbSun } from "react-icons/tb"
 
@@ -17,15 +18,17 @@ export function ProfileMenu(props: ProfileMenuProps) {
         <Menu position="bottom-end" closeOnItemClick={false}>
             <Menu.Target>{props.control}</Menu.Target>
             <Menu.Dropdown>
-                <Menu.Item icon={<TbSettings />}>Settings</Menu.Item>
+                <Menu.Item icon={<TbSettings />}>
+                    <Trans>Settings</Trans>
+                </Menu.Item>
                 <Menu.Item icon={dark ? <TbMoon /> : <TbSun />} onClick={() => toggleColorScheme()}>
-                    Theme
+                    <Trans>Theme</Trans>
                 </Menu.Item>
 
                 <Divider />
 
                 <Menu.Item icon={<TbPower />} onClick={logout}>
-                    Logout
+                    <Trans>Logout</Trans>
                 </Menu.Item>
             </Menu.Dropdown>
         </Menu>

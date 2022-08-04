@@ -1,3 +1,4 @@
+import { t, Trans } from "@lingui/macro"
 import { Box, Button, FileInput, Group, Stack } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
@@ -28,13 +29,19 @@ export function ImportOpml() {
     return (
         <form onSubmit={form.onSubmit(v => importOpml(v.file))}>
             <Stack>
-                <FileInput label="OPML file" placeholder="OPML file" {...form.getInputProps("file")} required accept="application/xml" />
+                <FileInput
+                    label={t`OPML file`}
+                    placeholder={t`OPML file`}
+                    {...form.getInputProps("file")}
+                    required
+                    accept="application/xml"
+                />
                 <Group position="center">
                     <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
-                        Cancel
+                        <Trans>Cancel</Trans>
                     </Button>
                     <Button type="submit" leftIcon={<TbFileImport size={16} />} loading={importOpmlResult.status === "running"}>
-                        Import
+                        <Trans>Import</Trans>
                     </Button>
                 </Group>
 

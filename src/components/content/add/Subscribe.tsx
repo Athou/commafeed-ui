@@ -1,3 +1,4 @@
+import { t, Trans } from "@lingui/macro"
 import { Box, Button, Group, Paper, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
@@ -60,31 +61,35 @@ export function Subscribe() {
         <Paper>
             <form onSubmit={nextStep}>
                 <Stepper active={activeStep} onStepClick={setActiveStep}>
-                    <Stepper.Step label="Analyze feed" description="Check that the feed is working" allowStepSelect={activeStep === 1}>
+                    <Stepper.Step
+                        label={t`Analyze feed`}
+                        description={t`Check that the feed is working`}
+                        allowStepSelect={activeStep === 1}
+                    >
                         <TextInput
-                            label="Feed URL"
+                            label={t`Feed URL`}
                             placeholder="http://www.mysite.com/rss"
                             required
                             autoFocus
                             {...step0Form.getInputProps("url")}
                         />
                     </Stepper.Step>
-                    <Stepper.Step label="Subscribe" description="Subscribe to the feed" allowStepSelect={false}>
+                    <Stepper.Step label={t`Subscribe`} description={t`Subscribe to the feed`} allowStepSelect={false}>
                         <Stack>
-                            <TextInput label="Feed URL" {...step1Form.getInputProps("url")} disabled />
-                            <TextInput label="Feed name" {...step1Form.getInputProps("title")} required autoFocus />
-                            <CategorySelect label="Category" {...step1Form.getInputProps("categoryId")} clearable />
+                            <TextInput label={t`Feed URL`} {...step1Form.getInputProps("url")} disabled />
+                            <TextInput label={t`Feed name`} {...step1Form.getInputProps("title")} required autoFocus />
+                            <CategorySelect label={t`Category`} {...step1Form.getInputProps("categoryId")} clearable />
                         </Stack>
                     </Stepper.Step>
                 </Stepper>
 
                 <Group position="center" mt="xl">
                     <Button variant="default" onClick={previousStep}>
-                        Back
+                        <Trans>Back</Trans>
                     </Button>
                     {activeStep === 0 && (
                         <Button type="submit" loading={fetchFeedResult.status === "running"}>
-                            Next
+                            <Trans>Next</Trans>
                         </Button>
                     )}
                     {activeStep === 1 && (
@@ -93,7 +98,7 @@ export function Subscribe() {
                             leftIcon={<TbRss size={16} />}
                             loading={fetchFeedResult.status === "running" || subscribeResult.status === "running"}
                         >
-                            Subscribe
+                            <Trans>Subscribe</Trans>
                         </Button>
                     )}
                 </Group>

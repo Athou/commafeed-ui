@@ -5,13 +5,19 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build",
+        "build": "npm run i18n:compile && tsc && vite build",
         "preview": "vite preview",
-        "eslint": "eslint --ext=.js,.jsx,.ts,.tsx src"
+        "eslint": "eslint --ext=.js,.jsx,.ts,.tsx src",
+        "i18n": "npm run i18n:extract && npm run i18n:compile",
+        "i18n:extract": "lingui extract --clean",
+        "i18n:compile": "lingui compile --typescript"
     },
     "dependencies": {
         "@emotion/react": "^11.9.3",
         "@fontsource/open-sans": "^4.5.10",
+        "@lingui/core": "^3.14.0",
+        "@lingui/macro": "^3.14.0",
+        "@lingui/react": "^3.14.0",
         "@mantine/core": "^5.0.2",
         "@mantine/form": "^5.0.2",
         "@mantine/hooks": "^5.0.2",
@@ -21,6 +27,7 @@
         "@reduxjs/toolkit": "^1.8.3",
         "axios": "^0.27.2",
         "dayjs": "^1.11.4",
+        "make-plural": "^7.1.0",
         "mousetrap": "^1.6.5",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
@@ -33,6 +40,7 @@
         "use-mutation": "^2.2.1"
     },
     "devDependencies": {
+        "@lingui/cli": "^3.14.0",
         "@types/eslint": "^8.4.5",
         "@types/mousetrap": "^1.6.9",
         "@types/react": "^18.0.15",

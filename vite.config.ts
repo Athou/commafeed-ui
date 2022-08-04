@@ -6,7 +6,17 @@ import tsconfigPaths from "vite-tsconfig-paths"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react(), eslint(), tsconfigPaths(), visualizer()],
+    plugins: [
+        react({
+            babel: {
+                // babel-macro is needed for lingui
+                plugins: ["macros"],
+            },
+        }),
+        eslint(),
+        tsconfigPaths(),
+        visualizer(),
+    ],
     base: "./",
     server: {
         port: 8082,
