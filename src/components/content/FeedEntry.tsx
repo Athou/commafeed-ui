@@ -59,15 +59,15 @@ export function FeedEntry(props: FeedEntryProps) {
     const dispatch = useAppDispatch()
 
     const headerClicked = (e: React.MouseEvent) => {
-        if (e.button === 0) {
+        if (e.button === 1 || e.ctrlKey || e.metaKey) {
+            // middle click
+            dispatch(markEntry({ entry: props.entry, read: true }))
+        } else if (e.button === 0) {
             // main click
             // don't trigger the link
             e.preventDefault()
 
             dispatch(selectEntry(props.entry))
-        } else if (e.button === 1) {
-            // middle click
-            dispatch(markEntry({ entry: props.entry, read: true }))
         }
     }
 
