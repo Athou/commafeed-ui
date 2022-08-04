@@ -72,7 +72,7 @@ export function Subscribe() {
                         <Stack>
                             <TextInput label="Feed URL" {...step1Form.getInputProps("url")} disabled />
                             <TextInput label="Feed name" {...step1Form.getInputProps("title")} required autoFocus />
-                            <CategorySelect label="Category" required {...step1Form.getInputProps("categoryId")} />
+                            <CategorySelect label="Category" {...step1Form.getInputProps("categoryId")} clearable />
                         </Stack>
                     </Stepper.Step>
                 </Stepper>

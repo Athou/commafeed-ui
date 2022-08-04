@@ -26,13 +26,13 @@ export function AddCategory() {
         <form onSubmit={form.onSubmit(addCategory)}>
             <Stack>
                 <TextInput label="Category" placeholder="Category" {...form.getInputProps("name")} required />
-                <CategorySelect label="Parent" required {...form.getInputProps("parentId")} />
+                <CategorySelect label="Parent" {...form.getInputProps("parentId")} clearable />
                 <Group position="center">
                     <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
                         Cancel
                     </Button>
                     <Button type="submit" loading={addCategoryResult.status === "running"}>
-                        Save
+                        Add
                     </Button>
                 </Group>
 
