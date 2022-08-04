@@ -19,7 +19,7 @@ export function FeedEntryFooter(props: FeedEntryFooterProps) {
                 <Checkbox
                     label="Keep unread"
                     checked={!props.entry.read}
-                    onClick={readStatusCheckboxClicked}
+                    onChange={readStatusCheckboxClicked}
                     styles={{
                         label: { cursor: "pointer" },
                         input: { cursor: "pointer" },
