@@ -5,6 +5,7 @@ import { redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch } from "app/store"
 import { Alert } from "components/Alert"
+import { TbFileImport } from "react-icons/tb"
 import useMutation from "use-mutation"
 
 export function ImportOpml() {
@@ -32,7 +33,7 @@ export function ImportOpml() {
                     <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
                         Cancel
                     </Button>
-                    <Button type="submit" loading={importOpmlResult.status === "running"}>
+                    <Button type="submit" leftIcon={<TbFileImport size={16} />} loading={importOpmlResult.status === "running"}>
                         Import
                     </Button>
                 </Group>

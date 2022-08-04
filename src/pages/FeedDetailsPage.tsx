@@ -11,6 +11,7 @@ import { CategorySelect } from "components/content/add/CategorySelect"
 import { Loader } from "components/Loader"
 import { RelativeDate } from "components/RelativeDate"
 import { useEffect } from "react"
+import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { useParams } from "react-router-dom"
 import { useAsync } from "react-use"
 import useMutation from "use-mutation"
@@ -133,11 +134,16 @@ export function FeedDetailsPage() {
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
                             Cancel
                         </Button>
-                        <Button type="submit" loading={modifyResult.status === "running"}>
+                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyResult.status === "running"}>
                             Save
                         </Button>
                         <Divider sx={{ height: "32px" }} orientation="vertical" />
-                        <Button color="red" onClick={() => openUnsubscribeModal()} loading={unsubscribeResult.status === "running"}>
+                        <Button
+                            color="red"
+                            leftIcon={<TbTrash size={16} />}
+                            onClick={() => openUnsubscribeModal()}
+                            loading={unsubscribeResult.status === "running"}
+                        >
                             Unsubscribe
                         </Button>
                     </Group>

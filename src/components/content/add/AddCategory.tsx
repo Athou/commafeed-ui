@@ -6,6 +6,7 @@ import { reloadTree } from "app/slices/tree"
 import { useAppDispatch } from "app/store"
 import { AddCategoryRequest } from "app/types"
 import { Alert } from "components/Alert"
+import { TbFolderPlus } from "react-icons/tb"
 import useMutation from "use-mutation"
 import { CategorySelect } from "./CategorySelect"
 
@@ -31,7 +32,7 @@ export function AddCategory() {
                     <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
                         Cancel
                     </Button>
-                    <Button type="submit" loading={addCategoryResult.status === "running"}>
+                    <Button type="submit" leftIcon={<TbFolderPlus size={16} />} loading={addCategoryResult.status === "running"}>
                         Add
                     </Button>
                 </Group>

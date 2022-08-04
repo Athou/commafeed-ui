@@ -7,6 +7,7 @@ import { useAppDispatch } from "app/store"
 import { FeedInfoRequest, SubscribeRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { useState } from "react"
+import { TbRss } from "react-icons/tb"
 import useMutation from "use-mutation"
 import { CategorySelect } from "./CategorySelect"
 
@@ -81,10 +82,20 @@ export function Subscribe() {
                     <Button variant="default" onClick={previousStep}>
                         Back
                     </Button>
-                    <Button type="submit" loading={fetchFeedResult.status === "running" || subscribeResult.status === "running"}>
-                        {activeStep === 0 && "Next"}
-                        {activeStep === 1 && "Subscribe"}
-                    </Button>
+                    {activeStep === 0 && (
+                        <Button type="submit" loading={fetchFeedResult.status === "running"}>
+                            Next
+                        </Button>
+                    )}
+                    {activeStep === 1 && (
+                        <Button
+                            type="submit"
+                            leftIcon={<TbRss size={16} />}
+                            loading={fetchFeedResult.status === "running" || subscribeResult.status === "running"}
+                        >
+                            Subscribe
+                        </Button>
+                    )}
                 </Group>
             </form>
 
