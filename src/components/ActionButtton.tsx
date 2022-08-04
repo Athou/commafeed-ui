@@ -1,8 +1,7 @@
 import { ActionIcon, Button } from "@mantine/core"
+import { useMediaQuery } from "@mantine/hooks"
 import { useAppTheme } from "hooks/useAppTheme"
 import { forwardRef } from "react"
-import { OnDesktop } from "./responsive/OnDesktop"
-import { OnMobile } from "./responsive/OnMobile"
 
 interface ActionButtonProps {
     className?: string
@@ -16,19 +15,15 @@ interface ActionButtonProps {
  */
 export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>((props: ActionButtonProps, ref) => {
     const theme = useAppTheme()
-    return (
-        <>
-            <OnMobile>
-                <ActionIcon ref={ref} color={theme.primaryColor} variant="subtle" className={props.className} onClick={props.onClick}>
-                    {props.icon}
-                </ActionIcon>
-            </OnMobile>
-            <OnDesktop>
-                <Button ref={ref} variant="subtle" size="xs" className={props.className} leftIcon={props.icon} onClick={props.onClick}>
-                    {props.label}
-                </Button>
-            </OnDesktop>
-        </>
+    const mobile = !useMediaQuery(`(min-width: ${theme.breakpoints.lg}px)`)
+    return mobile ? (
+        <ActionIcon ref={ref} color={theme.primaryColor} variant="subtle" className={props.className} onClick={props.onClick}>
+            {props.icon}
+        </ActionIcon>
+    ) : (
+        <Button ref={ref} variant="subtle" size="xs" className={props.className} leftIcon={props.icon} onClick={props.onClick}>
+            {props.label}
+        </Button>
     )
 })
 ActionButton.displayName = "HeaderButton"
