@@ -63,7 +63,7 @@ export function FeedEntry(props: FeedEntryProps) {
 
     return (
         <div ref={ref}>
-            <Paper shadow="xs" p="xs" my="xs" withBorder className={classes.paper}>
+            <Paper shadow="xs" my="xs" withBorder className={classes.paper}>
                 <Anchor
                     variant="text"
                     href={props.entry.url}
@@ -72,10 +72,12 @@ export function FeedEntry(props: FeedEntryProps) {
                     onClick={headerClicked}
                     onAuxClick={headerClicked}
                 >
-                    <FeedEntryHeader entry={props.entry} expanded={props.expanded} />
+                    <Box p="xs">
+                        <FeedEntryHeader entry={props.entry} expanded={props.expanded} />
+                    </Box>
                 </Anchor>
                 {props.expanded && (
-                    <Box mt="md">
+                    <Box p="xs">
                         <Box className={classes.body}>
                             <FeedEntryBody entry={props.entry} />
                         </Box>
