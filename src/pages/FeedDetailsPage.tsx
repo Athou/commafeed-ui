@@ -69,7 +69,11 @@ export function FeedDetailsPage() {
         openConfirmModal({
             title: "Unsubscribe",
             centered: true,
-            children: <Text size="sm">Are you sure you want to unsubscribe from {feed?.name} ?</Text>,
+            children: (
+                <Text size="sm">
+                    Are you sure you want to unsubscribe from <Code>{feed?.name}</Code> ?
+                </Text>
+            ),
             labels: { confirm: "Confirm", cancel: "Cancel" },
             confirmProps: { color: "red" },
             onConfirm: () => unsubscribe({ id: +id }),

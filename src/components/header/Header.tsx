@@ -1,4 +1,4 @@
-import { Center, createStyles, Divider, Group, Text } from "@mantine/core"
+import { Center, Code, createStyles, Divider, Group, Text } from "@mantine/core"
 import { openConfirmModal } from "@mantine/modals"
 import { markAllEntries, reloadEntries } from "app/slices/entries"
 import { changeReadingMode, changeReadingOrder } from "app/slices/user"
@@ -33,7 +33,11 @@ export function Header() {
         openConfirmModal({
             title: "Mark all entries as read",
             centered: true,
-            children: <Text size="sm">Are you sure you want to mark all entries of {sourceLabel} as read?</Text>,
+            children: (
+                <Text size="sm">
+                    Are you sure you want to mark all entries of <Code>{sourceLabel}</Code> as read?
+                </Text>
+            ),
             labels: { confirm: "Confirm", cancel: "Cancel" },
             confirmProps: { color: "red" },
             onConfirm: () =>

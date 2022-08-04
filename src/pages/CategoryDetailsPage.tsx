@@ -1,4 +1,4 @@
-import { Anchor, Box, Button, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
+import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
 import { client, errorToStrings } from "app/client"
@@ -44,7 +44,11 @@ export function CategoryDetailsPage() {
         openConfirmModal({
             title: "Delete Category",
             centered: true,
-            children: <Text size="sm">Are you sure you want to delete category {category?.name} ?</Text>,
+            children: (
+                <Text size="sm">
+                    Are you sure you want to delete category <Code>{category?.name}</Code> ?
+                </Text>
+            ),
             labels: { confirm: "Confirm", cancel: "Cancel" },
             confirmProps: { color: "red" },
             onConfirm: () => deleteCategory({ id: +id }),
