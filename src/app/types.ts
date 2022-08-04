@@ -198,10 +198,10 @@ export interface SubscribeRequest {
 export interface Subscription {
     id: number
     name: string
-    message: string
+    message?: string
     errorCount: number
-    lastRefresh: number
-    nextRefresh: number
+    lastRefresh?: number
+    nextRefresh?: number
     feedUrl: string
     feedLink: string
     iconUrl: string

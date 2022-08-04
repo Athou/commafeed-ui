@@ -2,7 +2,7 @@ import dayjs from "dayjs"
 import { useState } from "react"
 import { useInterval } from "react-use"
 
-export function RelativeDate(props: { date: Date | number }) {
+export function RelativeDate(props: { date: Date | number | undefined }) {
     const [now, setNow] = useState(new Date())
     useInterval(() => setNow(new Date()), 60 * 1000)
 
