@@ -1,5 +1,5 @@
 import { Box, createStyles } from "@mantine/core"
-import { FeedEntryContent } from "./FeedEntryContent"
+import { Content } from "./Content"
 
 export interface MediaProps {
     thumbnailUrl: string
@@ -28,7 +28,7 @@ export function Media(props: MediaProps) {
             />
             {props.description && (
                 <Box pt="md">
-                    <FeedEntryContent content={props.description} />
+                    <Content content={props.description} />
                 </Box>
             )}
         </>

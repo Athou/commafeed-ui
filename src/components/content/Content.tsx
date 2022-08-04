@@ -1,6 +1,6 @@
 import { createStyles, Text } from "@mantine/core"
 
-export interface FeedEntryContentProps {
+export interface ContentProps {
     content: string
 }
 
@@ -19,7 +19,7 @@ const useStyles = createStyles(theme => ({
     },
 }))
 
-export function FeedEntryContent(props: FeedEntryContentProps) {
+export function Content(props: ContentProps) {
     const { classes } = useStyles()
     return <Text size="md" className={classes.content} dangerouslySetInnerHTML={{ __html: props.content }} />
 }
