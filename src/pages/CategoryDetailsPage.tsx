@@ -71,7 +71,7 @@ export function CategoryDetailsPage() {
 
     if (!category) return <Loader />
     return (
-        <Container size="sm">
+        <Container>
             <form onSubmit={form.onSubmit(modify)}>
                 <Stack>
                     <Title order={3}>{category.name}</Title>

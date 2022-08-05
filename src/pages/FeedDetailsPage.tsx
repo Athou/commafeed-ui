@@ -91,7 +91,7 @@ export function FeedDetailsPage() {
 
     if (!feed) return <Loader />
     return (
-        <Container size="sm">
+        <Container>
             <form onSubmit={form.onSubmit(modify)}>
                 <Stack>
                     <Title order={3}>{feed.name}</Title>
