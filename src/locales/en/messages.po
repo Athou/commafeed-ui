@@ -62,14 +62,14 @@ msgstr "Back"
 #: src/components/content/add/ImportOpml.tsx:41
 #: src/components/header/Header.tsx:37
 #: src/pages/CategoryDetailsPage.tsx:96
-#: src/pages/FeedDetailsPage.tsx:140
+#: src/pages/FeedDetailsPage.tsx:144
 msgid "Cancel"
 msgstr "Cancel"
 
 #: src/components/content/add/AddCategory.tsx:30
 #: src/components/content/add/AddCategory.tsx:30
 #: src/components/content/add/Subscribe.tsx:81
-#: src/pages/FeedDetailsPage.tsx:130
+#: src/pages/FeedDetailsPage.tsx:134
 msgid "Category"
 msgstr "Category"
 
@@ -114,17 +114,17 @@ msgstr "Feed URL"
 msgid "Feed name"
 msgstr "Feed name"
 
-#: src/pages/FeedDetailsPage.tsx:133
+#: src/pages/FeedDetailsPage.tsx:137
 msgid "Filtering expression"
 msgstr "Filtering expression"
 
 #: src/pages/CategoryDetailsPage.tsx:86
-#: src/pages/FeedDetailsPage.tsx:125
+#: src/pages/FeedDetailsPage.tsx:129
 msgid "Generate an API key in your profile first."
 msgstr "Generate an API key in your profile first."
 
 #: src/pages/CategoryDetailsPage.tsx:79
-#: src/pages/FeedDetailsPage.tsx:122
+#: src/pages/FeedDetailsPage.tsx:126
 msgid "Generated feed url"
 msgstr "Generated feed url"
 
@@ -136,11 +136,11 @@ msgstr "Import"
 msgid "Keep unread"
 msgstr "Keep unread"
 
-#: src/pages/FeedDetailsPage.tsx:109
+#: src/pages/FeedDetailsPage.tsx:113
 msgid "Last refresh"
 msgstr "Last refresh"
 
-#: src/pages/FeedDetailsPage.tsx:114
+#: src/pages/FeedDetailsPage.tsx:118
 msgid "Last refresh message"
 msgstr "Last refresh message"
 
@@ -166,12 +166,12 @@ msgid "Mark all entries as read"
 msgstr "Mark all entries as read"
 
 #: src/components/RelativeDate.tsx:10
-#: src/pages/FeedDetailsPage.tsx:115
+#: src/pages/FeedDetailsPage.tsx:119
 msgid "N/A"
 msgstr "N/A"
 
 #: src/pages/CategoryDetailsPage.tsx:90
-#: src/pages/FeedDetailsPage.tsx:129
+#: src/pages/FeedDetailsPage.tsx:133
 msgid "Name"
 msgstr "Name"
 
@@ -179,11 +179,11 @@ msgstr "Name"
 msgid "Next"
 msgstr "Next"
 
-#: src/pages/FeedDetailsPage.tsx:117
+#: src/pages/FeedDetailsPage.tsx:121
 msgid "Next refresh"
 msgstr "Next refresh"
 
-#: src/pages/FeedEntriesPage.tsx:58
+#: src/pages/FeedEntriesPage.tsx:64
 msgid "No more entries"
 msgstr "No more entries"
 
@@ -220,7 +220,7 @@ msgid "Password"
 msgstr "Password"
 
 #: src/pages/CategoryDetailsPage.tsx:92
-#: src/pages/FeedDetailsPage.tsx:131
+#: src/pages/FeedDetailsPage.tsx:135
 msgid "Position"
 msgstr "Position"
 
@@ -233,7 +233,7 @@ msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Registrations are closed on this CommaFeed instance"
 
 #: src/pages/CategoryDetailsPage.tsx:99
-#: src/pages/FeedDetailsPage.tsx:143
+#: src/pages/FeedDetailsPage.tsx:147
 msgid "Save"
 msgstr "Save"
 
@@ -270,7 +270,7 @@ msgid "Unread"
 msgstr "Unread"
 
 #: src/pages/FeedDetailsPage.tsx:73
-#: src/pages/FeedDetailsPage.tsx:152
+#: src/pages/FeedDetailsPage.tsx:156
 msgid "Unsubscribe"
 msgstr "Unsubscribe"
 
@@ -279,6 +279,6 @@ msgstr "Unsubscribe"
 msgid "User Name or E-mail"
 msgstr "User Name or E-mail"
 
-#: src/pages/FeedDetailsPage.tsx:104
+#: src/pages/FeedDetailsPage.tsx:106
 msgid "Website"
 msgstr "Website"

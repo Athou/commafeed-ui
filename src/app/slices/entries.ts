@@ -10,13 +10,14 @@ export type ExpendableEntry = Entry & { expanded?: boolean }
 interface EntriesState {
     /** selected source */
     source: EntrySource
+    sourceLabel: string
+    sourceWebsiteUrl: string
     entries: ExpendableEntry[]
     /** stores when the first batch of entries were retrieved
      *
      * this is used when marking all entries of a feed/category to only mark entries up to that timestamp as newer entries were potentially never shown
      */
     timestamp?: number
-    sourceLabel: string
     selectedEntryId?: string
     hasMore: boolean
 }
@@ -26,8 +27,9 @@ const initialState: EntriesState = {
         type: "category",
         id: "all",
     },
-    entries: [],
     sourceLabel: "",
+    sourceWebsiteUrl: "",
+    entries: [],
     hasMore: true,
 }
 
@@ -164,12 +166,14 @@ export const entriesSlice = createSlice({
             state.entries = []
             state.timestamp = undefined
             state.sourceLabel = ""
+            state.sourceWebsiteUrl = ""
             state.hasMore = true
         })
         builder.addCase(loadEntries.fulfilled, (state, action) => {
             state.entries = action.payload.entries
             state.timestamp = action.payload.timestamp
             state.sourceLabel = action.payload.name
+            state.sourceWebsiteUrl = action.payload.feedLink
             state.hasMore = action.payload.hasMore
         })
         builder.addCase(loadMoreEntries.fulfilled, (state, action) => {
@@ -182,12 +186,14 @@ export const entriesSlice = createSlice({
             state.entries = []
             state.timestamp = undefined
             state.sourceLabel = ""
+            state.sourceWebsiteUrl = ""
             state.hasMore = true
         })
         builder.addCase(reloadEntries.fulfilled, (state, action) => {
             state.entries = action.payload.entries
             state.timestamp = action.payload.timestamp
             state.sourceLabel = action.payload.name
+            state.sourceWebsiteUrl = action.payload.feedLink
             state.hasMore = action.payload.hasMore
         })
     },

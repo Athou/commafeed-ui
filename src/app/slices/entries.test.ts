@@ -48,6 +48,7 @@ describe("entries", () => {
         expect(store.getState().entries.entries).toStrictEqual([])
         expect(store.getState().entries.hasMore).toBe(true)
         expect(store.getState().entries.sourceLabel).toBe("")
+        expect(store.getState().entries.sourceWebsiteUrl).toBe("")
         expect(store.getState().entries.timestamp).toBeUndefined()
 
         await promise
@@ -56,6 +57,7 @@ describe("entries", () => {
         expect(store.getState().entries.entries).toStrictEqual(response.entries)
         expect(store.getState().entries.hasMore).toBe(response.hasMore)
         expect(store.getState().entries.sourceLabel).toBe(response.name)
+        expect(store.getState().entries.sourceWebsiteUrl).toBe(response.feedLink)
         expect(store.getState().entries.timestamp).toBe(response.timestamp)
     })
 })

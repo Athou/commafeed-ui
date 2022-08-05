@@ -1,5 +1,5 @@
 import { t } from "@lingui/macro"
-import { ActionIcon, Box, Divider, Group, Title } from "@mantine/core"
+import { ActionIcon, Anchor, Box, Divider, Group, Title } from "@mantine/core"
 import { useViewportSize } from "@mantine/hooks"
 import { EntrySourceType, loadEntries } from "app/slices/entries"
 import { redirectToCategoryDetails, redirectToFeedDetails } from "app/slices/redirect"
@@ -20,6 +20,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     const viewport = useViewportSize()
     const theme = useAppTheme()
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
+    const sourceWebsiteUrl = useAppSelector(state => state.entries.sourceWebsiteUrl)
     const hasMore = useAppSelector(state => state.entries.hasMore)
     const readType = useAppSelector(state => state.user.settings?.readingMode)
     const order = useAppSelector(state => state.user.settings?.readingOrder)
@@ -45,7 +46,12 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
         // add some room at the bottom of the page in order to be able to scroll the current entry at the top of the page when expanding
         <Box mb={viewport.height - theme.layout.headerHeight - 210}>
             <Group spacing="xl">
-                <Title order={3}>{sourceLabel}</Title>
+                {sourceWebsiteUrl && (
+                    <Anchor href={sourceWebsiteUrl} target="_blank" rel="noreferrer" variant="text">
+                        <Title order={3}>{sourceLabel}</Title>
+                    </Anchor>
+                )}
+                {!sourceWebsiteUrl && <Title order={3}>{sourceLabel}</Title>}
                 {!hideEditButton && (
                     <ActionIcon onClick={titleClicked} variant="subtle" color={theme.primaryColor}>
                         <TbEdit size={18} />
