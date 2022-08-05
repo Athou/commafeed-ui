@@ -71,7 +71,6 @@ export function FeedDetailsPage() {
         const feedName = feed?.name
         return openConfirmModal({
             title: t`Unsubscribe`,
-            centered: true,
             children: (
                 <Text size="sm">
                     <Trans>

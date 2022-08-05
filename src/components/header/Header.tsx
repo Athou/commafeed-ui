@@ -26,7 +26,6 @@ export function Header() {
     const openMarkAllEntriesModal = () =>
         openConfirmModal({
             title: t`Mark all entries as read`,
-            centered: true,
             children: (
                 <Text size="sm">
                     <Trans>

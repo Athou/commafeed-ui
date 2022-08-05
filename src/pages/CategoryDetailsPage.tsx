@@ -46,7 +46,6 @@ export function CategoryDetailsPage() {
         const categoryName = category?.name
         return openConfirmModal({
             title: t`Delete Category`,
-            centered: true,
             children: (
                 <Text size="sm">
                     <Trans>
