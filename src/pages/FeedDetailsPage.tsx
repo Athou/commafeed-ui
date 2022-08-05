@@ -98,12 +98,16 @@ export function FeedDetailsPage() {
                     <Title order={3}>{feed.name}</Title>
                     <Input.Wrapper label={t`Feed URL`}>
                         <Box>
-                            <Anchor href={feed.feedUrl}>{feed.feedUrl}</Anchor>
+                            <Anchor href={feed.feedUrl} target="_blank" rel="noreferrer">
+                                {feed.feedUrl}
+                            </Anchor>
                         </Box>
                     </Input.Wrapper>
                     <Input.Wrapper label={t`Website`}>
                         <Box>
-                            <Anchor href={feed.feedLink}>{feed.feedLink}</Anchor>
+                            <Anchor href={feed.feedLink} target="_blank" rel="noreferrer">
+                                {feed.feedLink}
+                            </Anchor>
                         </Box>
                     </Input.Wrapper>
                     <Input.Wrapper label={t`Last refresh`}>
