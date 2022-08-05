@@ -1,5 +1,5 @@
-import { t, Trans } from "@lingui/macro"
-import { ActionIcon, Alert, Box, Center, Group, Title } from "@mantine/core"
+import { t } from "@lingui/macro"
+import { ActionIcon, Box, Divider, Group, Title } from "@mantine/core"
 import { useViewportSize } from "@mantine/hooks"
 import { EntrySourceType, loadEntries } from "app/slices/entries"
 import { redirectToCategoryDetails, redirectToFeedDetails } from "app/slices/redirect"
@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { FeedEntries } from "components/content/FeedEntries"
 import { useAppTheme } from "hooks/useAppTheme"
 import { useEffect } from "react"
-import { TbCircleCheck, TbEdit } from "react-icons/tb"
+import { TbEdit } from "react-icons/tb"
 import { useLocation, useParams } from "react-router-dom"
 
 interface FeedEntriesPageProps {
@@ -43,7 +43,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
     const hideEditButton = props.sourceType === "category" && id === "all"
     return (
         // add some room at the bottom of the page in order to be able to scroll the current entry at the top of the page when expanding
-        <Box mb={viewport.height - theme.layout.headerHeight - 220}>
+        <Box mb={viewport.height - theme.layout.headerHeight - 210}>
             <Group spacing="xl">
                 <Title order={3}>{sourceLabel}</Title>
                 {!hideEditButton && (
@@ -55,13 +55,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
 
             <FeedEntries />
 
-            {!hasMore && (
-                <Center mt={50}>
-                    <Alert icon={<TbCircleCheck />} title={t`Done`} color="green">
-                        <Trans>{sourceLabel} has no more entries</Trans>
-                    </Alert>
-                </Center>
-            )}
+            {!hasMore && <Divider my="xl" label={t`No more entries`} labelPosition="center" />}
         </Box>
     )
 }

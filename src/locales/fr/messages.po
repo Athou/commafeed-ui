@@ -95,10 +95,6 @@ msgstr ""
 msgid "Desc"
 msgstr ""
 
-#: src/pages/FeedEntriesPage.tsx:60
-msgid "Done"
-msgstr ""
-
 #: src/pages/RegistrationPage.tsx:61
 #: src/pages/RegistrationPage.tsx:62
 msgid "E-mail address"
@@ -185,6 +181,10 @@ msgstr ""
 
 #: src/pages/FeedDetailsPage.tsx:117
 msgid "Next refresh"
+msgstr ""
+
+#: src/pages/FeedEntriesPage.tsx:58
+msgid "No more entries"
 msgstr ""
 
 #: src/components/sidebar/TreeSearch.tsx:42
@@ -281,8 +281,4 @@ msgstr ""
 
 #: src/pages/FeedDetailsPage.tsx:104
 msgid "Website"
-msgstr ""
-
-#: src/pages/FeedEntriesPage.tsx:61
-msgid "{sourceLabel} has no more entries"
 msgstr ""
