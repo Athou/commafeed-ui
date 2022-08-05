@@ -54,6 +54,10 @@ export function Header() {
         <Center>
             <Group>
                 <ActionButton icon={<TbRefresh size={iconSize} />} label={t`Refresh`} onClick={() => dispatch(reloadEntries())} />
+                <ActionButton icon={<TbChecks size={iconSize} />} label={t`Mark all as read`} onClick={openMarkAllEntriesModal} />
+
+                <HeaderDivider />
+
                 <ActionButton
                     icon={settings.readingMode === "all" ? <TbEye size={iconSize} /> : <TbEyeOff size={iconSize} />}
                     label={settings.readingMode === "all" ? t`All` : t`Unread`}
@@ -64,9 +68,9 @@ export function Header() {
                     label={settings.readingOrder === "asc" ? t`Asc` : t`Desc`}
                     onClick={() => dispatch(changeReadingOrder(settings.readingOrder === "asc" ? "desc" : "asc"))}
                 />
+
                 <HeaderDivider />
-                <ActionButton icon={<TbChecks size={iconSize} />} label={t`Mark all as read`} onClick={openMarkAllEntriesModal} />
-                <HeaderDivider />
+
                 <ProfileMenu control={<ActionButton icon={<TbUser size={iconSize} />} label={profile?.name} />} />
             </Group>
         </Center>
