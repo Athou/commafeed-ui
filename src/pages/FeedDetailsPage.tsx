@@ -125,7 +125,7 @@ export function FeedDetailsPage() {
                     <Input.Wrapper label={t`Generated feed url`}>
                         <Box>
                             {apiKey && (
-                                <Anchor href={`rest/feed/entriesAsFeed?id=${feed.id}&apiKey=${apiKey}`}>
+                                <Anchor href={`rest/feed/entriesAsFeed?id=${feed.id}&apiKey=${apiKey}`} target="_blank" rel="noreferrer">
                                     <Trans>Link</Trans>
                                 </Anchor>
                             )}

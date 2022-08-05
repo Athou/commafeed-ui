@@ -78,7 +78,11 @@ export function CategoryDetailsPage() {
                     <Input.Wrapper label={t`Generated feed url`}>
                         <Box>
                             {apiKey && (
-                                <Anchor href={`rest/category/entriesAsFeed?id=${category.id}&apiKey=${apiKey}`}>
+                                <Anchor
+                                    href={`rest/category/entriesAsFeed?id=${category.id}&apiKey=${apiKey}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
                                     <Trans>Link</Trans>
                                 </Anchor>
                             )}
