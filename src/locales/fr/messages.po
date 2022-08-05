@@ -104,7 +104,7 @@ msgstr ""
 msgid "E-mail address"
 msgstr ""
 
-#: src/components/Alert.tsx:12
+#: src/components/Alert.tsx:14
 msgid "Error!"
 msgstr ""
 
