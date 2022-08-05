@@ -15,6 +15,10 @@
         }
     ],
     "format": "po",
+    "formatOptions": {
+        "origins": true,
+        "lineNumbers": false
+    },
     "sourceLocale": "en",
     "fallbackLocales": {
         "default": "en"
