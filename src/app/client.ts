@@ -13,6 +13,7 @@ import {
     LoginRequest,
     MarkRequest,
     RegistrationRequest,
+    ServerInfo,
     Settings,
     SubscribeRequest,
     Subscription,
@@ -67,6 +68,9 @@ export const client = {
         getSettings: () => axiosInstance.get<Settings>("user/settings"),
         saveSettings: (settings: Settings) => axiosInstance.post("user/settings", settings),
         getProfile: () => axiosInstance.get<UserModel>("user/profile"),
+    },
+    server: {
+        getServerInfos: () => axiosInstance.get<ServerInfo>("server/get"),
     },
 }
 

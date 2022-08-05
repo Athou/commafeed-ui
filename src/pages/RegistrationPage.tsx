@@ -3,7 +3,7 @@ import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, St
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { redirectToRootCategory } from "app/slices/redirect"
-import { useAppDispatch } from "app/store"
+import { useAppDispatch, useAppSelector } from "app/store"
 import { RegistrationRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { Logo } from "components/Logo"
@@ -11,6 +11,7 @@ import { Link } from "react-router-dom"
 import useMutation from "use-mutation"
 
 export function RegistrationPage() {
+    const serverInfos = useAppSelector(state => state.server.serverInfos)
     const dispatch = useAppDispatch()
 
     const form = useForm<RegistrationRequest>({
@@ -40,43 +41,53 @@ export function RegistrationPage() {
                 <Title order={2} mb="md">
                     <Trans>Sign up</Trans>
                 </Title>
-                {errors.length > 0 && (
+                {serverInfos && !serverInfos.allowRegistrations && (
                     <Box mb="md">
-                        <Alert messages={errors} />
+                        <Alert messages={[t`Registrations are closed on this CommaFeed instance`]} />
                     </Box>
                 )}
-                <form onSubmit={form.onSubmit(register)}>
-                    <Stack>
-                        <TextInput label="User Name" placeholder="User Name" {...form.getInputProps("name")} size="md" required />
-                        <TextInput
-                            label={t`E-mail address`}
-                            placeholder={t`E-mail address`}
-                            {...form.getInputProps("email")}
-                            size="md"
-                            required
-                        />
-                        <PasswordInput
-                            label={t`Password`}
-                            placeholder={t`Password`}
-                            {...form.getInputProps("password")}
-                            size="md"
-                            required
-                        />
-                        <Button type="submit" loading={registerResult.status === "running"}>
-                            <Trans>Sign up</Trans>
-                        </Button>
-                        <Center>
-                            <Group>
-                                <Trans>
-                                    <Box>Have an account?</Box>
-                                    <Anchor component={Link} to="/login">
-                                        Log in!
-                                    </Anchor>
-                                </Trans>
-                            </Group>
-                        </Center>
-                    </Stack>
-                </form>
+                {serverInfos?.allowRegistrations && (
+                    <>
+                        {errors.length > 0 && (
+                            <Box mb="md">
+                                <Alert messages={errors} />
+                            </Box>
+                        )}
+
+                        <form onSubmit={form.onSubmit(register)}>
+                            <Stack>
+                                <TextInput label="User Name" placeholder="User Name" {...form.getInputProps("name")} size="md" required />
+                                <TextInput
+                                    label={t`E-mail address`}
+                                    placeholder={t`E-mail address`}
+                                    {...form.getInputProps("email")}
+                                    size="md"
+                                    required
+                                />
+                                <PasswordInput
+                                    label={t`Password`}
+                                    placeholder={t`Password`}
+                                    {...form.getInputProps("password")}
+                                    size="md"
+                                    required
+                                />
+                                <Button type="submit" loading={registerResult.status === "running"}>
+                                    <Trans>Sign up</Trans>
+                                </Button>
+                                <Center>
+                                    <Group>
+                                        <Trans>
+                                            <Box>Have an account?</Box>
+                                            <Anchor component={Link} to="/login">
+                                                Log in!
+                                            </Anchor>
+                                        </Trans>
+                                    </Group>
+                                </Center>
+                            </Stack>
+                        </form>
+                    </>
+                )}
             </Paper>
         </Container>
     )

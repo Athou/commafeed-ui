@@ -5,6 +5,7 @@ import { useLocalStorage } from "@mantine/hooks"
 import { ModalsProvider } from "@mantine/modals"
 import { NotificationsProvider } from "@mantine/notifications"
 import { redirectTo } from "app/slices/redirect"
+import { reloadServerInfos } from "app/slices/server"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { categoryUnreadCount } from "app/utils"
 import { Header } from "components/header/Header"
@@ -102,6 +103,11 @@ function FaviconHandler() {
 
 export function App() {
     useI18n()
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(reloadServerInfos())
+    }, [dispatch])
 
     return (
         <Providers>

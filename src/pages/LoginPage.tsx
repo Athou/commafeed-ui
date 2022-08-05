@@ -3,7 +3,7 @@ import { Anchor, Box, Button, Center, Container, Group, Paper, PasswordInput, St
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { redirectToRootCategory } from "app/slices/redirect"
-import { useAppDispatch } from "app/store"
+import { useAppDispatch, useAppSelector } from "app/store"
 import { LoginRequest } from "app/types"
 import { Alert } from "components/Alert"
 import { Logo } from "components/Logo"
@@ -11,6 +11,7 @@ import { Link } from "react-router-dom"
 import useMutation from "use-mutation"
 
 export function LoginPage() {
+    const serverInfos = useAppSelector(state => state.server.serverInfos)
     const dispatch = useAppDispatch()
 
     const form = useForm<LoginRequest>({
@@ -63,16 +64,18 @@ export function LoginPage() {
                         <Button type="submit" loading={loginResult.status === "running"}>
                             <Trans>Log in</Trans>
                         </Button>
-                        <Center>
-                            <Group>
-                                <Trans>
-                                    <Box>Need an account?</Box>
-                                    <Anchor component={Link} to="/register">
-                                        Sign up!
-                                    </Anchor>
-                                </Trans>
-                            </Group>
-                        </Center>
+                        {serverInfos?.allowRegistrations && (
+                            <Center>
+                                <Group>
+                                    <Trans>
+                                        <Box>Need an account?</Box>
+                                        <Anchor component={Link} to="/register">
+                                            Sign up!
+                                        </Anchor>
+                                    </Trans>
+                                </Group>
+                            </Center>
+                        )}
                     </Stack>
                 </form>
             </Paper>

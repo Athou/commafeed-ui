@@ -3,6 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query"
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
 import entriesReducer from "./slices/entries"
 import redirectReducer from "./slices/redirect"
+import serverReducer from "./slices/server"
 import treeReducer from "./slices/tree"
 import userReducer from "./slices/user"
 
@@ -12,6 +13,7 @@ export const buildStore = () =>
             entries: entriesReducer,
             redirect: redirectReducer,
             tree: treeReducer,
+            server: serverReducer,
             user: userReducer,
         },
     })
