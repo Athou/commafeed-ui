@@ -145,6 +145,7 @@ msgid "Last refresh message"
 msgstr ""
 
 #: src/pages/CategoryDetailsPage.tsx
+#: src/pages/FeedDetailsPage.tsx
 msgid "Link"
 msgstr ""
 
