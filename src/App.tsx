@@ -5,12 +5,9 @@ import { useLocalStorage } from "@mantine/hooks"
 import { ModalsProvider } from "@mantine/modals"
 import { NotificationsProvider } from "@mantine/notifications"
 import { redirectTo } from "app/slices/redirect"
-import { reloadTree } from "app/slices/tree"
-import { reloadProfile, reloadSettings } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { categoryUnreadCount } from "app/utils"
 import { Header } from "components/header/Header"
-import { Loader } from "components/Loader"
 import { Tree } from "components/sidebar/Tree"
 import { useI18n } from "i18n"
 import { AddPage } from "pages/AddPage"
@@ -105,33 +102,16 @@ function FaviconHandler() {
 
 export function App() {
     useI18n()
-    const settings = useAppSelector(state => state.user.settings)
-    const profile = useAppSelector(state => state.user.profile)
-    const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        dispatch(reloadSettings())
-        dispatch(reloadProfile())
-        dispatch(reloadTree())
-
-        // reload tree periodically
-        const id = setInterval(() => dispatch(reloadTree()), 30000)
-        return () => clearInterval(id)
-    }, [dispatch])
-
-    const loaded = settings && profile
     return (
         <Providers>
-            {!loaded && <Loader />}
-            {loaded && (
-                <>
-                    <FaviconHandler />
-                    <HashRouter>
-                        <RedirectHandler />
-                        <AppRoutes />
-                    </HashRouter>
-                </>
-            )}
+            <>
+                <FaviconHandler />
+                <HashRouter>
+                    <RedirectHandler />
+                    <AppRoutes />
+                </HashRouter>
+            </>
         </Providers>
     )
 }

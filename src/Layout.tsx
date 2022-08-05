@@ -1,12 +1,13 @@
 import { ActionIcon, Anchor, AppShell, Box, Burger, Center, Header, Navbar, ScrollArea, Title } from "@mantine/core"
 import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
-import { setMobileMenuOpen } from "app/slices/tree"
+import { reloadTree, setMobileMenuOpen } from "app/slices/tree"
+import { reloadProfile, reloadSettings } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Logo } from "components/Logo"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { OnMobile } from "components/responsive/OnMobile"
 import { useAppTheme } from "hooks/useAppTheme"
-import { ReactNode } from "react"
+import { ReactNode, useEffect } from "react"
 import { TbPlus } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
 
@@ -33,6 +34,16 @@ export default function Layout({ sidebar, header }: LayoutProps) {
     const theme = useAppTheme()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(reloadSettings())
+        dispatch(reloadProfile())
+        dispatch(reloadTree())
+
+        // reload tree periodically
+        const id = setInterval(() => dispatch(reloadTree()), 30000)
+        return () => clearInterval(id)
+    }, [dispatch])
 
     const burger = (
         <Burger
