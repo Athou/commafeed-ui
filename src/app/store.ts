@@ -6,14 +6,16 @@ import redirectReducer from "./slices/redirect"
 import treeReducer from "./slices/tree"
 import userReducer from "./slices/user"
 
-export const store = configureStore({
-    reducer: {
-        entries: entriesReducer,
-        redirect: redirectReducer,
-        tree: treeReducer,
-        user: userReducer,
-    },
-})
+export const buildStore = () =>
+    configureStore({
+        reducer: {
+            entries: entriesReducer,
+            redirect: redirectReducer,
+            tree: treeReducer,
+            user: userReducer,
+        },
+    })
+export const store = buildStore()
 
 setupListeners(store.dispatch)
 
