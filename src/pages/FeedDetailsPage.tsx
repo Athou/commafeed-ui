@@ -18,25 +18,32 @@ import { useAsync } from "react-use"
 import useMutation from "use-mutation"
 
 function FilteringExpressionDescription() {
+    const example = <Code>url.contains('youtube') or (author eq 'athou' and title.contains('github')</Code>
     return (
         <div>
             <div>
-                If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read
-                automatically.
+                <Trans>
+                    If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read
+                    automatically.
+                </Trans>
             </div>
             <div>
-                Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to
-                ease string comparison.
+                <Trans>
+                    Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case
+                    to ease string comparison.
+                </Trans>
             </div>
             <div>
-                Example: <Code>url.contains('youtube') or (author eq 'athou' and title.contains('github')</Code>.
+                <Trans>Example: {example}.</Trans>
             </div>
             <div>
-                <span>Complete available syntax is available </span>
-                <a href="http://commons.apache.org/proper/commons-jexl/reference/syntax.html" target="_blank" rel="noreferrer">
-                    here
-                </a>
-                .
+                <Trans>
+                    <span>Complete available syntax is available </span>
+                    <a href="http://commons.apache.org/proper/commons-jexl/reference/syntax.html" target="_blank" rel="noreferrer">
+                        here
+                    </a>
+                    .
+                </Trans>
             </div>
         </div>
     )

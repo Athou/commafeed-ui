@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/pages/FeedDetailsPage.tsx
+msgid "<0>Complete available syntax is available </0><1>here</1>."
+msgstr ""
+
 #: src/pages/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr ""
@@ -52,6 +56,10 @@ msgstr ""
 
 #: src/components/header/Header.tsx
 msgid "Asc"
+msgstr ""
+
+#: src/pages/FeedDetailsPage.tsx
+msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
 msgstr ""
 
 #: src/components/content/add/Subscribe.tsx
@@ -104,6 +112,10 @@ msgstr ""
 msgid "Error!"
 msgstr ""
 
+#: src/pages/FeedDetailsPage.tsx
+msgid "Example: {example}."
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/FeedDetailsPage.tsx
@@ -126,6 +138,10 @@ msgstr ""
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Generated feed url"
+msgstr ""
+
+#: src/pages/FeedDetailsPage.tsx
+msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
 msgstr ""
 
 #: src/components/content/add/ImportOpml.tsx
