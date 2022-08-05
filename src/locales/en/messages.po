@@ -13,11 +13,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/RegistrationPage.tsx:70
+#: src/pages/RegistrationPage.tsx:79
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr "<0>Have an account?</0><1>Log in!</1>"
 
-#: src/pages/LoginPage.tsx:68
+#: src/pages/LoginPage.tsx:70
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Need an account?</0><1>Sign up!</1>"
 
@@ -95,8 +95,12 @@ msgstr "Delete Category"
 msgid "Desc"
 msgstr "Desc"
 
-#: src/pages/RegistrationPage.tsx:52
-#: src/pages/RegistrationPage.tsx:53
+#: src/pages/FeedEntriesPage.tsx:60
+msgid "Done"
+msgstr "Done"
+
+#: src/pages/RegistrationPage.tsx:61
+#: src/pages/RegistrationPage.tsx:62
 msgid "E-mail address"
 msgstr "E-mail address"
 
@@ -148,8 +152,8 @@ msgstr "Last refresh message"
 msgid "Link"
 msgstr "Link"
 
-#: src/pages/LoginPage.tsx:40
-#: src/pages/LoginPage.tsx:64
+#: src/pages/LoginPage.tsx:41
+#: src/pages/LoginPage.tsx:65
 msgid "Log in"
 msgstr "Log in"
 
@@ -208,10 +212,10 @@ msgstr "Parent"
 msgid "Parent Category"
 msgstr "Parent Category"
 
-#: src/pages/LoginPage.tsx:57
 #: src/pages/LoginPage.tsx:58
-#: src/pages/RegistrationPage.tsx:59
-#: src/pages/RegistrationPage.tsx:60
+#: src/pages/LoginPage.tsx:59
+#: src/pages/RegistrationPage.tsx:68
+#: src/pages/RegistrationPage.tsx:69
 msgid "Password"
 msgstr "Password"
 
@@ -223,6 +227,10 @@ msgstr "Position"
 #: src/components/header/Header.tsx:56
 msgid "Refresh"
 msgstr "Refresh"
+
+#: src/pages/RegistrationPage.tsx:46
+msgid "Registrations are closed on this CommaFeed instance"
+msgstr "Registrations are closed on this CommaFeed instance"
 
 #: src/pages/CategoryDetailsPage.tsx:99
 #: src/pages/FeedDetailsPage.tsx:143
@@ -238,8 +246,8 @@ msgstr "Search"
 msgid "Settings"
 msgstr "Settings"
 
-#: src/pages/RegistrationPage.tsx:41
-#: src/pages/RegistrationPage.tsx:66
+#: src/pages/RegistrationPage.tsx:42
+#: src/pages/RegistrationPage.tsx:75
 msgid "Sign up"
 msgstr "Sign up"
 
@@ -266,11 +274,15 @@ msgstr "Unread"
 msgid "Unsubscribe"
 msgstr "Unsubscribe"
 
-#: src/pages/LoginPage.tsx:50
 #: src/pages/LoginPage.tsx:51
+#: src/pages/LoginPage.tsx:52
 msgid "User Name or E-mail"
 msgstr "User Name or E-mail"
 
 #: src/pages/FeedDetailsPage.tsx:104
 msgid "Website"
 msgstr "Website"
+
+#: src/pages/FeedEntriesPage.tsx:61
+msgid "{sourceLabel} has no more entries"
+msgstr "{sourceLabel} has no more entries"
