@@ -1,11 +1,10 @@
 import { Box, MediaQuery } from "@mantine/core"
-import { useAppTheme } from "hooks/useAppTheme"
+import { mobileBreakpoint } from "Layout"
 import React from "react"
 
 export function OnMobile(props: { children: React.ReactNode }) {
-    const theme = useAppTheme()
     return (
-        <MediaQuery largerThan={theme.layout.mobileBreakpoint} styles={{ display: "none" }}>
+        <MediaQuery largerThan={mobileBreakpoint} styles={{ display: "none" }}>
             <Box>{props.children}</Box>
         </MediaQuery>
     )

@@ -63,7 +63,7 @@
                     "useLocation",
                     "useParams",
                     "useStyles",
-                    "useAppTheme",
+                    "useMantineTheme",
                     "useState",
                     "useAppSelector",
                     "useAppDispatch",

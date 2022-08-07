@@ -2,7 +2,7 @@ import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
 import { markEntry, selectEntry } from "app/slices/entries"
 import { useAppDispatch } from "app/store"
 import { Entry } from "app/types"
-import { useAppTheme } from "hooks/useAppTheme"
+import { headerHeight } from "Layout"
 import React, { useEffect, useRef } from "react"
 import { FeedEntryBody } from "./FeedEntryBody"
 import { FeedEntryFooter } from "./FeedEntryFooter"
@@ -30,7 +30,6 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
 
 export function FeedEntry(props: FeedEntryProps) {
     const { classes } = useStyles(props)
-    const theme = useAppTheme()
     const dispatch = useAppDispatch()
 
     const headerClicked = (e: React.MouseEvent) => {
@@ -55,11 +54,11 @@ export function FeedEntry(props: FeedEntryProps) {
 
             window.scrollTo({
                 // having a small gap between the top of the content and the top of the page is sexier
-                top: ref.current.offsetTop - theme.layout.headerHeight - 3,
+                top: ref.current.offsetTop - headerHeight - 3,
                 behavior: "smooth",
             })
         })
-    }, [props.expanded, theme.layout.headerHeight])
+    }, [props.expanded])
 
     return (
         <div ref={ref}>

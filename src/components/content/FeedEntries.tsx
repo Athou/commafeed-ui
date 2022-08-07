@@ -10,15 +10,13 @@ import {
 import { redirectToRootCategory } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { Loader } from "components/Loader"
-import { useAppTheme } from "hooks/useAppTheme"
 import { useMousetrap } from "hooks/useMousetrap"
-import { mainScrollAreaId } from "Layout"
+import { headerHeight, mainScrollAreaId } from "Layout"
 import { useEffect, useRef } from "react"
 import InfiniteScroll from "react-infinite-scroller"
 import { FeedEntry } from "./FeedEntry"
 
 export function FeedEntries() {
-    const theme = useAppTheme()
     const source = useAppSelector(state => state.entries.source)
     const entries = useAppSelector(state => state.entries.entries)
     const entriesTimestamp = useAppSelector(state => state.entries.timestamp)
@@ -65,7 +63,7 @@ export function FeedEntries() {
         // select previous entry only if the top of the entry is visible, otherwise keep scrolling
         if (selectedEntry?.expanded) {
             const ref = refs.current[selectedEntry.id]
-            const topVisible = ref.getBoundingClientRect().top >= theme.layout.headerHeight
+            const topVisible = ref.getBoundingClientRect().top >= headerHeight
             if (!topVisible) return
         }
         dispatch(selectPreviousEntry())
