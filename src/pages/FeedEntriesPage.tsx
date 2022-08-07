@@ -52,7 +52,7 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
                     </Anchor>
                 )}
                 {!sourceWebsiteUrl && <Title order={3}>{sourceLabel}</Title>}
-                {!hideEditButton && (
+                {sourceLabel && !hideEditButton && (
                     <ActionIcon onClick={titleClicked} variant="subtle" color={theme.primaryColor}>
                         <TbEdit size={18} />
                     </ActionIcon>
