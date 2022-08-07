@@ -6,6 +6,7 @@ import {
     Burger,
     Center,
     createStyles,
+    DEFAULT_THEME,
     Header,
     Navbar,
     ScrollArea,
@@ -29,10 +30,11 @@ interface LayoutProps {
     header: ReactNode
 }
 
-// same as theme.breakpoints.md
-export const mobileBreakpoint = 992
+export const mobileBreakpoint = DEFAULT_THEME.breakpoints.md
+
 export const headerHeight = 60
 export const sidebarWidth = 350
+export const sidebarPadding = DEFAULT_THEME.spacing.xs
 
 const useStyles = createStyles(theme => ({
     mainContentWrapper: {
@@ -99,7 +101,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
             navbarOffsetBreakpoint={mobileBreakpoint}
             classNames={{ main: classes.mainContentWrapper }}
             navbar={
-                <Navbar p="xs" hiddenBreakpoint={mobileBreakpoint} hidden={!mobileMenuOpen} width={{ sm: sidebarWidth }}>
+                <Navbar p={sidebarPadding} hiddenBreakpoint={mobileBreakpoint} hidden={!mobileMenuOpen} width={{ sm: sidebarWidth }}>
                     <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
                         {sidebar}
                     </Navbar.Section>
