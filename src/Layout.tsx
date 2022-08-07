@@ -29,6 +29,7 @@ interface LayoutProps {
     header: ReactNode
 }
 
+// same as theme.breakpoints.md
 export const mobileBreakpoint = 992
 export const headerHeight = 60
 export const sidebarWidth = 350
