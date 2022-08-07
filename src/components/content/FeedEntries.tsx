@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { Loader } from "components/Loader"
 import { useAppTheme } from "hooks/useAppTheme"
 import { useMousetrap } from "hooks/useMousetrap"
+import { mainScrollAreaId } from "Layout"
 import { useEffect, useRef } from "react"
 import InfiniteScroll from "react-infinite-scroller"
 import { FeedEntry } from "./FeedEntry"
@@ -116,7 +117,14 @@ export function FeedEntries() {
 
     if (!entries) return <Loader />
     return (
-        <InfiniteScroll initialLoad={false} loadMore={() => dispatch(loadMoreEntries())} hasMore={hasMore} loader={<Loader key={0} />}>
+        <InfiniteScroll
+            initialLoad={false}
+            loadMore={() => dispatch(loadMoreEntries())}
+            hasMore={hasMore}
+            loader={<Loader key={0} />}
+            useWindow={false}
+            getScrollParent={() => document.getElementById(mainScrollAreaId)}
+        >
             {entries.map(e => (
                 <div
                     key={e.id}

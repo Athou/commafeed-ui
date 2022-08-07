@@ -1,4 +1,5 @@
-import { ActionIcon, Anchor, AppShell, Box, Burger, Center, Header, Navbar, ScrollArea, Title } from "@mantine/core"
+import { ActionIcon, Anchor, AppShell, Box, Burger, Center, createStyles, Header, Navbar, ScrollArea, Title } from "@mantine/core"
+import { useViewportSize } from "@mantine/hooks"
 import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
 import { reloadTree, setMobileMenuOpen } from "app/slices/tree"
 import { reloadProfile, reloadSettings } from "app/slices/user"
@@ -16,6 +17,25 @@ interface LayoutProps {
     header: ReactNode
 }
 
+const useStyles = createStyles(theme => ({
+    // TODO use theme
+    mainContentWrapper: {
+        paddingTop: 60,
+        paddingLeft: 350,
+        paddingRight: 0,
+        paddingBottom: 0,
+        [`@media (max-width: ${theme.breakpoints.md}px)`]: {
+            paddingLeft: 0,
+        },
+    },
+    mainContent: {
+        maxWidth: "calc(100vw - 350px)",
+        [`@media (max-width: ${theme.breakpoints.md}px)`]: {
+            maxWidth: "100vw",
+        },
+    },
+}))
+
 function LogoAndTitle() {
     const dispatch = useAppDispatch()
     return (
@@ -30,8 +50,11 @@ function LogoAndTitle() {
     )
 }
 
+export const mainScrollAreaId = "main-scroll-area-id"
 export default function Layout({ sidebar, header }: LayoutProps) {
+    const { classes } = useStyles()
     const theme = useAppTheme()
+    const viewport = useViewportSize()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const dispatch = useAppDispatch()
 
@@ -53,10 +76,12 @@ export default function Layout({ sidebar, header }: LayoutProps) {
             size="sm"
         />
     )
+
     return (
         <AppShell
             fixed
             navbarOffsetBreakpoint={theme.layout.mobileBreakpoint}
+            classNames={{ main: classes.mainContentWrapper }}
             navbar={
                 <Navbar
                     p="xs"
@@ -113,7 +138,16 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                 </Header>
             }
         >
-            <Outlet />
+            <ScrollArea.Autosize
+                maxHeight={viewport.height - theme.layout.headerHeight}
+                viewportRef={ref => {
+                    if (ref) ref.id = mainScrollAreaId
+                }}
+            >
+                <Box p="md" className={classes.mainContent}>
+                    <Outlet />
+                </Box>
+            </ScrollArea.Autosize>
         </AppShell>
     )
 }
