@@ -58,6 +58,7 @@ export function RegistrationPage() {
                             <Stack>
                                 <TextInput label="User Name" placeholder="User Name" {...form.getInputProps("name")} size="md" required />
                                 <TextInput
+                                    type="email"
                                     label={t`E-mail address`}
                                     placeholder={t`E-mail address`}
                                     {...form.getInputProps("email")}
