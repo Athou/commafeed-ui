@@ -10,7 +10,7 @@ import { TbArrowDown, TbArrowUp, TbChecks, TbEye, TbEyeOff, TbRefresh, TbUser } 
 import { ProfileMenu } from "./ProfileMenu"
 
 function HeaderDivider() {
-    return <Divider sx={{ height: "28px" }} orientation="vertical" />
+    return <Divider orientation="vertical" />
 }
 
 const iconSize = 18

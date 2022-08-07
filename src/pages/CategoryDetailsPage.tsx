@@ -101,7 +101,7 @@ export function CategoryDetailsPage() {
                         <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={modifyResult.status === "running"}>
                             <Trans>Save</Trans>
                         </Button>
-                        <Divider sx={{ height: "32px" }} orientation="vertical" />
+                        <Divider orientation="vertical" />
                         <Button
                             color="red"
                             leftIcon={<TbTrash size={16} />}
