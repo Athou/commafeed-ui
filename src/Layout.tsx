@@ -35,8 +35,15 @@ export const mobileBreakpoint = DEFAULT_THEME.breakpoints.md
 export const headerHeight = 60
 export const sidebarWidth = 350
 export const sidebarPadding = DEFAULT_THEME.spacing.xs
+export const sidebarRightBorderWidth = 1
 
 const useStyles = createStyles(theme => ({
+    sidebarContent: {
+        maxWidth: sidebarWidth - sidebarPadding * 2 - sidebarRightBorderWidth,
+        [theme.fn.smallerThan(mobileBreakpoint)]: {
+            maxWidth: `calc(100vw - ${sidebarPadding * 2 + sidebarRightBorderWidth}px)`,
+        },
+    },
     mainContentWrapper: {
         paddingTop: headerHeight,
         paddingLeft: sidebarWidth,
@@ -101,9 +108,9 @@ export default function Layout({ sidebar, header }: LayoutProps) {
             navbarOffsetBreakpoint={mobileBreakpoint}
             classNames={{ main: classes.mainContentWrapper }}
             navbar={
-                <Navbar p={sidebarPadding} hiddenBreakpoint={mobileBreakpoint} hidden={!mobileMenuOpen} width={{ sm: sidebarWidth }}>
+                <Navbar p={sidebarPadding} hiddenBreakpoint={mobileBreakpoint} hidden={!mobileMenuOpen} width={{ md: sidebarWidth }}>
                     <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
-                        {sidebar}
+                        <Box className={classes.sidebarContent}>{sidebar}</Box>
                     </Navbar.Section>
                 </Navbar>
             }

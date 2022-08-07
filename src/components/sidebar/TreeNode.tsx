@@ -37,6 +37,8 @@ const useStyles = createStyles((theme, props: TreeNodeProps) => {
         },
         nodeText: {
             flexGrow: 1,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
             textOverflow: "ellipsis",
         },
     }
@@ -50,7 +52,11 @@ export function TreeNode(props: TreeNodeProps) {
                 {typeof props.icon === "string" ? <Image src={props.icon} alt="" width={18} height={18} /> : props.icon}
             </Box>
             <Box className={classes.nodeText}>{props.name}</Box>
-            {!props.expanded && <UnreadCount unreadCount={props.unread} />}
+            {!props.expanded && (
+                <Box>
+                    <UnreadCount unreadCount={props.unread} />
+                </Box>
+            )}
         </Box>
     )
 }
