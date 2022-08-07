@@ -26,11 +26,6 @@ export function FeedEntries() {
 
     const selectedEntry = entries.find(e => e.id === selectedEntryId)
 
-    useEffect(() => {
-        // scroll back to top when source changed
-        window.scrollTo(0, 0)
-    }, [source])
-
     // references to entries html elements
     const refs = useRef<{ [id: string]: HTMLDivElement }>({})
     useEffect(() => {

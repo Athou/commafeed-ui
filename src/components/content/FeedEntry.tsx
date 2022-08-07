@@ -2,7 +2,7 @@ import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
 import { markEntry, selectEntry } from "app/slices/entries"
 import { useAppDispatch } from "app/store"
 import { Entry } from "app/types"
-import { headerHeight } from "Layout"
+import { mainScrollAreaId } from "Layout"
 import React, { useEffect, useRef } from "react"
 import { FeedEntryBody } from "./FeedEntryBody"
 import { FeedEntryFooter } from "./FeedEntryFooter"
@@ -52,9 +52,9 @@ export function FeedEntry(props: FeedEntryProps) {
             if (!ref.current) return
             if (!props.expanded) return
 
-            window.scrollTo({
+            document.getElementById(mainScrollAreaId)?.scrollTo({
                 // having a small gap between the top of the content and the top of the page is sexier
-                top: ref.current.offsetTop - headerHeight - 3,
+                top: ref.current.offsetTop - 3,
                 behavior: "smooth",
             })
         })
