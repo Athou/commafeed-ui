@@ -29,6 +29,7 @@ export const redirectToFeedDetails = createAsyncThunk("redirect/feed/details", (
     thunkApi.dispatch(redirectTo(`/app/feed/${id}/details`))
 )
 export const redirectToAdd = createAsyncThunk("redirect/add", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/add")))
+export const redirectToSettings = createAsyncThunk("redirect/settings", (_, thunkApi) => thunkApi.dispatch(redirectTo("/app/settings")))
 
 export const redirectSlice = createSlice({
     name: "redirect",

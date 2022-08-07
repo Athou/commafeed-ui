@@ -103,6 +103,10 @@ msgstr "Delete Category"
 msgid "Desc"
 msgstr "Desc"
 
+#: src/pages/SettingsPage.tsx
+msgid "Display"
+msgstr "Display"
+
 #: src/pages/RegistrationPage.tsx
 #: src/pages/RegistrationPage.tsx
 msgid "E-mail address"
@@ -240,6 +244,10 @@ msgstr "Password"
 #: src/pages/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Position"
+
+#: src/pages/SettingsPage.tsx
+msgid "Profile"
+msgstr "Profile"
 
 #: src/components/header/Header.tsx
 msgid "Refresh"

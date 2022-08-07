@@ -103,6 +103,10 @@ msgstr ""
 msgid "Desc"
 msgstr ""
 
+#: src/pages/SettingsPage.tsx
+msgid "Display"
+msgstr ""
+
 #: src/pages/RegistrationPage.tsx
 #: src/pages/RegistrationPage.tsx
 msgid "E-mail address"
@@ -239,6 +243,10 @@ msgstr ""
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Position"
+msgstr ""
+
+#: src/pages/SettingsPage.tsx
+msgid "Profile"
 msgstr ""
 
 #: src/components/header/Header.tsx

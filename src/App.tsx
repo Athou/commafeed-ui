@@ -17,6 +17,7 @@ import { FeedDetailsPage } from "pages/FeedDetailsPage"
 import { FeedEntriesPage } from "pages/FeedEntriesPage"
 import { LoginPage } from "pages/LoginPage"
 import { RegistrationPage } from "pages/RegistrationPage"
+import { SettingsPage } from "pages/SettingsPage"
 import React, { useEffect } from "react"
 import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
@@ -69,6 +70,7 @@ function AppRoutes() {
                     <Route path=":id/details" element={<FeedDetailsPage />} />
                 </Route>
                 <Route path="add" element={<AddPage />} />
+                <Route path="settings" element={<SettingsPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
