@@ -30,7 +30,7 @@ export function LoginPage() {
 
     return (
         <Container size="xs">
-            <Center mt="xl">
+            <Center my="xl">
                 <Logo size={48} />
                 <Title order={1} ml="md">
                     CommaFeed
@@ -61,6 +61,13 @@ export function LoginPage() {
                             size="md"
                             required
                         />
+
+                        {serverInfos?.smtpEnabled && (
+                            <Anchor component={Link} to="/passwordRecovery" color="dimmed">
+                                <Trans>Forgot password?</Trans>
+                            </Anchor>
+                        )}
+
                         <Button type="submit" loading={loginResult.status === "running"}>
                             <Trans>Log in</Trans>
                         </Button>

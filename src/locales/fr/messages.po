@@ -38,6 +38,10 @@ msgstr ""
 msgid "All"
 msgstr ""
 
+#: src/pages/PasswordRecoveryPage.tsx
+msgid "An email has been sent if this address was registered. Check your inbox."
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr ""
@@ -64,6 +68,10 @@ msgstr ""
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
+msgstr ""
+
+#: src/pages/PasswordRecoveryPage.tsx
+msgid "Back to log in"
 msgstr ""
 
 #: src/components/content/add/AddCategory.tsx
@@ -107,13 +115,18 @@ msgstr ""
 msgid "Display"
 msgstr ""
 
+#: src/pages/PasswordRecoveryPage.tsx
+#: src/pages/PasswordRecoveryPage.tsx
+msgid "E-mail"
+msgstr ""
+
 #: src/pages/RegistrationPage.tsx
 #: src/pages/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr ""
 
 #: src/components/Alert.tsx
-msgid "Error!"
+msgid "Error"
 msgstr ""
 
 #: src/pages/FeedDetailsPage.tsx
@@ -132,6 +145,10 @@ msgstr ""
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Filtering expression"
+msgstr ""
+
+#: src/pages/LoginPage.tsx
+msgid "Forgot password?"
 msgstr ""
 
 #: src/pages/CategoryDetailsPage.tsx
@@ -240,6 +257,10 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
+#: src/pages/PasswordRecoveryPage.tsx
+msgid "Password Recovery"
+msgstr ""
+
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Position"
@@ -247,6 +268,10 @@ msgstr ""
 
 #: src/pages/SettingsPage.tsx
 msgid "Profile"
+msgstr ""
+
+#: src/pages/PasswordRecoveryPage.tsx
+msgid "Recover password"
 msgstr ""
 
 #: src/components/header/Header.tsx
@@ -286,6 +311,10 @@ msgstr ""
 msgid "Subscribe to the feed"
 msgstr ""
 
+#: src/components/Alert.tsx
+msgid "Success"
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr ""
@@ -302,6 +331,10 @@ msgstr ""
 #: src/pages/LoginPage.tsx
 #: src/pages/LoginPage.tsx
 msgid "User Name or E-mail"
+msgstr ""
+
+#: src/components/Alert.tsx
+msgid "Warning"
 msgstr ""
 
 #: src/pages/FeedDetailsPage.tsx

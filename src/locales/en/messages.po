@@ -38,6 +38,10 @@ msgstr "Add category"
 msgid "All"
 msgstr "All"
 
+#: src/pages/PasswordRecoveryPage.tsx
+msgid "An email has been sent if this address was registered. Check your inbox."
+msgstr "An email has been sent if this address was registered. Check your inbox."
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "Analyze feed"
@@ -65,6 +69,10 @@ msgstr "Available variables are 'title', 'content', 'url' 'author' and 'categori
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
 msgstr "Back"
+
+#: src/pages/PasswordRecoveryPage.tsx
+msgid "Back to log in"
+msgstr "Back to log in"
 
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
@@ -107,14 +115,19 @@ msgstr "Desc"
 msgid "Display"
 msgstr "Display"
 
+#: src/pages/PasswordRecoveryPage.tsx
+#: src/pages/PasswordRecoveryPage.tsx
+msgid "E-mail"
+msgstr "E-mail"
+
 #: src/pages/RegistrationPage.tsx
 #: src/pages/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "E-mail address"
 
 #: src/components/Alert.tsx
-msgid "Error!"
-msgstr "Error!"
+msgid "Error"
+msgstr "Error"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Example: {example}."
@@ -133,6 +146,10 @@ msgstr "Feed name"
 #: src/pages/FeedDetailsPage.tsx
 msgid "Filtering expression"
 msgstr "Filtering expression"
+
+#: src/pages/LoginPage.tsx
+msgid "Forgot password?"
+msgstr "Forgot password?"
 
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
@@ -240,6 +257,10 @@ msgstr "Parent Category"
 msgid "Password"
 msgstr "Password"
 
+#: src/pages/PasswordRecoveryPage.tsx
+msgid "Password Recovery"
+msgstr "Password Recovery"
+
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Position"
@@ -248,6 +269,10 @@ msgstr "Position"
 #: src/pages/SettingsPage.tsx
 msgid "Profile"
 msgstr "Profile"
+
+#: src/pages/PasswordRecoveryPage.tsx
+msgid "Recover password"
+msgstr "Recover password"
 
 #: src/components/header/Header.tsx
 msgid "Refresh"
@@ -286,6 +311,10 @@ msgstr "Subscribe"
 msgid "Subscribe to the feed"
 msgstr "Subscribe to the feed"
 
+#: src/components/Alert.tsx
+msgid "Success"
+msgstr "Success"
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr "Theme"
@@ -303,6 +332,10 @@ msgstr "Unsubscribe"
 #: src/pages/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "User Name or E-mail"
+
+#: src/components/Alert.tsx
+msgid "Warning"
+msgstr "Warning"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Website"

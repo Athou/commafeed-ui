@@ -16,6 +16,7 @@ import { CategoryDetailsPage } from "pages/CategoryDetailsPage"
 import { FeedDetailsPage } from "pages/FeedDetailsPage"
 import { FeedEntriesPage } from "pages/FeedEntriesPage"
 import { LoginPage } from "pages/LoginPage"
+import { PasswordRecoveryPage } from "pages/PasswordRecoveryPage"
 import { RegistrationPage } from "pages/RegistrationPage"
 import { SettingsPage } from "pages/SettingsPage"
 import React, { useEffect } from "react"
@@ -60,6 +61,7 @@ function AppRoutes() {
             <Route path="/" element={<Navigate to="/app/category/all" replace />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegistrationPage />} />
+            <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />
             <Route path="app" element={<Layout header={<Header />} sidebar={<Tree />} />}>
                 <Route path="category">
                     <Route path=":id" element={<FeedEntriesPage sourceType="category" />} />

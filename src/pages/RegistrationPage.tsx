@@ -31,7 +31,7 @@ export function RegistrationPage() {
 
     return (
         <Container size="xs">
-            <Center mt="xl">
+            <Center my="xl">
                 <Logo size={48} />
                 <Title order={1} ml="md">
                     CommaFeed

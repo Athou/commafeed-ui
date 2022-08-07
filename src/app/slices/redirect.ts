@@ -9,6 +9,9 @@ const initialState: RedirectState = {}
 
 export const redirectToLogin = createAsyncThunk("redirect/login", (_, thunkApi) => thunkApi.dispatch(redirectTo("/login")))
 export const redirectToRegistration = createAsyncThunk("redirect/register", (_, thunkApi) => thunkApi.dispatch(redirectTo("/register")))
+export const redirectToPasswordRecovery = createAsyncThunk("redirect/passwordRecovery", (_, thunkApi) =>
+    thunkApi.dispatch(redirectTo("/passwordRecovery"))
+)
 export const redirectToSelectedSource = createAsyncThunk<void, void, { state: RootState }>("redirect/selectedSource", (_, thunkApi) => {
     const { source } = thunkApi.getState().entries
     thunkApi.dispatch(redirectTo(`/app/${source.type}/${source.id}`))

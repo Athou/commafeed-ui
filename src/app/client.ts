@@ -12,6 +12,7 @@ import {
     IDRequest,
     LoginRequest,
     MarkRequest,
+    PasswordResetRequest,
     RegistrationRequest,
     ServerInfo,
     Settings,
@@ -65,6 +66,7 @@ export const client = {
     user: {
         login: (req: LoginRequest) => axiosInstance.post("user/login", req),
         register: (req: RegistrationRequest) => axiosInstance.post("user/register", req),
+        passwordReset: (req: PasswordResetRequest) => axiosInstance.post("user/passwordReset", req),
         getSettings: () => axiosInstance.get<Settings>("user/settings"),
         saveSettings: (settings: Settings) => axiosInstance.post("user/settings", settings),
         getProfile: () => axiosInstance.get<UserModel>("user/profile"),
