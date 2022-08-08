@@ -6,6 +6,8 @@ export interface ContentProps {
 
 const useStyles = createStyles(theme => ({
     content: {
+        // break long links or long words
+        overflowWrap: "anywhere",
         "& a": {
             color: theme.primaryColor,
         },
