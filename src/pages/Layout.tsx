@@ -22,9 +22,11 @@ import { useAppDispatch, useAppSelector } from "app/store"
 import { Logo } from "components/Logo"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { OnMobile } from "components/responsive/OnMobile"
+import { useAppLoading } from "hooks/useAppLoading"
 import { ReactNode, useEffect } from "react"
 import { TbPlus } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
+import { LoadingPage } from "./LoadingPage"
 
 interface LayoutProps {
     sidebar: ReactNode
@@ -76,6 +78,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
     const { classes } = useStyles()
     const theme = useMantineTheme()
     const viewport = useViewportSize()
+    const { loading } = useAppLoading()
     const mobileMenuOpen = useAppSelector(state => state.tree.mobileMenuOpen)
     const dispatch = useAppDispatch()
 
@@ -98,6 +101,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
         />
     )
 
+    if (loading) return <LoadingPage />
     return (
         <AppShell
             fixed

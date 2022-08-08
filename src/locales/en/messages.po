@@ -186,6 +186,10 @@ msgstr "Last refresh message"
 msgid "Link"
 msgstr "Link"
 
+#: src/pages/LoadingPage.tsx
+msgid "Loading {loadingStepName}..."
+msgstr "Loading {loadingStepName}..."
+
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "Log in"
@@ -266,6 +270,7 @@ msgstr "Password Recovery"
 msgid "Position"
 msgstr "Position"
 
+#: src/hooks/useAppLoading.ts
 #: src/pages/SettingsPage.tsx
 msgid "Profile"
 msgstr "Profile"
@@ -293,6 +298,7 @@ msgid "Search"
 msgstr "Search"
 
 #: src/components/header/ProfileMenu.tsx
+#: src/hooks/useAppLoading.ts
 msgid "Settings"
 msgstr "Settings"
 
@@ -310,6 +316,10 @@ msgstr "Subscribe"
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "Subscribe to the feed"
+
+#: src/hooks/useAppLoading.ts
+msgid "Subscriptions"
+msgstr "Subscriptions"
 
 #: src/components/Alert.tsx
 msgid "Success"
