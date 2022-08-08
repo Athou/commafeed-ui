@@ -16,6 +16,9 @@ const useStyles = createStyles(theme => ({
         "& iframe": {
             maxWidth: "100%",
         },
+        "& pre, & code": {
+            whiteSpace: "pre-wrap",
+        },
     },
 }))
 
