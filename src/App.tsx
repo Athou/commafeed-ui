@@ -4,6 +4,7 @@ import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core
 import { useLocalStorage } from "@mantine/hooks"
 import { ModalsProvider } from "@mantine/modals"
 import { NotificationsProvider } from "@mantine/notifications"
+import { Constants } from "app/constants"
 import { redirectTo } from "app/slices/redirect"
 import { reloadServerInfos } from "app/slices/server"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -12,17 +13,17 @@ import { Header } from "components/header/Header"
 import { Tree } from "components/sidebar/Tree"
 import { useI18n } from "i18n"
 import { AddPage } from "pages/AddPage"
+import { LoginPage } from "pages/auth/LoginPage"
+import { PasswordRecoveryPage } from "pages/auth/PasswordRecoveryPage"
+import { RegistrationPage } from "pages/auth/RegistrationPage"
 import { CategoryDetailsPage } from "pages/CategoryDetailsPage"
 import { FeedDetailsPage } from "pages/FeedDetailsPage"
 import { FeedEntriesPage } from "pages/FeedEntriesPage"
-import { LoginPage } from "pages/LoginPage"
-import { PasswordRecoveryPage } from "pages/PasswordRecoveryPage"
-import { RegistrationPage } from "pages/RegistrationPage"
+import Layout from "pages/Layout"
 import { SettingsPage } from "pages/SettingsPage"
 import React, { useEffect } from "react"
 import { HashRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import Tinycon from "tinycon"
-import Layout from "./Layout"
 
 function Providers(props: { children: React.ReactNode }) {
     const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -58,7 +59,7 @@ function Providers(props: { children: React.ReactNode }) {
 function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="/app/category/all" replace />} />
+            <Route path="/" element={<Navigate to={`/app/category/${Constants.categoryIds.all}`} replace />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegistrationPage />} />
             <Route path="passwordRecovery" element={<PasswordRecoveryPage />} />

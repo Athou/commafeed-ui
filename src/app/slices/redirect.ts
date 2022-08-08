@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { Constants } from "app/constants"
 import { RootState } from "app/store"
 
 interface RedirectState {
@@ -20,7 +21,7 @@ export const redirectToCategory = createAsyncThunk("redirect/category", (id: str
     thunkApi.dispatch(redirectTo(`/app/category/${id}`))
 )
 export const redirectToRootCategory = createAsyncThunk("redirect/category/root", (_, thunkApi) =>
-    thunkApi.dispatch(redirectToCategory("all"))
+    thunkApi.dispatch(redirectToCategory(Constants.categoryIds.all))
 )
 export const redirectToCategoryDetails = createAsyncThunk("redirect/category/details", (id: string, thunkApi) =>
     thunkApi.dispatch(redirectTo(`/app/category/${id}/details`))

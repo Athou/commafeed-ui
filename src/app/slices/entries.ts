@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { client } from "app/client"
+import { Constants } from "app/constants"
 import { RootState } from "app/store"
 import { Entries, Entry, GetEntriesRequest, MarkRequest } from "app/types"
 
@@ -25,7 +26,7 @@ interface EntriesState {
 const initialState: EntriesState = {
     source: {
         type: "category",
-        id: "all",
+        id: Constants.categoryIds.all,
     },
     sourceLabel: "",
     sourceWebsiteUrl: "",

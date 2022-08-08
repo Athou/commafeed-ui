@@ -3,6 +3,7 @@ import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInpu
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
 import { client, errorToStrings } from "app/client"
+import { Constants } from "app/constants"
 import { redirectToRootCategory, redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -18,7 +19,7 @@ import { useAsync } from "react-use"
 import useMutation from "use-mutation"
 
 export function CategoryDetailsPage() {
-    const { id = "all" } = useParams()
+    const { id = Constants.categoryIds.all } = useParams()
 
     const apiKey = useAppSelector(state => state.user.profile?.apiKey)
     const dispatch = useAppDispatch()

@@ -2,6 +2,7 @@ import { t, Trans } from "@lingui/macro"
 import { Box, Button, Group, Paper, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
+import { Constants } from "app/constants"
 import { redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch } from "app/store"
@@ -26,7 +27,7 @@ export function Subscribe() {
         initialValues: {
             url: "",
             title: "",
-            categoryId: "all",
+            categoryId: Constants.categoryIds.all,
         },
     })
 

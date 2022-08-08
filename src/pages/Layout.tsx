@@ -14,6 +14,7 @@ import {
     useMantineTheme,
 } from "@mantine/core"
 import { useViewportSize } from "@mantine/hooks"
+import { Constants } from "app/constants"
 import { redirectToAdd, redirectToRootCategory } from "app/slices/redirect"
 import { reloadTree, setMobileMenuOpen } from "app/slices/tree"
 import { reloadProfile, reloadSettings } from "app/slices/user"
@@ -30,32 +31,28 @@ interface LayoutProps {
     header: ReactNode
 }
 
-export const mobileBreakpoint = DEFAULT_THEME.breakpoints.md
-
-export const headerHeight = 60
-export const sidebarWidth = 350
-export const sidebarPadding = DEFAULT_THEME.spacing.xs
-export const sidebarRightBorderWidth = 1
+const sidebarPadding = DEFAULT_THEME.spacing.xs
+const sidebarRightBorderWidth = 1
 
 const useStyles = createStyles(theme => ({
     sidebarContent: {
-        maxWidth: sidebarWidth - sidebarPadding * 2 - sidebarRightBorderWidth,
-        [theme.fn.smallerThan(mobileBreakpoint)]: {
+        maxWidth: Constants.layout.sidebarWidth - sidebarPadding * 2 - sidebarRightBorderWidth,
+        [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
             maxWidth: `calc(100vw - ${sidebarPadding * 2 + sidebarRightBorderWidth}px)`,
         },
     },
     mainContentWrapper: {
-        paddingTop: headerHeight,
-        paddingLeft: sidebarWidth,
+        paddingTop: Constants.layout.headerHeight,
+        paddingLeft: Constants.layout.sidebarWidth,
         paddingRight: 0,
         paddingBottom: 0,
-        [theme.fn.smallerThan(mobileBreakpoint)]: {
+        [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
             paddingLeft: 0,
         },
     },
     mainContent: {
-        maxWidth: `calc(100vw - ${sidebarWidth}px)`,
-        [theme.fn.smallerThan(mobileBreakpoint)]: {
+        maxWidth: `calc(100vw - ${Constants.layout.sidebarWidth}px)`,
+        [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
             maxWidth: "100vw",
         },
     },
@@ -75,7 +72,6 @@ function LogoAndTitle() {
     )
 }
 
-export const mainScrollAreaId = "main-scroll-area-id"
 export default function Layout({ sidebar, header }: LayoutProps) {
     const { classes } = useStyles()
     const theme = useMantineTheme()
@@ -105,17 +101,22 @@ export default function Layout({ sidebar, header }: LayoutProps) {
     return (
         <AppShell
             fixed
-            navbarOffsetBreakpoint={mobileBreakpoint}
+            navbarOffsetBreakpoint={Constants.layout.mobileBreakpoint}
             classNames={{ main: classes.mainContentWrapper }}
             navbar={
-                <Navbar p={sidebarPadding} hiddenBreakpoint={mobileBreakpoint} hidden={!mobileMenuOpen} width={{ md: sidebarWidth }}>
+                <Navbar
+                    p={sidebarPadding}
+                    hiddenBreakpoint={Constants.layout.mobileBreakpoint}
+                    hidden={!mobileMenuOpen}
+                    width={{ md: Constants.layout.sidebarWidth }}
+                >
                     <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
                         <Box className={classes.sidebarContent}>{sidebar}</Box>
                     </Navbar.Section>
                 </Navbar>
             }
             header={
-                <Header height={headerHeight} p="md">
+                <Header height={Constants.layout.headerHeight} p="md">
                     <OnMobile>
                         {mobileMenuOpen && (
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -140,7 +141,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                     </OnMobile>
                     <OnDesktop>
                         <Box sx={{ display: "flex" }}>
-                            <Box sx={{ display: "flex", alignItems: "center", width: sidebarWidth - 16 }}>
+                            <Box sx={{ display: "flex", alignItems: "center", width: Constants.layout.sidebarWidth - 16 }}>
                                 <Box sx={{ flexGrow: 1 }}>
                                     <LogoAndTitle />
                                 </Box>
@@ -159,9 +160,9 @@ export default function Layout({ sidebar, header }: LayoutProps) {
             }
         >
             <ScrollArea.Autosize
-                maxHeight={viewport.height - headerHeight}
+                maxHeight={viewport.height - Constants.layout.headerHeight}
                 viewportRef={ref => {
-                    if (ref) ref.id = mainScrollAreaId
+                    if (ref) ref.id = Constants.dom.mainScrollAreaId
                 }}
             >
                 <Box p="md" className={classes.mainContent}>

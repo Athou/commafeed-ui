@@ -17,11 +17,11 @@ msgstr ""
 msgid "<0>Complete available syntax is available </0><1>here</1>."
 msgstr ""
 
-#: src/pages/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
 msgstr ""
 
-#: src/pages/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr ""
 
@@ -38,7 +38,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: src/pages/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
 msgstr ""
 
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: src/pages/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Back to log in"
 msgstr ""
 
@@ -115,13 +115,13 @@ msgstr ""
 msgid "Display"
 msgstr ""
 
-#: src/pages/PasswordRecoveryPage.tsx
-#: src/pages/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
 msgstr ""
 
-#: src/pages/RegistrationPage.tsx
-#: src/pages/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr ""
 
@@ -147,7 +147,7 @@ msgstr ""
 msgid "Filtering expression"
 msgstr ""
 
-#: src/pages/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
 msgstr ""
 
@@ -186,8 +186,8 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: src/pages/LoginPage.tsx
-#: src/pages/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 msgid "Log in"
 msgstr ""
 
@@ -250,14 +250,14 @@ msgstr ""
 msgid "Parent Category"
 msgstr ""
 
-#: src/pages/LoginPage.tsx
-#: src/pages/LoginPage.tsx
-#: src/pages/RegistrationPage.tsx
-#: src/pages/RegistrationPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
 msgstr ""
 
-#: src/pages/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
 msgstr ""
 
@@ -270,7 +270,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: src/pages/PasswordRecoveryPage.tsx
+#: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
 msgstr ""
 
@@ -278,7 +278,7 @@ msgstr ""
 msgid "Refresh"
 msgstr ""
 
-#: src/pages/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr ""
 
@@ -296,8 +296,8 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/pages/RegistrationPage.tsx
-#: src/pages/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
+#: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
 msgstr ""
 
@@ -328,8 +328,8 @@ msgstr ""
 msgid "Unsubscribe"
 msgstr ""
 
-#: src/pages/LoginPage.tsx
-#: src/pages/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
+#: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr ""
 

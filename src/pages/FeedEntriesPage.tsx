@@ -1,11 +1,11 @@
 import { t } from "@lingui/macro"
 import { ActionIcon, Anchor, Box, Divider, Group, Title, useMantineTheme } from "@mantine/core"
 import { useViewportSize } from "@mantine/hooks"
+import { Constants } from "app/constants"
 import { EntrySourceType, loadEntries } from "app/slices/entries"
 import { redirectToCategoryDetails, redirectToFeedDetails } from "app/slices/redirect"
 import { useAppDispatch, useAppSelector } from "app/store"
 import { FeedEntries } from "components/content/FeedEntries"
-import { headerHeight } from "Layout"
 import { useEffect } from "react"
 import { TbEdit } from "react-icons/tb"
 import { useLocation, useParams } from "react-router-dom"
@@ -16,7 +16,7 @@ interface FeedEntriesPageProps {
 
 export function FeedEntriesPage(props: FeedEntriesPageProps) {
     const location = useLocation()
-    const { id = "all" } = useParams()
+    const { id = Constants.categoryIds.all } = useParams()
     const viewport = useViewportSize()
     const theme = useMantineTheme()
     const sourceLabel = useAppSelector(state => state.entries.sourceLabel)
@@ -41,10 +41,10 @@ export function FeedEntriesPage(props: FeedEntriesPageProps) {
         )
     }, [dispatch, props.sourceType, id, readType, order, location.state])
 
-    const hideEditButton = props.sourceType === "category" && id === "all"
+    const hideEditButton = props.sourceType === "category" && id === Constants.categoryIds.all
     return (
         // add some room at the bottom of the page in order to be able to scroll the current entry at the top of the page when expanding
-        <Box mb={viewport.height - headerHeight - 210}>
+        <Box mb={viewport.height - Constants.layout.headerHeight - 210}>
             <Group spacing="xl">
                 {sourceWebsiteUrl && (
                     <Anchor href={sourceWebsiteUrl} target="_blank" rel="noreferrer" variant="text">

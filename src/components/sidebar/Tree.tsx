@@ -1,5 +1,6 @@
 import { t } from "@lingui/macro"
 import { Box, Stack } from "@mantine/core"
+import { Constants } from "app/constants"
 import { redirectToCategory, redirectToCategoryDetails, redirectToFeed, redirectToFeedDetails } from "app/slices/redirect"
 import { collapseTreeCategory } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -28,7 +29,7 @@ export function Tree() {
     }
     const categoryClicked = (e: React.MouseEvent, id: string) => {
         if (e.detail === 2) {
-            if (id === "all") return
+            if (id === Constants.categoryIds.all) return
             dispatch(redirectToCategoryDetails(id))
         } else {
             dispatch(redirectToCategory(id))
@@ -47,11 +48,11 @@ export function Tree() {
 
     const allCategoryNode = () => (
         <TreeNode
-            id="all"
+            id={Constants.categoryIds.all}
             name={t`All`}
             icon={allIcon}
             unread={categoryUnreadCount(root)}
-            selected={source.type === "category" && source.id === "all"}
+            selected={source.type === "category" && source.id === Constants.categoryIds.all}
             expanded={false}
             level={0}
             hasError={false}
