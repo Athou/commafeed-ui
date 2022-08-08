@@ -42,6 +42,10 @@ msgstr "All"
 msgid "An email has been sent if this address was registered. Check your inbox."
 msgstr "An email has been sent if this address was registered. Check your inbox."
 
+#: src/components/content/add/ImportOpml.tsx
+msgid "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
+msgstr "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr "Analyze feed"
@@ -325,6 +329,10 @@ msgstr "Subscriptions"
 msgid "Success"
 msgstr "Success"
 
+#: src/components/content/add/Subscribe.tsx
+msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
+msgstr "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr "Theme"
@@ -350,3 +358,7 @@ msgstr "Warning"
 #: src/pages/FeedDetailsPage.tsx
 msgid "Website"
 msgstr "Website"
+
+#: src/pages/FeedEntriesPage.tsx
+msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
+msgstr "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"

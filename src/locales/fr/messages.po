@@ -42,6 +42,10 @@ msgstr ""
 msgid "An email has been sent if this address was registered. Check your inbox."
 msgstr ""
 
+#: src/components/content/add/ImportOpml.tsx
+msgid "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
+msgstr ""
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
 msgstr ""
@@ -325,6 +329,10 @@ msgstr ""
 msgid "Success"
 msgstr ""
 
+#: src/components/content/add/Subscribe.tsx
+msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
+msgstr ""
+
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
 msgstr ""
@@ -349,4 +357,8 @@ msgstr ""
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Website"
+msgstr ""
+
+#: src/pages/FeedEntriesPage.tsx
+msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr ""

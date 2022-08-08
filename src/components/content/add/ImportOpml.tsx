@@ -32,6 +32,7 @@ export function ImportOpml() {
                 <FileInput
                     label={t`OPML file`}
                     placeholder={t`OPML file`}
+                    description={t`An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services.`}
                     {...form.getInputProps("file")}
                     required
                     accept="application/xml"

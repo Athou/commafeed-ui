@@ -1,5 +1,5 @@
 import { t, Trans } from "@lingui/macro"
-import { Box, Button, Group, Paper, Stack, Stepper, TextInput } from "@mantine/core"
+import { Box, Button, Group, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { client, errorToStrings } from "app/client"
 import { Constants } from "app/constants"
@@ -59,7 +59,7 @@ export function Subscribe() {
     }
 
     return (
-        <Paper>
+        <>
             <form onSubmit={nextStep}>
                 <Stepper active={activeStep} onStepClick={setActiveStep}>
                     <Stepper.Step
@@ -70,6 +70,7 @@ export function Subscribe() {
                         <TextInput
                             label={t`Feed URL`}
                             placeholder="http://www.mysite.com/rss"
+                            description={t`The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page.`}
                             required
                             autoFocus
                             {...step0Form.getInputProps("url")}
@@ -110,6 +111,6 @@ export function Subscribe() {
                     <Alert messages={errors} />
                 </Box>
             )}
-        </Paper>
+        </>
     )
 }
