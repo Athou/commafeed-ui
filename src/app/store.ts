@@ -7,17 +7,15 @@ import serverReducer from "./slices/server"
 import treeReducer from "./slices/tree"
 import userReducer from "./slices/user"
 
-export const buildStore = () =>
-    configureStore({
-        reducer: {
-            entries: entriesReducer,
-            redirect: redirectReducer,
-            tree: treeReducer,
-            server: serverReducer,
-            user: userReducer,
-        },
-    })
-export const store = buildStore()
+export const reducers = {
+    entries: entriesReducer,
+    redirect: redirectReducer,
+    tree: treeReducer,
+    server: serverReducer,
+    user: userReducer,
+}
+
+export const store = configureStore({ reducer: reducers })
 
 setupListeners(store.dispatch)
 
