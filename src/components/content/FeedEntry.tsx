@@ -23,7 +23,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
             backgroundColor,
         },
         body: {
-            maxWidth: "960px",
+            maxWidth: "650px",
         },
     }
 })
