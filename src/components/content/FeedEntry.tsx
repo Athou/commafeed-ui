@@ -1,7 +1,7 @@
 import { Anchor, Box, createStyles, Divider, Paper } from "@mantine/core"
 import { Constants } from "app/constants"
 import { markEntry, selectEntry } from "app/slices/entries"
-import { useAppDispatch } from "app/store"
+import { useAppDispatch, useAppSelector } from "app/store"
 import { Entry } from "app/types"
 import React, { useEffect, useRef } from "react"
 import { FeedEntryBody } from "./FeedEntryBody"
@@ -36,6 +36,7 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
 
 export function FeedEntry(props: FeedEntryProps) {
     const { classes } = useStyles(props)
+    const scrollSpeed = useAppSelector(state => state.user.settings?.scrollSpeed)
     const dispatch = useAppDispatch()
 
     const headerClicked = (e: React.MouseEvent) => {
@@ -61,10 +62,10 @@ export function FeedEntry(props: FeedEntryProps) {
             document.getElementById(Constants.dom.mainScrollAreaId)?.scrollTo({
                 // having a small gap between the top of the content and the top of the page is sexier
                 top: ref.current.offsetTop - 3,
-                behavior: "smooth",
+                behavior: scrollSpeed && scrollSpeed > 0 ? "smooth" : "auto",
             })
         })
-    }, [props.expanded])
+    }, [props.expanded, scrollSpeed])
 
     return (
         <div ref={ref}>
