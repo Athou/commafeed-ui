@@ -21,6 +21,12 @@ const useStyles = createStyles((theme, props: FeedEntryProps) => {
     return {
         paper: {
             backgroundColor,
+            marginTop: theme.spacing.xs,
+            marginBottom: theme.spacing.xs,
+            [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
+                marginTop: "6px",
+                marginBottom: "6px",
+            },
         },
         body: {
             maxWidth: "650px",
@@ -62,7 +68,7 @@ export function FeedEntry(props: FeedEntryProps) {
 
     return (
         <div ref={ref}>
-            <Paper shadow="xs" my="xs" withBorder className={classes.paper}>
+            <Paper shadow="xs" withBorder className={classes.paper}>
                 <Anchor
                     variant="text"
                     href={props.entry.url}
