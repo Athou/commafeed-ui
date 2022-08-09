@@ -86,7 +86,7 @@ export function FeedEntry(props: FeedEntryProps) {
                         <Box className={classes.body}>
                             <FeedEntryBody entry={props.entry} />
                         </Box>
-                        <Divider variant="dashed" my="md" />
+                        <Divider variant="dashed" my="xs" />
                         <FeedEntryFooter entry={props.entry} />
                     </Box>
                 )}
