@@ -1,4 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { t } from "@lingui/macro"
+import { showNotification } from "@mantine/notifications"
+import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { client } from "app/client"
 import { RootState } from "app/store"
 import { ReadingMode, ReadingOrder, Settings, UserModel } from "app/types"
@@ -28,6 +30,16 @@ export const changeReadingOrder = createAsyncThunk<void, ReadingOrder, { state: 
         client.user.saveSettings({ ...settings, readingOrder })
     }
 )
+export const changeLanguage = createAsyncThunk<void, string, { state: RootState }>("settings/language", (language, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, language })
+})
+export const changeScrollSpeed = createAsyncThunk<void, boolean, { state: RootState }>("settings/scrollSpeed", (speed, thunkApi) => {
+    const { settings } = thunkApi.getState().user
+    if (!settings) return
+    client.user.saveSettings({ ...settings, scrollSpeed: speed ? 400 : 0 })
+})
 
 export const userSlice = createSlice({
     name: "user",
@@ -47,6 +59,20 @@ export const userSlice = createSlice({
         builder.addCase(changeReadingOrder.pending, (state, action) => {
             if (!state.settings) return
             state.settings.readingOrder = action.meta.arg
+        })
+        builder.addCase(changeLanguage.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.language = action.meta.arg
+        })
+        builder.addCase(changeScrollSpeed.pending, (state, action) => {
+            if (!state.settings) return
+            state.settings.scrollSpeed = action.meta.arg ? 400 : 0
+        })
+        builder.addMatcher(isAnyOf(changeLanguage.fulfilled, changeScrollSpeed.fulfilled), () => {
+            showNotification({
+                message: t`Settings saved.`,
+                color: "green",
+            })
         })
     },
 })

@@ -1,26 +1,29 @@
 import { Trans } from "@lingui/macro"
-import { Tabs } from "@mantine/core"
+import { Container, Tabs } from "@mantine/core"
+import { DisplaySettings } from "components/settings/DisplaySettings"
 import { TbPhoto, TbUser } from "react-icons/tb"
 
 export function SettingsPage() {
     return (
-        <Tabs orientation="vertical" defaultValue="profile">
-            <Tabs.List>
-                <Tabs.Tab value="profile" icon={<TbUser />}>
-                    <Trans>Profile</Trans>
-                </Tabs.Tab>
-                <Tabs.Tab value="display" icon={<TbPhoto />}>
-                    <Trans>Display</Trans>
-                </Tabs.Tab>
-            </Tabs.List>
+        <Container size="sm" px={0}>
+            <Tabs defaultValue="display">
+                <Tabs.List>
+                    <Tabs.Tab value="display" icon={<TbPhoto />}>
+                        <Trans>Display</Trans>
+                    </Tabs.Tab>
+                    <Tabs.Tab value="profile" icon={<TbUser />}>
+                        <Trans>Profile</Trans>
+                    </Tabs.Tab>
+                </Tabs.List>
 
-            <Tabs.Panel value="profile" pl="xs">
-                profile placeholder
-            </Tabs.Panel>
+                <Tabs.Panel value="display" pt="xl">
+                    <DisplaySettings />
+                </Tabs.Panel>
 
-            <Tabs.Panel value="display" pl="xs">
-                display config placeholder
-            </Tabs.Panel>
-        </Tabs>
+                <Tabs.Panel value="profile" pt="xl">
+                    profile placeholder
+                </Tabs.Panel>
+            </Tabs>
+        </Container>
     )
 }

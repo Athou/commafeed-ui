@@ -17,7 +17,7 @@ interface Locale {
 
 // add an object to the array to add a new locale
 // don't forget to also add it to the 'locales' array in .linguirc
-const locales: Locale[] = [
+export const locales: Locale[] = [
     {
         key: "en",
         label: "English",

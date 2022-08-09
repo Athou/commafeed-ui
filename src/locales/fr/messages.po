@@ -177,6 +177,10 @@ msgstr ""
 msgid "Keep unread"
 msgstr ""
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Language"
+msgstr ""
+
 #: src/pages/FeedDetailsPage.tsx
 msgid "Last refresh"
 msgstr ""
@@ -296,6 +300,10 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Scroll smoothly when navigating between entries"
+msgstr ""
+
 #: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
@@ -304,6 +312,10 @@ msgstr ""
 #: src/components/header/ProfileMenu.tsx
 #: src/hooks/useAppLoading.ts
 msgid "Settings"
+msgstr ""
+
+#: src/app/slices/user.ts
+msgid "Settings saved."
 msgstr ""
 
 #: src/pages/auth/RegistrationPage.tsx

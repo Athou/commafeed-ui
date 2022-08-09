@@ -177,6 +177,10 @@ msgstr "Import"
 msgid "Keep unread"
 msgstr "Keep unread"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Language"
+msgstr "Language"
+
 #: src/pages/FeedDetailsPage.tsx
 msgid "Last refresh"
 msgstr "Last refresh"
@@ -296,6 +300,10 @@ msgstr "Registrations are closed on this CommaFeed instance"
 msgid "Save"
 msgstr "Save"
 
+#: src/components/settings/DisplaySettings.tsx
+msgid "Scroll smoothly when navigating between entries"
+msgstr "Scroll smoothly when navigating between entries"
+
 #: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
@@ -305,6 +313,10 @@ msgstr "Search"
 #: src/hooks/useAppLoading.ts
 msgid "Settings"
 msgstr "Settings"
+
+#: src/app/slices/user.ts
+msgid "Settings saved."
+msgstr "Settings saved."
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
