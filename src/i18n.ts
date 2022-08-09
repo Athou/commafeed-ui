@@ -15,6 +15,8 @@ interface Locale {
     plurals?: (n: number | string, ord?: boolean) => string
 }
 
+// add an object to the array to add a new locale
+// don't forget to also add it to the 'locales' array in .linguirc
 const locales: Locale[] = [
     {
         key: "en",
