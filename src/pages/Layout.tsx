@@ -54,8 +54,10 @@ const useStyles = createStyles(theme => ({
     },
     mainContent: {
         maxWidth: `calc(100vw - ${Constants.layout.sidebarWidth}px)`,
+        padding: theme.spacing.md,
         [theme.fn.smallerThan(Constants.layout.mobileBreakpoint)]: {
             maxWidth: "100vw",
+            padding: "6px",
         },
     },
 }))
@@ -169,7 +171,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                     if (ref) ref.id = Constants.dom.mainScrollAreaId
                 }}
             >
-                <Box p="md" className={classes.mainContent}>
+                <Box className={classes.mainContent}>
                     <Outlet />
                 </Box>
             </ScrollArea.Autosize>
