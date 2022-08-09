@@ -82,7 +82,7 @@ export function FeedEntry(props: FeedEntryProps) {
                     </Box>
                 </Anchor>
                 {props.expanded && (
-                    <Box p="xs">
+                    <Box px="xs" pb="xs">
                         <Box className={classes.body}>
                             <FeedEntryBody entry={props.entry} />
                         </Box>
