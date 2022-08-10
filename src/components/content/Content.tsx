@@ -9,7 +9,7 @@ const useStyles = createStyles(theme => ({
         // break long links or long words
         overflowWrap: "anywhere",
         "& a": {
-            color: theme.primaryColor,
+            color: theme.fn.variant({ color: theme.primaryColor, variant: "subtle" }).color,
         },
         "& img": {
             maxWidth: "100%",
