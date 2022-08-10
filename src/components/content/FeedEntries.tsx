@@ -46,22 +46,44 @@ export function FeedEntries() {
         dispatch(selectPreviousEntry())
     })
     useMousetrap("space", () => {
-        // select next entry only if the bottom of the entry is visible, otherwise keep scrolling
-        if (selectedEntry?.expanded) {
-            const ref = refs.current[selectedEntry.id]
-            const bottomVisible = ref.getBoundingClientRect().bottom <= window.innerHeight
-            if (!bottomVisible) return
+        if (selectedEntry) {
+            if (selectedEntry.expanded) {
+                const ref = refs.current[selectedEntry.id]
+                const bottomVisible = ref.getBoundingClientRect().bottom <= window.innerHeight
+                if (bottomVisible) {
+                    dispatch(selectNextEntry())
+                } else {
+                    const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
+                    scrollArea?.scrollTo({
+                        top: scrollArea.scrollTop + scrollArea.clientHeight * 0.8,
+                        behavior: "smooth",
+                    })
+                }
+            } else {
+                dispatch(selectEntry(selectedEntry))
+            }
+        } else {
+            dispatch(selectNextEntry())
         }
-        dispatch(selectNextEntry())
     })
     useMousetrap("shift+space", () => {
-        // select previous entry only if the top of the entry is visible, otherwise keep scrolling
-        if (selectedEntry?.expanded) {
-            const ref = refs.current[selectedEntry.id]
-            const topVisible = ref.getBoundingClientRect().top >= Constants.layout.headerHeight
-            if (!topVisible) return
+        if (selectedEntry) {
+            if (selectedEntry.expanded) {
+                const ref = refs.current[selectedEntry.id]
+                const topVisible = ref.getBoundingClientRect().top >= Constants.layout.headerHeight
+                if (topVisible) {
+                    dispatch(selectPreviousEntry())
+                } else {
+                    const scrollArea = document.getElementById(Constants.dom.mainScrollAreaId)
+                    scrollArea?.scrollTo({
+                        top: scrollArea.scrollTop - scrollArea.clientHeight * 0.8,
+                        behavior: "smooth",
+                    })
+                }
+            } else {
+                dispatch(selectPreviousEntry())
+            }
         }
-        dispatch(selectPreviousEntry())
     })
     useMousetrap("o, enter", () => {
         // toggle expanded status
