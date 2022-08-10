@@ -2,7 +2,7 @@ import { t } from "@lingui/macro"
 import { useAppSelector } from "app/store"
 
 interface Step {
-    name: string
+    label: string
     done: boolean
 }
 
@@ -13,22 +13,22 @@ export const useAppLoading = () => {
 
     const steps: Step[] = [
         {
-            name: t`Profile`,
+            label: t`Loading settings...`,
             done: !!settings,
         },
         {
-            name: t`Settings`,
+            label: t`Loading profile...`,
             done: !!profile,
         },
         {
-            name: t`Subscriptions`,
+            label: t`Loading subscriptions...`,
             done: !!rootCategory,
         },
     ]
 
     const loading = steps.some(s => !s.done)
     const loadingPercentage = Math.round((100.0 * steps.filter(s => s.done).length) / steps.length)
-    const loadingStepName = steps.find(s => !s.done)?.name
+    const loadingStepLabel = steps.find(s => !s.done)?.label
 
-    return { steps, loading, loadingPercentage, loadingStepName }
+    return { steps, loading, loadingPercentage, loadingStepLabel }
 }

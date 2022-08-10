@@ -194,9 +194,17 @@ msgstr "Dernier message de mise à jour"
 msgid "Link"
 msgstr "Lien"
 
-#: src/pages/LoadingPage.tsx
-msgid "Loading {loadingStepName}..."
-msgstr "Chargement de {loadingStepName}..."
+#: src/hooks/useAppLoading.ts
+msgid "Loading profile..."
+msgstr "Chargement du profil ..."
+
+#: src/hooks/useAppLoading.ts
+msgid "Loading settings..."
+msgstr "Chargement des paramètres ..."
+
+#: src/hooks/useAppLoading.ts
+msgid "Loading subscriptions..."
+msgstr "Chargement des abonnements ..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
@@ -278,7 +286,6 @@ msgstr "Récupération de mot de passe"
 msgid "Position"
 msgstr "Position"
 
-#: src/hooks/useAppLoading.ts
 #: src/pages/SettingsPage.tsx
 msgid "Profile"
 msgstr "Profil"
@@ -310,7 +317,6 @@ msgid "Search"
 msgstr "Rechercher"
 
 #: src/components/header/ProfileMenu.tsx
-#: src/hooks/useAppLoading.ts
 msgid "Settings"
 msgstr "Réglages"
 
@@ -332,10 +338,6 @@ msgstr "S'abonner"
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
 msgstr "S'abonner au flux"
-
-#: src/hooks/useAppLoading.ts
-msgid "Subscriptions"
-msgstr "Abonnements"
 
 #: src/components/Alert.tsx
 msgid "Success"

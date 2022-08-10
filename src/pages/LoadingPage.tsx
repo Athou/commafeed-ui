@@ -1,11 +1,10 @@
-import { Trans } from "@lingui/macro"
 import { Center, Container, RingProgress, Text, Title, useMantineTheme } from "@mantine/core"
 import { Logo } from "components/Logo"
 import { useAppLoading } from "hooks/useAppLoading"
 
 export function LoadingPage() {
     const theme = useMantineTheme()
-    const { loadingPercentage, loadingStepName } = useAppLoading()
+    const { loadingPercentage, loadingStepLabel } = useAppLoading()
 
     return (
         <Container size="xs">
@@ -27,13 +26,7 @@ export function LoadingPage() {
                 />
             </Center>
 
-            {loadingStepName && (
-                <Center>
-                    <Text>
-                        <Trans>Loading {loadingStepName}...</Trans>
-                    </Text>
-                </Center>
-            )}
+            {loadingStepLabel && <Center>{loadingStepLabel}</Center>}
         </Container>
     )
 }
