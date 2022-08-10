@@ -85,7 +85,7 @@ export function FeedEntries() {
             }
         }
     })
-    useMousetrap("o, enter", () => {
+    useMousetrap(["o", "enter"], () => {
         // toggle expanded status
         if (!selectedEntry) return
         dispatch(selectEntry(selectedEntry))

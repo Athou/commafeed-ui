@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react"
 
 type Callback = (e: ExtendedKeyboardEvent, combo: string) => void
 
-export const useMousetrap = (key: string, callback: Callback) => {
+export const useMousetrap = (key: string | string[], callback: Callback) => {
     // use a ref to avoid unbinding/rebinding every time the callback changes
     const callbackRef = useRef(callback)
     callbackRef.current = callback
