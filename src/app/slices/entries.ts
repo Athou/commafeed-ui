@@ -169,6 +169,7 @@ export const entriesSlice = createSlice({
             state.sourceLabel = ""
             state.sourceWebsiteUrl = ""
             state.hasMore = true
+            state.selectedEntryId = undefined
         })
         builder.addCase(loadEntries.fulfilled, (state, action) => {
             state.entries = action.payload.entries
@@ -189,6 +190,7 @@ export const entriesSlice = createSlice({
             state.sourceLabel = ""
             state.sourceWebsiteUrl = ""
             state.hasMore = true
+            state.selectedEntryId = undefined
         })
         builder.addCase(reloadEntries.fulfilled, (state, action) => {
             state.entries = action.payload.entries
