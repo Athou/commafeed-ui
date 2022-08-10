@@ -165,8 +165,8 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                 </Header>
             }
         >
-            <ScrollArea.Autosize
-                maxHeight={viewport.height - Constants.layout.headerHeight}
+            <ScrollArea
+                sx={{ height: viewport.height - Constants.layout.headerHeight }}
                 viewportRef={ref => {
                     if (ref) ref.id = Constants.dom.mainScrollAreaId
                 }}
@@ -174,7 +174,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                 <Box className={classes.mainContent}>
                     <Outlet />
                 </Box>
-            </ScrollArea.Autosize>
+            </ScrollArea>
         </AppShell>
     )
 }
