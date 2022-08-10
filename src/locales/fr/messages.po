@@ -15,68 +15,68 @@ msgstr ""
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "<0>Complete available syntax is available </0><1>here</1>."
-msgstr ""
+msgstr "<0>La syntaxe complète est disponible </0><1>ici</1>."
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "<0>Have an account?</0><1>Log in!</1>"
-msgstr ""
+msgstr "<0>Déjà un compte ?</0><1>Connectez-vous !</1>"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "<0>Need an account?</0><1>Sign up!</1>"
-msgstr ""
+msgstr "<0>Besoin d'un compte ?</0><1>Enregistrez-vous !</1>"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: src/pages/AddPage.tsx
 msgid "Add category"
-msgstr ""
+msgstr "Ajouter une catégorie"
 
 #: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "All"
-msgstr ""
+msgstr "Tout"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "An email has been sent if this address was registered. Check your inbox."
-msgstr ""
+msgstr "Un e-mail a été envoyé si cette adresse est enregistrée. Vérifiez votre boîte de réception."
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services."
-msgstr ""
+msgstr "Un fichier OPML est un fichier XML contenant des URL de flux et des catégories. Vous pouvez obtenir un fichier OPML en exportant vos données à partir d'autres services de lecture de flux."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Analyze feed"
-msgstr ""
+msgstr "Analyser le flux"
 
 #: src/pages/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
-msgstr ""
+msgstr "Etes-vous sûr de vouloir supprimer la catégorie <0>{categoryName}</0>?"
 
 #: src/components/header/Header.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
-msgstr ""
+msgstr "Etes-vous sûr de vouloir marquer toutes les entrées de <0>{sourceLabel}</0> comme lues?"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
-msgstr ""
+msgstr "Etes-vous sûr de vouloir vous désabonner de <0>{feedName}</0>?"
 
 #: src/components/header/Header.tsx
 msgid "Asc"
-msgstr ""
+msgstr "Ascendant"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
-msgstr ""
+msgstr "Les variables disponibles sont 'title', 'content', 'url' 'author' et 'categories' et leur contenu est converti en minuscules pour faciliter la comparaison de chaînes."
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Back"
-msgstr ""
+msgstr "Retour"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Back to log in"
-msgstr ""
+msgstr "Retour à la connexion"
 
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
@@ -91,121 +91,121 @@ msgstr "Annuler"
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Category"
-msgstr ""
+msgstr "Catégorie"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Check that the feed is working"
-msgstr ""
+msgstr "Vérifie que le flux fonctionne"
 
 #: src/components/header/Header.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmer"
 
 #: src/pages/CategoryDetailsPage.tsx
 msgid "Delete"
-msgstr ""
+msgstr "Effacer"
 
 #: src/pages/CategoryDetailsPage.tsx
 msgid "Delete Category"
-msgstr ""
+msgstr "Effacer la catégorie"
 
 #: src/components/header/Header.tsx
 msgid "Desc"
-msgstr ""
+msgstr "Descendant"
 
 #: src/pages/SettingsPage.tsx
 msgid "Display"
-msgstr ""
+msgstr "Affichage"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
-msgstr ""
+msgstr "E-mail"
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
-msgstr ""
+msgstr "Adresse e-mail"
 
 #: src/components/Alert.tsx
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Example: {example}."
-msgstr ""
+msgstr "Exemple : {example}."
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Feed URL"
-msgstr ""
+msgstr "URL du flux"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Feed name"
-msgstr ""
+msgstr "Nom du flux"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Filtering expression"
-msgstr ""
+msgstr "Expression de filtrage"
 
 #: src/pages/auth/LoginPage.tsx
 msgid "Forgot password?"
-msgstr ""
+msgstr "Mot de passe oublié ?"
 
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Generate an API key in your profile first."
-msgstr ""
+msgstr "Générez d'abord une clé API dans votre profil."
 
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Generated feed url"
-msgstr ""
+msgstr "URL du flux généré"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
-msgstr ""
+msgstr "Si non vide, une expression évaluant à 'vrai' ou 'faux'. Si faux, les nouvelles entrées de ce flux seront marquées comme lues automatiquement."
 
 #: src/components/content/add/ImportOpml.tsx
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Keep unread"
-msgstr ""
+msgstr "Garder non lu"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Last refresh"
-msgstr ""
+msgstr "Dernière mise à jour"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Last refresh message"
-msgstr ""
+msgstr "Dernier message de mise à jour"
 
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Link"
-msgstr ""
+msgstr "Lien"
 
 #: src/pages/LoadingPage.tsx
 msgid "Loading {loadingStepName}..."
-msgstr ""
+msgstr "Chargement de {loadingStepName}..."
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "Log in"
-msgstr ""
+msgstr "Connexion"
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Logout"
-msgstr ""
+msgstr "Déconnexion"
 
 #: src/components/header/Header.tsx
 msgid "Mark all as read"
@@ -213,164 +213,164 @@ msgstr "Tout marquer comme lu"
 
 #: src/components/header/Header.tsx
 msgid "Mark all entries as read"
-msgstr ""
+msgstr "Marquer toutes les entrées comme lues"
 
 #: src/components/RelativeDate.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Next refresh"
-msgstr ""
+msgstr "Prochaine mise à jour"
 
 #: src/pages/FeedEntriesPage.tsx
 msgid "No more entries"
-msgstr ""
+msgstr "Plus d'entrées"
 
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Nothing found"
-msgstr ""
+msgstr "Aucun résultat"
 
 #: src/pages/AddPage.tsx
 msgid "OPML"
-msgstr ""
+msgstr "OPML"
 
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/ImportOpml.tsx
 msgid "OPML file"
-msgstr ""
+msgstr "Fichier OPML"
 
 #: src/components/content/FeedEntryFooter.tsx
 msgid "Open link"
-msgstr ""
+msgstr "Ouvrir le lien"
 
 #: src/components/content/add/AddCategory.tsx
 msgid "Parent"
-msgstr ""
+msgstr "Parent"
 
 #: src/pages/CategoryDetailsPage.tsx
 msgid "Parent Category"
-msgstr ""
+msgstr "Catégorie parente"
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Password Recovery"
-msgstr ""
+msgstr "Récupération de mot de passe"
 
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Position"
-msgstr ""
+msgstr "Position"
 
 #: src/hooks/useAppLoading.ts
 #: src/pages/SettingsPage.tsx
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "Recover password"
-msgstr ""
+msgstr "Récupérer le mot de passe"
 
 #: src/components/header/Header.tsx
 msgid "Refresh"
-msgstr ""
+msgstr "Rafraîchir"
 
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Registrations are closed on this CommaFeed instance"
-msgstr ""
+msgstr "Les inscriptions sont fermées sur cette instance de CommaFeed"
 
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Save"
-msgstr ""
+msgstr "Enregistrer"
 
 #: src/components/settings/DisplaySettings.tsx
 msgid "Scroll smoothly when navigating between entries"
-msgstr ""
+msgstr "Défilement animé lors de la navigation entre les entrées"
 
 #: src/components/sidebar/TreeSearch.tsx
 #: src/components/sidebar/TreeSearch.tsx
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
 #: src/components/header/ProfileMenu.tsx
 #: src/hooks/useAppLoading.ts
 msgid "Settings"
-msgstr ""
+msgstr "Réglages"
 
 #: src/app/slices/user.ts
 msgid "Settings saved."
-msgstr ""
+msgstr "Réglages enregistrés."
 
 #: src/pages/auth/RegistrationPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
 msgid "Sign up"
-msgstr ""
+msgstr "Créer un compte"
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
 #: src/pages/AddPage.tsx
 msgid "Subscribe"
-msgstr ""
+msgstr "S'abonner"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "Subscribe to the feed"
-msgstr ""
+msgstr "S'abonner au flux"
 
 #: src/hooks/useAppLoading.ts
 msgid "Subscriptions"
-msgstr ""
+msgstr "Abonnements"
 
 #: src/components/Alert.tsx
 msgid "Success"
-msgstr ""
+msgstr "Succès"
 
 #: src/components/content/add/Subscribe.tsx
 msgid "The URL for the feed you want to subscribe to. You can also use the website's url directly and CommaFeed will try to find the feed in the page."
-msgstr ""
+msgstr "L'URL du flux auquel vous souhaitez vous abonner. Vous pouvez aussi utiliser l'URL du site directement et CommaFeed va essayer de trouver le flux dans la page."
 
 #: src/components/header/ProfileMenu.tsx
 msgid "Theme"
-msgstr ""
+msgstr "Thème"
 
 #: src/components/header/Header.tsx
 msgid "Unread"
-msgstr ""
+msgstr "Non lu"
 
 #: src/pages/FeedDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Se désabonner"
 
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
-msgstr ""
+msgstr "Nom d'utilisateur ou e-mail"
 
 #: src/components/Alert.tsx
 msgid "Warning"
-msgstr ""
+msgstr "Attention"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Website"
-msgstr ""
+msgstr "Site web"
 
 #: src/pages/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
-msgstr ""
+msgstr "Vous n'avez pas encore d'abonnements. Pourquoi ne pas essayer d'en ajouter un en cliquant sur le signe + en haut de la page ?"
