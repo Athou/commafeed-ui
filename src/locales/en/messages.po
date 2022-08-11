@@ -440,3 +440,7 @@ msgstr "Website"
 #: src/pages/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
+
+#: src/components/content/add/ImportOpml.tsx
+msgid "file is required"
+msgstr "file is required"
