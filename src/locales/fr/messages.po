@@ -37,6 +37,11 @@ msgstr "Ajouter"
 msgid "Add category"
 msgstr "Ajouter une catégorie"
 
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Admin"
+msgstr "Administrateur"
+
 #: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "All"
@@ -128,6 +133,10 @@ msgstr "Confirmer le mot de passe"
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Date created"
+msgstr "Date de création"
+
 #: src/pages/CategoryDetailsPage.tsx
 msgid "Delete"
 msgstr "Effacer"
@@ -154,6 +163,7 @@ msgid "Download"
 msgstr "Télécharger"
 
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
@@ -163,6 +173,10 @@ msgstr "E-mail"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "Adresse e-mail"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Enabled"
+msgstr "Actif"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Enter your current password to change profile settings"
@@ -212,6 +226,10 @@ msgstr "Générer une nouvelle clé API"
 msgid "Generated feed url"
 msgstr "URL du flux généré"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Id"
+msgstr "Identifiant"
+
 #: src/pages/FeedDetailsPage.tsx
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
 msgstr "Si non vide, une expression évaluant à 'vrai' ou 'faux'. Si faux, les nouvelles entrées de ce flux seront marquées comme lues automatiquement."
@@ -227,6 +245,10 @@ msgstr "Garder non lu"
 #: src/components/settings/DisplaySettings.tsx
 msgid "Language"
 msgstr "Langue"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Last login date"
+msgstr "Dernière connexion"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Last refresh"
@@ -262,6 +284,11 @@ msgstr "Connexion"
 msgid "Logout"
 msgstr "Déconnexion"
 
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Manage users"
+msgstr "Gestion des utilisateurs"
+
 #: src/components/header/Header.tsx
 msgid "Mark all as read"
 msgstr "Tout marquer comme lu"
@@ -275,6 +302,7 @@ msgstr "Marquer toutes les entrées comme lues"
 msgid "N/A"
 msgstr "N/A"
 
+#: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Name"

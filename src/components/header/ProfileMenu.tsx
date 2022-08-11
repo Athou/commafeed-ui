@@ -1,9 +1,9 @@
 import { Trans } from "@lingui/macro"
 import { Divider, Menu, useMantineColorScheme } from "@mantine/core"
-import { redirectToSettings } from "app/slices/redirect"
-import { useAppDispatch } from "app/store"
+import { redirectToAdminUsers, redirectToSettings } from "app/slices/redirect"
+import { useAppDispatch, useAppSelector } from "app/store"
 import { useState } from "react"
-import { TbMoon, TbPower, TbSettings, TbSun } from "react-icons/tb"
+import { TbMoon, TbPower, TbSettings, TbSun, TbUsers } from "react-icons/tb"
 
 interface ProfileMenuProps {
     control: React.ReactElement
@@ -11,6 +11,7 @@ interface ProfileMenuProps {
 
 export function ProfileMenu(props: ProfileMenuProps) {
     const [opened, setOpened] = useState(false)
+    const admin = useAppSelector(state => state.user.profile?.admin)
     const dispatch = useAppDispatch()
     const { colorScheme, toggleColorScheme } = useMantineColorScheme()
     const dark = colorScheme === "dark"
@@ -36,8 +37,25 @@ export function ProfileMenu(props: ProfileMenuProps) {
                     <Trans>Theme</Trans>
                 </Menu.Item>
 
-                <Divider />
+                {admin && (
+                    <>
+                        <Divider />
+                        <Menu.Label>
+                            <Trans>Admin</Trans>
+                        </Menu.Label>
+                        <Menu.Item
+                            icon={<TbUsers />}
+                            onClick={() => {
+                                dispatch(redirectToAdminUsers())
+                                setOpened(false)
+                            }}
+                        >
+                            <Trans>Manage users</Trans>
+                        </Menu.Item>
+                    </>
+                )}
 
+                <Divider />
                 <Menu.Item icon={<TbPower />} onClick={logout}>
                     <Trans>Logout</Trans>
                 </Menu.Item>

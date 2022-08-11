@@ -77,6 +77,9 @@ export const client = {
     server: {
         getServerInfos: () => axiosInstance.get<ServerInfo>("server/get"),
     },
+    admin: {
+        getAllUsers: () => axiosInstance.get<UserModel[]>("admin/user/getAll"),
+    },
 }
 
 /**

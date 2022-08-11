@@ -13,6 +13,7 @@ import { Header } from "components/header/Header"
 import { Tree } from "components/sidebar/Tree"
 import { useI18n } from "i18n"
 import { AddPage } from "pages/AddPage"
+import { AdminUsersPage } from "pages/admin/AdminUsersPage"
 import { LoginPage } from "pages/auth/LoginPage"
 import { PasswordRecoveryPage } from "pages/auth/PasswordRecoveryPage"
 import { RegistrationPage } from "pages/auth/RegistrationPage"
@@ -74,6 +75,9 @@ function AppRoutes() {
                 </Route>
                 <Route path="add" element={<AddPage />} />
                 <Route path="settings" element={<SettingsPage />} />
+                <Route path="admin">
+                    <Route path="users" element={<AdminUsersPage />} />
+                </Route>
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

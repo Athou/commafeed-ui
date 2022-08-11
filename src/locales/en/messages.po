@@ -37,6 +37,11 @@ msgstr "Add"
 msgid "Add category"
 msgstr "Add category"
 
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Admin"
+msgstr "Admin"
+
 #: src/components/header/Header.tsx
 #: src/components/sidebar/Tree.tsx
 msgid "All"
@@ -128,6 +133,10 @@ msgstr "Confirm password"
 msgid "Current password"
 msgstr "Current password"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Date created"
+msgstr "Date created"
+
 #: src/pages/CategoryDetailsPage.tsx
 msgid "Delete"
 msgstr "Delete"
@@ -154,6 +163,7 @@ msgid "Download"
 msgstr "Download"
 
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
@@ -163,6 +173,10 @@ msgstr "E-mail"
 #: src/pages/auth/RegistrationPage.tsx
 msgid "E-mail address"
 msgstr "E-mail address"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Enabled"
+msgstr "Enabled"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Enter your current password to change profile settings"
@@ -212,6 +226,10 @@ msgstr "Generate new API key"
 msgid "Generated feed url"
 msgstr "Generated feed url"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Id"
+msgstr "Id"
+
 #: src/pages/FeedDetailsPage.tsx
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
 msgstr "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
@@ -227,6 +245,10 @@ msgstr "Keep unread"
 #: src/components/settings/DisplaySettings.tsx
 msgid "Language"
 msgstr "Language"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Last login date"
+msgstr "Last login date"
 
 #: src/pages/FeedDetailsPage.tsx
 msgid "Last refresh"
@@ -262,6 +284,11 @@ msgstr "Log in"
 msgid "Logout"
 msgstr "Logout"
 
+#: src/components/header/ProfileMenu.tsx
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Manage users"
+msgstr "Manage users"
+
 #: src/components/header/Header.tsx
 msgid "Mark all as read"
 msgstr "Mark all as read"
@@ -275,6 +302,7 @@ msgstr "Mark all entries as read"
 msgid "N/A"
 msgstr "N/A"
 
+#: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Name"
