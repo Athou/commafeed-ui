@@ -7,6 +7,7 @@ import {
     Center,
     createStyles,
     DEFAULT_THEME,
+    Group,
     Header,
     Navbar,
     ScrollArea,
@@ -125,7 +126,7 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                 <Header height={Constants.layout.headerHeight} p="md">
                     <OnMobile>
                         {mobileMenuOpen && (
-                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                            <Group position="apart">
                                 <Box>{burger}</Box>
                                 <Box>
                                     <LogoAndTitle />
@@ -135,20 +136,19 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                                         <TbPlus size={18} />
                                     </ActionIcon>
                                 </Box>
-                                {!mobileMenuOpen && <Box>{header}</Box>}
-                            </Box>
+                            </Group>
                         )}
                         {!mobileMenuOpen && (
-                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                            <Group>
                                 <Box mr="sm">{burger}</Box>
                                 <Box sx={{ flexGrow: 1 }}>{header}</Box>
-                            </Box>
+                            </Group>
                         )}
                     </OnMobile>
                     <OnDesktop>
-                        <Box sx={{ display: "flex" }}>
-                            <Box sx={{ display: "flex", alignItems: "center", width: Constants.layout.sidebarWidth - 16 }}>
-                                <Box sx={{ flexGrow: 1 }}>
+                        <Group>
+                            <Group position="apart" sx={{ width: Constants.layout.sidebarWidth - 16 }}>
+                                <Box>
                                     <LogoAndTitle />
                                 </Box>
                                 <Box>
@@ -156,11 +156,9 @@ export default function Layout({ sidebar, header }: LayoutProps) {
                                         <TbPlus size={18} />
                                     </ActionIcon>
                                 </Box>
-                            </Box>
-                            <Box sx={{ flexGrow: 1 }} ml="xl">
-                                {header}
-                            </Box>
-                        </Box>
+                            </Group>
+                            <Box sx={{ flexGrow: 1 }}>{header}</Box>
+                        </Group>
                     </OnDesktop>
                 </Header>
             }
