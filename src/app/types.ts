@@ -259,10 +259,3 @@ export type ReadingMode = "all" | "unread"
 export type ReadingOrder = "asc" | "desc"
 
 export type ViewMode = "title" | "expanded"
-
-export interface FileResponse {
-    data: Blob
-    status: number
-    fileName?: string
-    headers?: { [name: string]: any }
-}
