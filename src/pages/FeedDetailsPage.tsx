@@ -99,6 +99,12 @@ export function FeedDetailsPage() {
     if (!feed) return <Loader />
     return (
         <Container>
+            {errors.length > 0 && (
+                <Box mb="md">
+                    <Alert messages={errors} />
+                </Box>
+            )}
+
             <form onSubmit={form.onSubmit(modify)}>
                 <Stack>
                     <Title order={3}>{feed.name}</Title>
@@ -142,7 +148,7 @@ export function FeedDetailsPage() {
 
                     <TextInput label={t`Name`} {...form.getInputProps("name")} required />
                     <CategorySelect label={t`Category`} {...form.getInputProps("categoryId")} clearable />
-                    <NumberInput label={t`Position`} {...form.getInputProps("position")} required />
+                    <NumberInput label={t`Position`} {...form.getInputProps("position")} required min={0} />
                     <TextInput
                         label={t`Filtering expression`}
                         description={<FilteringExpressionDescription />}
@@ -166,12 +172,6 @@ export function FeedDetailsPage() {
                             <Trans>Unsubscribe</Trans>
                         </Button>
                     </Group>
-
-                    {errors.length > 0 && (
-                        <Box mt="md">
-                            <Alert messages={errors} />
-                        </Box>
-                    )}
                 </Stack>
             </form>
         </Container>

@@ -63,61 +63,63 @@ export function ProfileSettings() {
     }, [setValues, profile])
 
     return (
-        <form onSubmit={form.onSubmit(saveProfile)}>
-            <Stack>
-                <Input.Wrapper label={t`User name`}>
-                    <Box>{profile?.name}</Box>
-                </Input.Wrapper>
-                <PasswordInput
-                    label={t`Current password`}
-                    description={t`Enter your current password to change profile settings`}
-                    required
-                    {...form.getInputProps("currentPassword")}
-                />
-                <TextInput type="email" label={t`E-mail`} {...form.getInputProps("email")} required />
-                <PasswordInput
-                    label={t`New password`}
-                    description={t`Changing password will generate a new API key`}
-                    {...form.getInputProps("newPassword")}
-                />
-                <PasswordInput label={t`Confirm password`} {...form.getInputProps("newPasswordConfirmation")} />
-                <TextInput label={t`API key`} readOnly value={profile?.apiKey} />
-                <Checkbox label={t`Generate new API key`} {...form.getInputProps("newApiKey", { type: "checkbox" })} />
-                <Input.Wrapper
-                    label={t`OPML export`}
-                    description={t`Export your subscriptions and categories as an OPML file that can be imported in other feed reading services`}
-                >
-                    <Box>
-                        <Anchor href="rest/feed/export" download="commafeed_opml.xml">
-                            <Trans>Download</Trans>
-                        </Anchor>
-                    </Box>
-                </Input.Wrapper>
+        <>
+            {errors.length > 0 && (
+                <Box mb="md">
+                    <Alert messages={errors} />
+                </Box>
+            )}
 
-                <Group>
-                    <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
-                        <Trans>Cancel</Trans>
-                    </Button>
-                    <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={saveProfileResult.status === "running"}>
-                        <Trans>Save</Trans>
-                    </Button>
-                    <Divider orientation="vertical" />
-                    <Button
-                        color="red"
-                        leftIcon={<TbTrash size={16} />}
-                        onClick={() => openDeleteProfileModal()}
-                        loading={deleteProfileResult.status === "running"}
+            <form onSubmit={form.onSubmit(saveProfile)}>
+                <Stack>
+                    <Input.Wrapper label={t`User name`}>
+                        <Box>{profile?.name}</Box>
+                    </Input.Wrapper>
+                    <PasswordInput
+                        label={t`Current password`}
+                        description={t`Enter your current password to change profile settings`}
+                        required
+                        {...form.getInputProps("currentPassword")}
+                    />
+                    <TextInput type="email" label={t`E-mail`} {...form.getInputProps("email")} required />
+                    <PasswordInput
+                        label={t`New password`}
+                        description={t`Changing password will generate a new API key`}
+                        {...form.getInputProps("newPassword")}
+                    />
+                    <PasswordInput label={t`Confirm password`} {...form.getInputProps("newPasswordConfirmation")} />
+                    <TextInput label={t`API key`} readOnly value={profile?.apiKey} />
+                    <Checkbox label={t`Generate new API key`} {...form.getInputProps("newApiKey", { type: "checkbox" })} />
+                    <Input.Wrapper
+                        label={t`OPML export`}
+                        description={t`Export your subscriptions and categories as an OPML file that can be imported in other feed reading services`}
                     >
-                        <Trans>Delete account</Trans>
-                    </Button>
-                </Group>
+                        <Box>
+                            <Anchor href="rest/feed/export" download="commafeed_opml.xml">
+                                <Trans>Download</Trans>
+                            </Anchor>
+                        </Box>
+                    </Input.Wrapper>
 
-                {errors.length > 0 && (
-                    <Box mt="md">
-                        <Alert messages={errors} />
-                    </Box>
-                )}
-            </Stack>
-        </form>
+                    <Group>
+                        <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
+                            <Trans>Cancel</Trans>
+                        </Button>
+                        <Button type="submit" leftIcon={<TbDeviceFloppy size={16} />} loading={saveProfileResult.status === "running"}>
+                            <Trans>Save</Trans>
+                        </Button>
+                        <Divider orientation="vertical" />
+                        <Button
+                            color="red"
+                            leftIcon={<TbTrash size={16} />}
+                            onClick={() => openDeleteProfileModal()}
+                            loading={deleteProfileResult.status === "running"}
+                        >
+                            <Trans>Delete account</Trans>
+                        </Button>
+                    </Group>
+                </Stack>
+            </form>
+        </>
     )
 }

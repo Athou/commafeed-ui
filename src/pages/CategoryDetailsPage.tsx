@@ -73,6 +73,12 @@ export function CategoryDetailsPage() {
     if (!category) return <Loader />
     return (
         <Container>
+            {errors.length > 0 && (
+                <Box mb="md">
+                    <Alert messages={errors} />
+                </Box>
+            )}
+
             <form onSubmit={form.onSubmit(modify)}>
                 <Stack>
                     <Title order={3}>{category.name}</Title>
@@ -93,7 +99,7 @@ export function CategoryDetailsPage() {
 
                     <TextInput label={t`Name`} {...form.getInputProps("name")} required />
                     <CategorySelect label={t`Parent Category`} {...form.getInputProps("parentId")} clearable />
-                    <NumberInput label={t`Position`} {...form.getInputProps("position")} required />
+                    <NumberInput label={t`Position`} {...form.getInputProps("position")} required min={0} />
 
                     <Group>
                         <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
@@ -112,12 +118,6 @@ export function CategoryDetailsPage() {
                             <Trans>Delete</Trans>
                         </Button>
                     </Group>
-
-                    {errors.length > 0 && (
-                        <Box mt="md">
-                            <Alert messages={errors} />
-                        </Box>
-                    )}
                 </Stack>
             </form>
         </Container>

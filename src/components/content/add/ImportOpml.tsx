@@ -27,31 +27,33 @@ export function ImportOpml() {
     const errors = errorToStrings(importOpmlResult.error)
 
     return (
-        <form onSubmit={form.onSubmit(v => importOpml(v.file))}>
-            <Stack>
-                <FileInput
-                    label={t`OPML file`}
-                    placeholder={t`OPML file`}
-                    description={t`An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services.`}
-                    {...form.getInputProps("file")}
-                    required
-                    accept="application/xml"
-                />
-                <Group position="center">
-                    <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
-                        <Trans>Cancel</Trans>
-                    </Button>
-                    <Button type="submit" leftIcon={<TbFileImport size={16} />} loading={importOpmlResult.status === "running"}>
-                        <Trans>Import</Trans>
-                    </Button>
-                </Group>
+        <>
+            {errors.length > 0 && (
+                <Box mb="md">
+                    <Alert messages={errors} />
+                </Box>
+            )}
 
-                {errors.length > 0 && (
-                    <Box mt="md">
-                        <Alert messages={errors} />
-                    </Box>
-                )}
-            </Stack>
-        </form>
+            <form onSubmit={form.onSubmit(v => importOpml(v.file))}>
+                <Stack>
+                    <FileInput
+                        label={t`OPML file`}
+                        placeholder={t`OPML file`}
+                        description={t`An opml file is an XML file containing feed URLs and categories. You can get an OPML file by exporting your data from other feed reading services.`}
+                        {...form.getInputProps("file")}
+                        required
+                        accept="application/xml"
+                    />
+                    <Group position="center">
+                        <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
+                            <Trans>Cancel</Trans>
+                        </Button>
+                        <Button type="submit" leftIcon={<TbFileImport size={16} />} loading={importOpmlResult.status === "running"}>
+                            <Trans>Import</Trans>
+                        </Button>
+                    </Group>
+                </Stack>
+            </form>
+        </>
     )
 }

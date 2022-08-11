@@ -60,6 +60,12 @@ export function Subscribe() {
 
     return (
         <>
+            {errors.length > 0 && (
+                <Box mb="md">
+                    <Alert messages={errors} />
+                </Box>
+            )}
+
             <form onSubmit={nextStep}>
                 <Stepper active={activeStep} onStepClick={setActiveStep}>
                     <Stepper.Step
@@ -105,12 +111,6 @@ export function Subscribe() {
                     )}
                 </Group>
             </form>
-
-            {errors.length > 0 && (
-                <Box mt="md">
-                    <Alert messages={errors} />
-                </Box>
-            )}
         </>
     )
 }

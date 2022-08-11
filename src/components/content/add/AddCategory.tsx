@@ -25,25 +25,27 @@ export function AddCategory() {
     const errors = errorToStrings(addCategoryResult.error)
 
     return (
-        <form onSubmit={form.onSubmit(addCategory)}>
-            <Stack>
-                <TextInput label={t`Category`} placeholder={t`Category`} {...form.getInputProps("name")} required />
-                <CategorySelect label={t`Parent`} {...form.getInputProps("parentId")} clearable />
-                <Group position="center">
-                    <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
-                        <Trans>Cancel</Trans>
-                    </Button>
-                    <Button type="submit" leftIcon={<TbFolderPlus size={16} />} loading={addCategoryResult.status === "running"}>
-                        <Trans>Add</Trans>
-                    </Button>
-                </Group>
+        <>
+            {errors.length > 0 && (
+                <Box mb="md">
+                    <Alert messages={errors} />
+                </Box>
+            )}
 
-                {errors.length > 0 && (
-                    <Box mt="md">
-                        <Alert messages={errors} />
-                    </Box>
-                )}
-            </Stack>
-        </form>
+            <form onSubmit={form.onSubmit(addCategory)}>
+                <Stack>
+                    <TextInput label={t`Category`} placeholder={t`Category`} {...form.getInputProps("name")} required />
+                    <CategorySelect label={t`Parent`} {...form.getInputProps("parentId")} clearable />
+                    <Group position="center">
+                        <Button variant="default" onClick={() => dispatch(redirectToSelectedSource())}>
+                            <Trans>Cancel</Trans>
+                        </Button>
+                        <Button type="submit" leftIcon={<TbFolderPlus size={16} />} loading={addCategoryResult.status === "running"}>
+                            <Trans>Add</Trans>
+                        </Button>
+                    </Group>
+                </Stack>
+            </form>
+        </>
     )
 }
