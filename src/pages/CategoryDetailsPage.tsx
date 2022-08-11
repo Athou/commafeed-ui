@@ -54,7 +54,7 @@ export function CategoryDetailsPage() {
                     </Trans>
                 </Text>
             ),
-            labels: { confirm: t`Confirm`, cancel: `Cancel` },
+            labels: { confirm: t`Confirm`, cancel: t`Cancel` },
             confirmProps: { color: "red" },
             onConfirm: () => deleteCategory({ id: +id }),
         })

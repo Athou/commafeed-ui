@@ -1,6 +1,7 @@
 import { Trans } from "@lingui/macro"
 import { Container, Tabs } from "@mantine/core"
 import { DisplaySettings } from "components/settings/DisplaySettings"
+import { ProfileSettings } from "components/settings/ProfileSettings"
 import { TbPhoto, TbUser } from "react-icons/tb"
 
 export function SettingsPage() {
@@ -21,7 +22,7 @@ export function SettingsPage() {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="profile" pt="xl">
-                    profile placeholder
+                    <ProfileSettings />
                 </Tabs.Panel>
             </Tabs>
         </Container>

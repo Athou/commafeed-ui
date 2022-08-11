@@ -141,8 +141,9 @@ export interface PasswordResetRequest {
 }
 
 export interface ProfileModificationRequest {
-    email?: string
-    password?: string
+    currentPassword: string
+    email: string
+    newPassword?: string
     newApiKey?: boolean
 }
 

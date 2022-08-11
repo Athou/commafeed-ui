@@ -25,6 +25,10 @@ msgstr "<0>Have an account?</0><1>Log in!</1>"
 msgid "<0>Need an account?</0><1>Sign up!</1>"
 msgstr "<0>Need an account?</0><1>Sign up!</1>"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "API key"
+msgstr "API key"
+
 #: src/components/content/add/AddCategory.tsx
 msgid "Add"
 msgstr "Add"
@@ -54,6 +58,10 @@ msgstr "Analyze feed"
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
 msgstr "Are you sure you want to delete category <0>{categoryName}</0>?"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "Are you sure you want to delete your account? There's no turning back!"
+msgstr "Are you sure you want to delete your account? There's no turning back!"
+
 #: src/components/header/Header.tsx
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
 msgstr "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
@@ -81,7 +89,11 @@ msgstr "Back to log in"
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/header/Header.tsx
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
 #: src/pages/CategoryDetailsPage.tsx
+#: src/pages/CategoryDetailsPage.tsx
+#: src/pages/FeedDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Cancel"
 msgstr "Cancel"
@@ -93,15 +105,28 @@ msgstr "Cancel"
 msgid "Category"
 msgstr "Category"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "Changing password will generate a new API key"
+msgstr "Changing password will generate a new API key"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Check that the feed is working"
 msgstr "Check that the feed is working"
 
 #: src/components/header/Header.tsx
+#: src/components/settings/ProfileSettings.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Confirm"
 msgstr "Confirm"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Confirm password"
+msgstr "Confirm password"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Current password"
+msgstr "Current password"
 
 #: src/pages/CategoryDetailsPage.tsx
 msgid "Delete"
@@ -111,6 +136,11 @@ msgstr "Delete"
 msgid "Delete Category"
 msgstr "Delete Category"
 
+#: src/components/settings/ProfileSettings.tsx
+#: src/components/settings/ProfileSettings.tsx
+msgid "Delete account"
+msgstr "Delete account"
+
 #: src/components/header/Header.tsx
 msgid "Desc"
 msgstr "Desc"
@@ -119,6 +149,11 @@ msgstr "Desc"
 msgid "Display"
 msgstr "Display"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "Download"
+msgstr "Download"
+
+#: src/components/settings/ProfileSettings.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
 msgid "E-mail"
@@ -129,6 +164,10 @@ msgstr "E-mail"
 msgid "E-mail address"
 msgstr "E-mail address"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "Enter your current password to change profile settings"
+msgstr "Enter your current password to change profile settings"
+
 #: src/components/Alert.tsx
 msgid "Error"
 msgstr "Error"
@@ -136,6 +175,10 @@ msgstr "Error"
 #: src/pages/FeedDetailsPage.tsx
 msgid "Example: {example}."
 msgstr "Example: {example}."
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
+msgstr "Export your subscriptions and categories as an OPML file that can be imported in other feed reading services"
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
@@ -159,6 +202,10 @@ msgstr "Forgot password?"
 #: src/pages/FeedDetailsPage.tsx
 msgid "Generate an API key in your profile first."
 msgstr "Generate an API key in your profile first."
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "Generate new API key"
+msgstr "Generate new API key"
 
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
@@ -233,6 +280,10 @@ msgstr "N/A"
 msgid "Name"
 msgstr "Name"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "New password"
+msgstr "New password"
+
 #: src/components/content/add/Subscribe.tsx
 msgid "Next"
 msgstr "Next"
@@ -252,6 +303,10 @@ msgstr "Nothing found"
 #: src/pages/AddPage.tsx
 msgid "OPML"
 msgstr "OPML"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "OPML export"
+msgstr "OPML export"
 
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/content/add/ImportOpml.tsx
@@ -281,6 +336,10 @@ msgstr "Password"
 msgid "Password Recovery"
 msgstr "Password Recovery"
 
+#: src/components/settings/ProfileSettings.tsx
+msgid "Passwords do not match"
+msgstr "Passwords do not match"
+
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Position"
@@ -302,6 +361,7 @@ msgstr "Refresh"
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Registrations are closed on this CommaFeed instance"
 
+#: src/components/settings/ProfileSettings.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Save"
@@ -364,6 +424,10 @@ msgstr "Unsubscribe"
 #: src/pages/auth/LoginPage.tsx
 msgid "User Name or E-mail"
 msgstr "User Name or E-mail"
+
+#: src/components/settings/ProfileSettings.tsx
+msgid "User name"
+msgstr "User name"
 
 #: src/components/Alert.tsx
 msgid "Warning"
