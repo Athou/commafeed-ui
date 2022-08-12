@@ -29,6 +29,10 @@ msgstr "<0>Need an account?</0><1>Sign up!</1>"
 msgid "API key"
 msgstr "API key"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Actions"
+msgstr "Actions"
+
 #: src/components/content/add/AddCategory.tsx
 msgid "Add"
 msgstr "Add"
@@ -37,6 +41,11 @@ msgstr "Add"
 msgid "Add category"
 msgstr "Add category"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Add user"
+msgstr "Add user"
+
+#: src/components/admin/UserEdit.tsx
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Admin"
@@ -62,6 +71,10 @@ msgstr "Analyze feed"
 #: src/pages/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
 msgstr "Are you sure you want to delete category <0>{categoryName}</0>?"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Are you sure you want to delete user <0>{userName}</0> ?"
+msgstr "Are you sure you want to delete user <0>{userName}</0> ?"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Are you sure you want to delete your account? There's no turning back!"
@@ -91,11 +104,13 @@ msgstr "Back"
 msgid "Back to log in"
 msgstr "Back to log in"
 
+#: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/header/Header.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
@@ -120,6 +135,7 @@ msgstr "Check that the feed is working"
 
 #: src/components/header/Header.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Confirm"
@@ -150,6 +166,10 @@ msgstr "Delete Category"
 msgid "Delete account"
 msgstr "Delete account"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Delete user"
+msgstr "Delete user"
+
 #: src/components/header/Header.tsx
 msgid "Desc"
 msgstr "Desc"
@@ -162,6 +182,7 @@ msgstr "Display"
 msgid "Download"
 msgstr "Download"
 
+#: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
@@ -174,6 +195,11 @@ msgstr "E-mail"
 msgid "E-mail address"
 msgstr "E-mail address"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Edit user"
+msgstr "Edit user"
+
+#: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Enabled"
 msgstr "Enabled"
@@ -302,6 +328,7 @@ msgstr "Mark all entries as read"
 msgid "N/A"
 msgstr "N/A"
 
+#: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
@@ -353,6 +380,7 @@ msgstr "Parent"
 msgid "Parent Category"
 msgstr "Parent Category"
 
+#: src/components/admin/UserEdit.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -389,6 +417,7 @@ msgstr "Refresh"
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Registrations are closed on this CommaFeed instance"
 
+#: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx

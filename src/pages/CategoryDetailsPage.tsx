@@ -13,9 +13,9 @@ import { Alert } from "components/Alert"
 import { CategorySelect } from "components/content/add/CategorySelect"
 import { Loader } from "components/Loader"
 import { useEffect } from "react"
+import { useAsync } from "react-async-hook"
 import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { useParams } from "react-router-dom"
-import { useAsync } from "react-use"
 import useMutation from "use-mutation"
 
 export function CategoryDetailsPage() {
@@ -24,7 +24,7 @@ export function CategoryDetailsPage() {
     const apiKey = useAppSelector(state => state.user.profile?.apiKey)
     const dispatch = useAppDispatch()
     const query = useAsync(() => client.category.getRoot(), [])
-    const category = query.value && flattenCategoryTree(query.value.data).find(c => c.id === id)
+    const category = query.result && flattenCategoryTree(query.result.data).find(c => c.id === id)
 
     const form = useForm<CategoryModificationRequest>()
     const { setValues } = form

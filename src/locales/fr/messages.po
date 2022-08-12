@@ -29,6 +29,10 @@ msgstr "<0>Besoin d'un compte ?</0><1>Enregistrez-vous !</1>"
 msgid "API key"
 msgstr "Clé API"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Actions"
+msgstr "Actions"
+
 #: src/components/content/add/AddCategory.tsx
 msgid "Add"
 msgstr "Ajouter"
@@ -37,6 +41,11 @@ msgstr "Ajouter"
 msgid "Add category"
 msgstr "Ajouter une catégorie"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Add user"
+msgstr "Ajouter un utilisateur"
+
+#: src/components/admin/UserEdit.tsx
 #: src/components/header/ProfileMenu.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Admin"
@@ -62,6 +71,10 @@ msgstr "Analyser le flux"
 #: src/pages/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
 msgstr "Etes-vous sûr de vouloir supprimer la catégorie <0>{categoryName}</0>?"
+
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Are you sure you want to delete user <0>{userName}</0> ?"
+msgstr "Etes-vous sûr de vouloir supprimer l'utilisateur <0>{userName}</0> ?"
 
 #: src/components/settings/ProfileSettings.tsx
 msgid "Are you sure you want to delete your account? There's no turning back!"
@@ -91,11 +104,13 @@ msgstr "Retour"
 msgid "Back to log in"
 msgstr "Retour à la connexion"
 
+#: src/components/admin/UserEdit.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/ImportOpml.tsx
 #: src/components/header/Header.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
@@ -120,6 +135,7 @@ msgstr "Vérifie que le flux fonctionne"
 
 #: src/components/header/Header.tsx
 #: src/components/settings/ProfileSettings.tsx
+#: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
 msgid "Confirm"
@@ -150,6 +166,10 @@ msgstr "Effacer la catégorie"
 msgid "Delete account"
 msgstr "Effacer le compte"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Delete user"
+msgstr "Effacer l'utilisateur"
+
 #: src/components/header/Header.tsx
 msgid "Desc"
 msgstr "Descendant"
@@ -162,6 +182,7 @@ msgstr "Affichage"
 msgid "Download"
 msgstr "Télécharger"
 
+#: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/auth/PasswordRecoveryPage.tsx
@@ -174,6 +195,11 @@ msgstr "E-mail"
 msgid "E-mail address"
 msgstr "Adresse e-mail"
 
+#: src/pages/admin/AdminUsersPage.tsx
+msgid "Edit user"
+msgstr "Modifier un utilisateur"
+
+#: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 msgid "Enabled"
 msgstr "Actif"
@@ -302,6 +328,7 @@ msgstr "Marquer toutes les entrées comme lues"
 msgid "N/A"
 msgstr "N/A"
 
+#: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx
@@ -353,6 +380,7 @@ msgstr "Parent"
 msgid "Parent Category"
 msgstr "Catégorie parente"
 
+#: src/components/admin/UserEdit.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/LoginPage.tsx
 #: src/pages/auth/RegistrationPage.tsx
@@ -389,6 +417,7 @@ msgstr "Rafraîchir"
 msgid "Registrations are closed on this CommaFeed instance"
 msgstr "Les inscriptions sont fermées sur cette instance de CommaFeed"
 
+#: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/CategoryDetailsPage.tsx
 #: src/pages/FeedDetailsPage.tsx

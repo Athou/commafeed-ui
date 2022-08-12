@@ -12,9 +12,9 @@ import { CategorySelect } from "components/content/add/CategorySelect"
 import { Loader } from "components/Loader"
 import { RelativeDate } from "components/RelativeDate"
 import { useEffect } from "react"
+import { useAsync } from "react-async-hook"
 import { TbDeviceFloppy, TbTrash } from "react-icons/tb"
 import { useParams } from "react-router-dom"
-import { useAsync } from "react-use"
 import useMutation from "use-mutation"
 
 function FilteringExpressionDescription() {
@@ -55,7 +55,7 @@ export function FeedDetailsPage() {
     const apiKey = useAppSelector(state => state.user.profile?.apiKey)
     const dispatch = useAppDispatch()
     const query = useAsync(() => client.feed.get(id), [id])
-    const feed = query.value?.data
+    const feed = query.result?.data
 
     const form = useForm<FeedModificationRequest>()
     const { setValues } = form

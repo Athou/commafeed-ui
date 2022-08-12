@@ -79,6 +79,8 @@ export const client = {
     },
     admin: {
         getAllUsers: () => axiosInstance.get<UserModel[]>("admin/user/getAll"),
+        saveUser: (req: UserModel) => axiosInstance.post("admin/user/save", req),
+        deleteUser: (req: IDRequest) => axiosInstance.post("admin/user/delete", req),
     },
 }
 
