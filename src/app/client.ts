@@ -101,3 +101,5 @@ export const errorToStrings = (err: any) => {
 
     return strings
 }
+
+export const errorsToStrings = (errors: any[]) => errors.map(errorToStrings).flat()

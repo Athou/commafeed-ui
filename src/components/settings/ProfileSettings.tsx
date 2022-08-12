@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro"
 import { Anchor, Box, Button, Checkbox, Divider, Group, Input, PasswordInput, Stack, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
-import { client, errorToStrings } from "app/client"
+import { client, errorsToStrings } from "app/client"
 import { redirectToLogin, redirectToSelectedSource } from "app/slices/redirect"
 import { reloadProfile } from "app/slices/user"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -38,7 +38,7 @@ export function ProfileSettings() {
             dispatch(redirectToLogin())
         },
     })
-    const errors = [...errorToStrings(saveProfileResult.error), ...errorToStrings(deleteProfileResult.error)]
+    const errors = errorsToStrings([saveProfileResult.error, deleteProfileResult.error])
 
     const openDeleteProfileModal = () =>
         openConfirmModal({

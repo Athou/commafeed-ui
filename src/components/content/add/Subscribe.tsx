@@ -1,7 +1,7 @@
 import { t, Trans } from "@lingui/macro"
 import { Box, Button, Group, Stack, Stepper, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { client, errorToStrings } from "app/client"
+import { client, errorsToStrings, errorToStrings } from "app/client"
 import { Constants } from "app/constants"
 import { redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
@@ -44,7 +44,7 @@ export function Subscribe() {
             dispatch(redirectToSelectedSource())
         },
     })
-    const errors = [...errorToStrings(fetchFeedResult.error), ...errorToStrings(subscribeResult.error)]
+    const errors = errorsToStrings([fetchFeedResult.error, errorToStrings(subscribeResult.error)])
 
     const previousStep = () => {
         if (activeStep === 0) dispatch(redirectToSelectedSource())

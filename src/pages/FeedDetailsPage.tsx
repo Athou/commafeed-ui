@@ -2,7 +2,7 @@ import { t, Trans } from "@lingui/macro"
 import { Anchor, Box, Button, Code, Container, Divider, Group, Input, NumberInput, Stack, Text, TextInput, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openConfirmModal } from "@mantine/modals"
-import { client, errorToStrings } from "app/client"
+import { client, errorsToStrings } from "app/client"
 import { redirectToRootCategory, redirectToSelectedSource } from "app/slices/redirect"
 import { reloadTree } from "app/slices/tree"
 import { useAppDispatch, useAppSelector } from "app/store"
@@ -72,7 +72,7 @@ export function FeedDetailsPage() {
             dispatch(redirectToRootCategory())
         },
     })
-    const errors = [...errorToStrings(modifyResult.error), ...errorToStrings(unsubscribeResult.error)]
+    const errors = errorsToStrings([modifyResult.error, unsubscribeResult.error])
 
     const openUnsubscribeModal = () => {
         const feedName = feed?.name
