@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "<0>Complete available syntax is available </0><1>here</1>."
 msgstr "<0>Complete available syntax is available </0><1>here</1>."
 
@@ -37,7 +37,7 @@ msgstr "Actions"
 msgid "Add"
 msgstr "Add"
 
-#: src/pages/AddPage.tsx
+#: src/pages/app/AddPage.tsx
 msgid "Add category"
 msgstr "Add category"
 
@@ -68,7 +68,7 @@ msgstr "An opml file is an XML file containing feed URLs and categories. You can
 msgid "Analyze feed"
 msgstr "Analyze feed"
 
-#: src/pages/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Are you sure you want to delete category <0>{categoryName}</0>?"
 msgstr "Are you sure you want to delete category <0>{categoryName}</0>?"
 
@@ -84,7 +84,7 @@ msgstr "Are you sure you want to delete your account? There's no turning back!"
 msgid "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
 msgstr "Are you sure you want to mark all entries of <0>{sourceLabel}</0> as read?"
 
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
 msgstr "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
 
@@ -92,7 +92,7 @@ msgstr "Are you sure you want to unsubscribe from <0>{feedName}</0>?"
 msgid "Asc"
 msgstr "Asc"
 
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
 msgstr "Available variables are 'title', 'content', 'url' 'author' and 'categories' and their content is converted to lower case to ease string comparison."
 
@@ -111,17 +111,17 @@ msgstr "Back to log in"
 #: src/components/settings/ProfileSettings.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/CategoryDetailsPage.tsx
-#: src/pages/CategoryDetailsPage.tsx
-#: src/pages/FeedDetailsPage.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Cancel"
 msgstr "Cancel"
 
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/AddCategory.tsx
 #: src/components/content/add/Subscribe.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Category"
 msgstr "Category"
 
@@ -136,8 +136,8 @@ msgstr "Check that the feed is working"
 #: src/components/header/Header.tsx
 #: src/components/settings/ProfileSettings.tsx
 #: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/CategoryDetailsPage.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Confirm"
 msgstr "Confirm"
 
@@ -153,11 +153,11 @@ msgstr "Current password"
 msgid "Date created"
 msgstr "Date created"
 
-#: src/pages/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete"
 msgstr "Delete"
 
-#: src/pages/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Delete Category"
 msgstr "Delete Category"
 
@@ -174,7 +174,7 @@ msgstr "Delete user"
 msgid "Desc"
 msgstr "Desc"
 
-#: src/pages/SettingsPage.tsx
+#: src/pages/app/SettingsPage.tsx
 msgid "Display"
 msgstr "Display"
 
@@ -212,7 +212,7 @@ msgstr "Enter your current password to change profile settings"
 msgid "Error"
 msgstr "Error"
 
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Example: {example}."
 msgstr "Example: {example}."
 
@@ -222,7 +222,7 @@ msgstr "Export your subscriptions and categories as an OPML file that can be imp
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Feed URL"
 msgstr "Feed URL"
 
@@ -230,7 +230,7 @@ msgstr "Feed URL"
 msgid "Feed name"
 msgstr "Feed name"
 
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Filtering expression"
 msgstr "Filtering expression"
 
@@ -238,8 +238,8 @@ msgstr "Filtering expression"
 msgid "Forgot password?"
 msgstr "Forgot password?"
 
-#: src/pages/CategoryDetailsPage.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Generate an API key in your profile first."
 msgstr "Generate an API key in your profile first."
 
@@ -247,8 +247,8 @@ msgstr "Generate an API key in your profile first."
 msgid "Generate new API key"
 msgstr "Generate new API key"
 
-#: src/pages/CategoryDetailsPage.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Generated feed url"
 msgstr "Generated feed url"
 
@@ -256,7 +256,7 @@ msgstr "Generated feed url"
 msgid "Id"
 msgstr "Id"
 
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
 msgstr "If not empty, an expression evaluating to 'true' or 'false'. If false, new entries for this feed will be marked as read automatically."
 
@@ -276,16 +276,16 @@ msgstr "Language"
 msgid "Last login date"
 msgstr "Last login date"
 
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Last refresh"
 msgstr "Last refresh"
 
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Last refresh message"
 msgstr "Last refresh message"
 
-#: src/pages/CategoryDetailsPage.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Link"
 msgstr "Link"
 
@@ -324,14 +324,14 @@ msgid "Mark all entries as read"
 msgstr "Mark all entries as read"
 
 #: src/components/RelativeDate.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "N/A"
 msgstr "N/A"
 
 #: src/components/admin/UserEdit.tsx
 #: src/pages/admin/AdminUsersPage.tsx
-#: src/pages/CategoryDetailsPage.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Name"
 msgstr "Name"
 
@@ -343,11 +343,11 @@ msgstr "New password"
 msgid "Next"
 msgstr "Next"
 
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Next refresh"
 msgstr "Next refresh"
 
-#: src/pages/FeedEntriesPage.tsx
+#: src/pages/app/FeedEntriesPage.tsx
 msgid "No more entries"
 msgstr "No more entries"
 
@@ -355,7 +355,7 @@ msgstr "No more entries"
 msgid "Nothing found"
 msgstr "Nothing found"
 
-#: src/pages/AddPage.tsx
+#: src/pages/app/AddPage.tsx
 msgid "OPML"
 msgstr "OPML"
 
@@ -376,7 +376,7 @@ msgstr "Open link"
 msgid "Parent"
 msgstr "Parent"
 
-#: src/pages/CategoryDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
 msgid "Parent Category"
 msgstr "Parent Category"
 
@@ -396,12 +396,12 @@ msgstr "Password Recovery"
 msgid "Passwords do not match"
 msgstr "Passwords do not match"
 
-#: src/pages/CategoryDetailsPage.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Position"
 msgstr "Position"
 
-#: src/pages/SettingsPage.tsx
+#: src/pages/app/SettingsPage.tsx
 msgid "Profile"
 msgstr "Profile"
 
@@ -419,8 +419,8 @@ msgstr "Registrations are closed on this CommaFeed instance"
 
 #: src/components/admin/UserEdit.tsx
 #: src/components/settings/ProfileSettings.tsx
-#: src/pages/CategoryDetailsPage.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/CategoryDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Save"
 msgstr "Save"
 
@@ -448,7 +448,7 @@ msgstr "Sign up"
 
 #: src/components/content/add/Subscribe.tsx
 #: src/components/content/add/Subscribe.tsx
-#: src/pages/AddPage.tsx
+#: src/pages/app/AddPage.tsx
 msgid "Subscribe"
 msgstr "Subscribe"
 
@@ -472,8 +472,8 @@ msgstr "Theme"
 msgid "Unread"
 msgstr "Unread"
 
-#: src/pages/FeedDetailsPage.tsx
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Unsubscribe"
 msgstr "Unsubscribe"
 
@@ -490,11 +490,11 @@ msgstr "User name"
 msgid "Warning"
 msgstr "Warning"
 
-#: src/pages/FeedDetailsPage.tsx
+#: src/pages/app/FeedDetailsPage.tsx
 msgid "Website"
 msgstr "Website"
 
-#: src/pages/FeedEntriesPage.tsx
+#: src/pages/app/FeedEntriesPage.tsx
 msgid "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 msgstr "You don't have any subscriptions yet. Why not try adding one by clicking on the + sign at the top of the page?"
 

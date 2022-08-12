@@ -24,10 +24,10 @@ import { Logo } from "components/Logo"
 import { OnDesktop } from "components/responsive/OnDesktop"
 import { OnMobile } from "components/responsive/OnMobile"
 import { useAppLoading } from "hooks/useAppLoading"
+import { LoadingPage } from "pages/LoadingPage"
 import { ReactNode, useEffect } from "react"
 import { TbPlus } from "react-icons/tb"
 import { Outlet } from "react-router-dom"
-import { LoadingPage } from "./LoadingPage"
 
 interface LayoutProps {
     sidebar: ReactNode
